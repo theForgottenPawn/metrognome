@@ -8,3 +8,14 @@ body {
 .section.metronome {
   text-align: center;
 }
+
+#play-pause-btn {
+  font-size: 30px;
+  border-radius: 30px;
+}
+
+.metronome .play {
+  position: relative;
+  top: 4px;
+  left: 2px;
+}
