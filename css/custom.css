@@ -1,0 +1,10 @@
+/* Resets */
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* Metronome stylings */
+.section.metronome {
+  text-align: center;
+}
