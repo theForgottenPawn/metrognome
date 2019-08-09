@@ -32,6 +32,11 @@ $(document).ready(function() {
       new_bpm = Number.parseInt(BPMRANGESLIDER.val()) + 1;
     } else if (direction === 'decrease') {
       new_bpm = Number.parseInt(BPMRANGESLIDER.val()) - 1;
+    } else {
+      console.error('Invalid parameter(s). function adjustBpmByOne requires ' +
+                    'only one parameter, either "increase" or "decrease"');
+
+      return null;
     }
 
     BPMRANGESLIDER.val(new_bpm);
@@ -42,7 +47,6 @@ $(document).ready(function() {
   // Events listeners
   // This changes the BPMINDICATOR's text according to BPMRANGESLIDER's value
   BPMRANGESLIDER.on('input', function(e) {
-    // let bpm = $(this).val();
     BPMINDICATOR.text($(this).val());
 
     changeBpmEvenWhenPlaying();
