@@ -1,17 +1,25 @@
 $(document).ready(function() {
-  // Variables
-  let normal_beat = new Audio('audio/beat_01.mp3');
-  let play_interval = null;
   // Metronome components
   let BPMRANGESLIDER = $('#bpm-range-slider');
   let BPMINDICATOR = $('#bpm-indicator');
   let PLAYPAUSEBTN = $('#play-pause-btn');
+  // Variables
+  let normal_beat = new Audio('audio/beat_01.mp3');
+  let play_interval = null;
 
   // This changes the BPMINDICATOR's text according to BPMRANGESLIDER's value
   BPMRANGESLIDER.on('input', function(e) {
     let bpm = $(this).val();
+    let logo = PLAYPAUSEBTN.children('.logo');
 
     BPMINDICATOR.text(bpm);
+
+    if (logo.hasClass('glyphicon-pause')) {
+      clearInterval(play_interval);
+      normal_beat.play();
+      play_interval = setInterval(function() { normal_beat.play(); },
+                                  Math.round(60000/bpm));
+    }
   });
 
   // This plays/pauses the metronome
@@ -24,7 +32,8 @@ $(document).ready(function() {
 
     if (logo.hasClass('glyphicon-pause')) {
       normal_beat.play();
-      play_interval = setInterval(function() { normal_beat.play(); }, 1000);
+      play_interval = setInterval(function() { normal_beat.play(); },
+                                  Math.round(60000/BPMRANGESLIDER.val()));
     } else if (logo.hasClass('glyphicon-play')) {
       clearInterval(play_interval);
     } else {
