@@ -14,7 +14,17 @@
 
 <body>
   <div class='section metronome'>
-    <h2><span id='bpm-indicator'>90</span> bpm</h2>
+    <h2>
+      <a class='btn btn-default' id='bpm-decrease-btn'>
+        <span class='glyphicon glyphicon-chevron-left'></span>
+      </a>
+      <span>
+        <span id='bpm-indicator'>90</span>bpm
+      </span>
+      <a class='btn btn-default' id='bpm-increase-btn'>
+        <span class='glyphicon glyphicon-chevron-right'></span>
+      </a>
+    </h2>
     <input type='range' min='20' max='260' value='90' id='bpm-range-slider' />
     <a class='btn btn-default' id='play-pause-btn'>
       <span class='glyphicon glyphicon-play logo'></span>
