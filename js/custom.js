@@ -11,7 +11,7 @@ $(document).ready(function() {
   let play_interval = null;
 
   // Functions
-  function playMetronome() {
+  const playMetronome = function playTheMetronome() {
     clearInterval(play_interval);
     NORMALBEAT.play();
     play_interval = setInterval(function() { NORMALBEAT.play(); },
