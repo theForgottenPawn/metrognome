@@ -26,7 +26,7 @@ $(document).ready(function() {
     }
   };
 
-  function adjustBpmByOne(direction) {
+  const minorBpmAdjust = function adjustBpmByOne(direction) {
     let new_bpm = null;
 
     if (direction === 'increase') {
@@ -34,7 +34,7 @@ $(document).ready(function() {
     } else if (direction === 'decrease') {
       new_bpm = Number.parseInt(BPMRANGESLIDER.val()) - 1;
     } else {
-      console.error('Invalid parameter(s). function adjustBpmByOne requires ' +
+      console.error('Invalid parameter(s). function minorBpmAdjust requires ' +
                     'only one parameter, either "increase" or "decrease"');
 
       return null;
@@ -43,7 +43,7 @@ $(document).ready(function() {
     BPMRANGESLIDER.val(new_bpm);
     BPMINDICATOR.text(new_bpm);
     changeBpmAndPlay();
-  }
+  };
 
   // Events listeners
   // This plays/pauses the metronome
@@ -72,13 +72,13 @@ $(document).ready(function() {
 
   BPMINCREASEBTN.click(function() {
     if (Number.parseInt(BPMRANGESLIDER.val()) < 260) {
-      adjustBpmByOne('increase');
+      minorBpmAdjust('increase');
     }
   });
 
   BPMDECREASEBTN.click(function() {
     if (Number.parseInt(BPMRANGESLIDER.val()) > 20) {
-      adjustBpmByOne('decrease');
+      minorBpmAdjust('decrease');
     }
   });
   // End of Metronome related codes
