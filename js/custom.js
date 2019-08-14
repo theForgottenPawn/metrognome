@@ -47,7 +47,7 @@ $(document).ready(function() {
 
   // Events listeners
   // This plays/pauses the metronome
-  PLAYPAUSEBTN.click(function(e) {
+  PLAYPAUSEBTN.click(function() {
     let logo = $(this).children('.logo');
 
     // for changing the logo
@@ -64,7 +64,7 @@ $(document).ready(function() {
   });
 
   // This changes the BPMINDICATOR's text according to BPMRANGESLIDER's value
-  BPMRANGESLIDER.on('input', function(e) {
+  BPMRANGESLIDER.on('input', function() {
     BPMINDICATOR.text($(this).val());
 
     changeBpmAndPlay();
