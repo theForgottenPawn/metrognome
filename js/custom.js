@@ -1,20 +1,20 @@
 $(document).ready(function() {
   // Start of Metronome related codes
   // Metronome components
-  let BPMRANGESLIDER = $('#bpm-range-slider');
-  let BPMINDICATOR = $('#bpm-indicator');
-  let PLAYPAUSEBTN = $('#play-pause-btn');
-  let BPMINCREASEBTN = $('#bpm-increase-btn');
-  let BPMDECREASEBTN = $('#bpm-decrease-btn');
+  const BPMRANGESLIDER = $('#bpm-range-slider');
+  const BPMINDICATOR = $('#bpm-indicator');
+  const PLAYPAUSEBTN = $('#play-pause-btn');
+  const BPMINCREASEBTN = $('#bpm-increase-btn');
+  const BPMDECREASEBTN = $('#bpm-decrease-btn');
   // Variables
-  let normal_beat = new Audio('audio/beat_01.mp3');
+  const NORMALBEAT = new Audio('audio/beat_01.mp3');
   let play_interval = null;
 
   // Functions
   function playMetronome() {
     clearInterval(play_interval);
-    normal_beat.play();
-    play_interval = setInterval(function() { normal_beat.play(); },
+    NORMALBEAT.play();
+    play_interval = setInterval(function() { NORMALBEAT.play(); },
                                 Math.round(60000/BPMRANGESLIDER.val()));
   }
 
