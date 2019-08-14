@@ -46,13 +46,6 @@ $(document).ready(function() {
   }
 
   // Events listeners
-  // This changes the BPMINDICATOR's text according to BPMRANGESLIDER's value
-  BPMRANGESLIDER.on('input', function(e) {
-    BPMINDICATOR.text($(this).val());
-
-    changeBpmEvenWhenPlaying();
-  });
-
   // This plays/pauses the metronome
   PLAYPAUSEBTN.click(function(e) {
     let logo = $(this).children('.logo');
@@ -68,6 +61,13 @@ $(document).ready(function() {
     } else {
       clearInterval(play_interval);
     }
+  });
+
+  // This changes the BPMINDICATOR's text according to BPMRANGESLIDER's value
+  BPMRANGESLIDER.on('input', function(e) {
+    BPMINDICATOR.text($(this).val());
+
+    changeBpmEvenWhenPlaying();
   });
 
   BPMINCREASEBTN.click(function() {
