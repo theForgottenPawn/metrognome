@@ -16,7 +16,7 @@ $(document).ready(function() {
     NORMALBEAT.play();
     play_interval = setInterval(function() { NORMALBEAT.play(); },
                                 Math.round(60000/BPMRANGESLIDER.val()));
-  }
+  };
 
   const changeBpmAndPlay = function changeBpmEvenWhenPlaying() {
     let logo = PLAYPAUSEBTN.children('.logo');
@@ -24,7 +24,7 @@ $(document).ready(function() {
     if (logo.hasClass('glyphicon-pause')) {
       playMetronome();
     }
-  }
+  };
 
   function adjustBpmByOne(direction) {
     let new_bpm = null;
