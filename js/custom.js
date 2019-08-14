@@ -18,7 +18,7 @@ $(document).ready(function() {
                                 Math.round(60000/BPMRANGESLIDER.val()));
   }
 
-  function changeBpmEvenWhenPlaying() {
+  const changeBpmAndPlay = function changeBpmEvenWhenPlaying() {
     let logo = PLAYPAUSEBTN.children('.logo');
 
     if (logo.hasClass('glyphicon-pause')) {
@@ -42,7 +42,7 @@ $(document).ready(function() {
 
     BPMRANGESLIDER.val(new_bpm);
     BPMINDICATOR.text(new_bpm);
-    changeBpmEvenWhenPlaying();
+    changeBpmAndPlay();
   }
 
   // Events listeners
@@ -67,7 +67,7 @@ $(document).ready(function() {
   BPMRANGESLIDER.on('input', function(e) {
     BPMINDICATOR.text($(this).val());
 
-    changeBpmEvenWhenPlaying();
+    changeBpmAndPlay();
   });
 
   BPMINCREASEBTN.click(function() {
