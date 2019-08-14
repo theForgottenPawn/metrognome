@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  // Start of Metronome related codes
   // Metronome components
   let BPMRANGESLIDER = $('#bpm-range-slider');
   let BPMINDICATOR = $('#bpm-indicator');
@@ -80,4 +81,5 @@ $(document).ready(function() {
       adjustBpmByOne('decrease');
     }
   });
+  // End of Metronome related codes
 });
