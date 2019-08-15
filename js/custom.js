@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(() => {
   // Start of Metronome related codes
   // Metronome components
   const BPMRANGESLIDER = $('#bpm-range-slider');
@@ -8,76 +8,71 @@ $(document).ready(function() {
   const BPMDECREASEBTN = $('#bpm-decrease-btn');
   // Variables
   const NORMALBEAT = new Audio('audio/beat_01.mp3');
-  let play_interval = null;
+  let playInterval = null;
 
   // Functions
   const playMetronome = function playTheMetronome() {
-    clearInterval(play_interval);
+    clearInterval(playInterval);
     NORMALBEAT.play();
-    play_interval = setInterval(function() { NORMALBEAT.play(); },
-                                Math.round(60000/BPMRANGESLIDER.val()));
+    playInterval = setInterval(() => { NORMALBEAT.play(); },
+      Math.round(60000 / BPMRANGESLIDER.val()));
   };
 
   const changeBpmAndPlay = function changeBpmEvenWhenPlaying() {
-    let logo = PLAYPAUSEBTN.children('.logo');
+    const LOGO = PLAYPAUSEBTN.children('.logo');
 
-    if (logo.hasClass('glyphicon-pause')) {
+    if (LOGO.hasClass('glyphicon-pause')) {
       playMetronome();
     }
   };
 
   const minorBpmAdjust = function adjustBpmByOne(direction) {
-    let new_bpm = null;
+    let newBpm = null;
 
     if (direction === 'increase') {
-      new_bpm = Number.parseInt(BPMRANGESLIDER.val()) + 1;
+      newBpm = Number.parseInt(BPMRANGESLIDER.val(), 10) + 1;
     } else if (direction === 'decrease') {
-      new_bpm = Number.parseInt(BPMRANGESLIDER.val()) - 1;
-    } else {
-      console.error('Invalid parameter(s). function minorBpmAdjust requires ' +
-                    'only one parameter, either "increase" or "decrease"');
-
-      return null;
+      newBpm = Number.parseInt(BPMRANGESLIDER.val(), 10) - 1;
     }
 
-    BPMRANGESLIDER.val(new_bpm);
-    BPMINDICATOR.text(new_bpm);
+    BPMRANGESLIDER.val(newBpm);
+    BPMINDICATOR.text(newBpm);
     changeBpmAndPlay();
   };
 
   // Events listeners
   // This plays/pauses the metronome
-  PLAYPAUSEBTN.click(function() {
-    let logo = $(this).children('.logo');
+  PLAYPAUSEBTN.click(function playButtonClick() {
+    const LOGO = $(this).children('.logo');
 
     // for changing the logo
-    logo.toggleClass('glyphicon-play');
-    logo.toggleClass('glyphicon-pause');
+    LOGO.toggleClass('glyphicon-play');
+    LOGO.toggleClass('glyphicon-pause');
 
-    if (logo.hasClass('glyphicon-pause')) {
+    if (LOGO.hasClass('glyphicon-pause')) {
       playMetronome();
-    } else if (logo.hasClass('glyphicon-play')) {
-      clearInterval(play_interval);
+    } else if (LOGO.hasClass('glyphicon-play')) {
+      clearInterval(playInterval);
     } else {
-      clearInterval(play_interval);
+      clearInterval(playInterval);
     }
   });
 
   // This changes the BPMINDICATOR's text according to BPMRANGESLIDER's value
-  BPMRANGESLIDER.on('input', function() {
+  BPMRANGESLIDER.on('input', function bpmRangeSliderInput() {
     BPMINDICATOR.text($(this).val());
 
     changeBpmAndPlay();
   });
 
-  BPMINCREASEBTN.click(function() {
-    if (Number.parseInt(BPMRANGESLIDER.val()) < 260) {
+  BPMINCREASEBTN.click(() => {
+    if (Number.parseInt(BPMRANGESLIDER.val(), 10) < 260) {
       minorBpmAdjust('increase');
     }
   });
 
-  BPMDECREASEBTN.click(function() {
-    if (Number.parseInt(BPMRANGESLIDER.val()) > 20) {
+  BPMDECREASEBTN.click(() => {
+    if (Number.parseInt(BPMRANGESLIDER.val(), 10) > 20) {
       minorBpmAdjust('decrease');
     }
   });
