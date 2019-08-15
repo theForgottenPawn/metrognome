@@ -6,6 +6,7 @@ $(document).ready(() => {
   const PLAYPAUSEBTN = $('#play-pause-btn');
   const BPMINCREASEBTN = $('#bpm-increase-btn');
   const BPMDECREASEBTN = $('#bpm-decrease-btn');
+  const PLAYBUTTONLOGO = $('#play-pause-btn > .logo');
   // Variables
   const NORMALBEAT = new Audio('audio/beat_01.mp3');
   let playInterval = null;
@@ -19,9 +20,7 @@ $(document).ready(() => {
   };
 
   const changeBpmAndPlay = function changeBpmEvenWhenPlaying() {
-    const LOGO = PLAYPAUSEBTN.children('.logo');
-
-    if (LOGO.hasClass('glyphicon-pause')) {
+    if (PLAYBUTTONLOGO.hasClass('glyphicon-pause')) {
       playMetronome();
     }
   };
@@ -42,16 +41,14 @@ $(document).ready(() => {
 
   // Events listeners
   // This plays/pauses the metronome
-  PLAYPAUSEBTN.click(function playButtonClick() {
-    const LOGO = $(this).children('.logo');
-
+  PLAYPAUSEBTN.click(() => {
     // for changing the logo
-    LOGO.toggleClass('glyphicon-play');
-    LOGO.toggleClass('glyphicon-pause');
+    PLAYBUTTONLOGO.toggleClass('glyphicon-play');
+    PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
 
-    if (LOGO.hasClass('glyphicon-pause')) {
+    if (PLAYBUTTONLOGO.hasClass('glyphicon-pause')) {
       playMetronome();
-    } else if (LOGO.hasClass('glyphicon-play')) {
+    } else if (PLAYBUTTONLOGO.hasClass('glyphicon-play')) {
       clearInterval(playInterval);
     } else {
       clearInterval(playInterval);
