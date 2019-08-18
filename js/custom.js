@@ -56,8 +56,8 @@ $(document).ready(() => {
   });
 
   // This changes the BPMINDICATOR's text according to BPMRANGESLIDER's value
-  BPMRANGESLIDER.on('input', function bpmRangeSliderInput() {
-    BPMINDICATOR.text($(this).val());
+  BPMRANGESLIDER.on('input', () => {
+    BPMINDICATOR.text(BPMRANGESLIDER.val());
 
     changeBpmAndPlay();
   });
