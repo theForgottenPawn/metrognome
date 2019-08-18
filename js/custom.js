@@ -1,4 +1,24 @@
 $(document).ready(() => {
+  // Start of Beats related code
+  // Components
+  const BEATSVISUAL = $('.beats-visual');
+  const BEATCOUNT = $('#beat-count');
+
+  // Event handlers
+  BEATCOUNT.change(() => {
+    // When BEATCOUNT's value changes, it will first delete all '.beats'
+    // compnents found inside '.beats-visual', and fill it again with new
+    // 'beats' component as many as BEATCOUNT value indicated
+    BEATSVISUAL.find('.beat').remove();
+
+    for (let x = 0; x < BEATCOUNT.val(); x += 1) {
+      const SRC = 'img/beats/beat_1.png';
+      const BEAT = `<img src=${SRC} class='beat'>`;
+      BEATSVISUAL.append(BEAT);
+    }
+  });
+  // End of Beats related code
+
   // Start of Metronome related codes
   // Metronome components
   const BPMRANGESLIDER = $('#bpm-range-slider');
