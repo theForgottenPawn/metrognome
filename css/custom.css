@@ -4,9 +4,21 @@ body {
   margin: 0;
 }
 
+/* Shared stylings */
+.section {
+  width: 80%;
+  margin: 29px auto 0;
+}
+
+.section.beats {
+  border-top: 1px solid #cccccc;
+  padding: 0 10px;
+}
+
 /* Metronome stylings */
 .section.metronome {
   text-align: center;
+  margin-bottom: 50px;
 }
 
 #play-pause-btn {
