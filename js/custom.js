@@ -4,12 +4,15 @@ $(document).ready(() => {
   const BEATSVISUAL = $('.beats-visual');
   const EMPHASIZE1STBEAT = $('#emphasize-1st-beat');
   const BEATCOUNT = $('#beat-count');
+  // Variable
+  let currentBeat = 0;
 
   // Event handlers
   BEATCOUNT.change(() => {
     // When BEATCOUNT's value changes, it will first delete all '.beats'
     // compnents found inside '.beats-visual', and fill it again with new
     // 'beats' component as many as BEATCOUNT value indicated
+    currentBeat = 0;
     BEATSVISUAL.find('.beat').remove();
 
     for (let x = 0; x < BEATCOUNT.val(); x += 1) {
@@ -31,7 +34,6 @@ $(document).ready(() => {
   // Variables
   const NORMALBEAT = new Audio('audio/beat_01.mp3');
   const EMPHASISBEAT = new Audio('audio/beat_02.mp3');
-  let currentBeat = 0;
   let playInterval = null;
 
   // Functions
