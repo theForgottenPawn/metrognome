@@ -58,3 +58,7 @@ body {
   content:url('../img/beats/beat_2.png');
 }
 
+/* Beats stylings */
+.beats > .beat-count-wrapper {
+  margin-right: 47px;
+}
