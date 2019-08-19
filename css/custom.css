@@ -62,3 +62,8 @@ body {
 .beats > .beat-count-wrapper {
   margin-right: 47px;
 }
+
+.beats > .emphasize-1st-beat {
+  position: relative;
+  top: 2px;
+}
