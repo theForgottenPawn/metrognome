@@ -26,6 +26,12 @@ body {
   margin-top: -5px;
 }
 
+.bpm-micro-adjuster > .logo {
+  left: 0;
+  top: 3px;
+  font-size: 15px;
+}
+
 .beats-visual > .beat {
   height: 30px;
   margin: 2px;
