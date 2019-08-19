@@ -20,6 +20,12 @@ body {
   left: 2px;
 }
 
+.visual-bpm > .bpm-micro-adjuster {
+  border-radius: 25px;
+  height: 38px;
+  margin-top: -5px;
+}
+
 .beats-visual > .beat {
   height: 30px;
   margin: 2px;
@@ -28,3 +34,4 @@ body {
 .beats-visual > .beat-played {
   content:url('../img/beats/beat_2.png');
 }
+
