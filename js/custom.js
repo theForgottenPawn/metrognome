@@ -38,21 +38,20 @@ $(document).ready(() => {
   const playBeat = function playingTheBeat() {
     currentBeat += 1;
     let beatToPlay = NORMALBEAT;
-    let currentVisualBeat = BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
-    
-    console.log(`${currentBeat} / ${BEATCOUNT.val()} `);
+    const CURRVISBEAT = BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
+
     if (currentBeat === 1) {
       BEATSVISUAL.find('.beat').removeClass('beat-played');
-      currentVisualBeat.addClass('beat-played');
+      CURRVISBEAT.addClass('beat-played');
 
       if (EMPHASIZE1STBEAT[0].checked) {
         beatToPlay = EMPHASISBEAT;
       }
     } else if (currentBeat === Number(BEATCOUNT.val(), 10)) {
-      currentVisualBeat.addClass('beat-played');
+      CURRVISBEAT.addClass('beat-played');
       currentBeat = 0;
     } else {
-      currentVisualBeat.addClass('beat-played');
+      CURRVISBEAT.addClass('beat-played');
     }
 
     beatToPlay.play();
