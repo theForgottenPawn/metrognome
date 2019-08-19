@@ -36,7 +36,7 @@ $(document).ready(() => {
 
   // Functions
   const playBeat = function playingTheBeat() {
-    currentBeat = currentBeat + 1;
+    currentBeat += 1;
     let beatToPlay = NORMALBEAT;
     let currentVisualBeat = BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
     
