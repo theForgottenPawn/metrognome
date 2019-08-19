@@ -16,6 +16,11 @@ body {
   padding: 0 10px;
 }
 
+.beats > .title {
+  text-align: left;
+  margin-top: 6px;
+}
+
 /* Metronome stylings */
 .section.metronome {
   margin-bottom: 50px;
