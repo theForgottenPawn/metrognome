@@ -55,7 +55,7 @@ body {
 }
 
 .beats-visual > .beat-played {
-  content:url('../img/beats/beat_2.png');
+  content: url('../img/beats/beat_2.png');
 }
 
 /* Beats stylings */
