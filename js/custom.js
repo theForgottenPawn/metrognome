@@ -32,6 +32,40 @@ $(document).ready(() => {
   const QUADRUPLETSBTN = $('#quadruplets-btn');
   // Variables
   let note = 'Single';
+
+  // functions
+  const moveFocusedClassTo = function moveTheFocusedClassTo(noteBtn) {
+    $('.note-btn').removeClass('focused');
+    noteBtn.addClass('focused');
+  };
+
+  const changeNote = function changeTheNote(noteBtn, noteName) {
+    if (!noteBtn.hasClass('focused')) {
+      note = noteName;
+      moveFocusedClassTo(noteBtn);
+    }
+  };
+
+  // Events listeners
+  SINGLEBTN.click(() => {
+    changeNote(SINGLEBTN, 'Single');
+  });
+
+  TUPLETSBTN.click(() => {
+    changeNote(TUPLETSBTN, 'Tuplets');
+  });
+
+  TRIPLETSBTN.click(() => {
+    changeNote(TRIPLETSBTN, 'Triplets');
+  });
+
+  TRIPLETSMIDRESTBTN.click(() => {
+    changeNote(TRIPLETSMIDRESTBTN, 'Triplets Mid Rest');
+  });
+
+  QUADRUPLETSBTN.click(() => {
+    changeNote(QUADRUPLETSBTN, 'Quadruplets');
+  });
   // End of NotesPerBeat code
 
   // Start of Metronome related codes
