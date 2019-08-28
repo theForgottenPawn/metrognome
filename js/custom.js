@@ -34,15 +34,11 @@ $(document).ready(() => {
   let note = 'Single';
 
   // functions
-  const moveFocusedClassTo = function moveTheFocusedClassTo(noteBtn) {
-    $('.note-btn').removeClass('focused');
-    noteBtn.addClass('focused');
-  };
-
   const changeNote = function changeTheNote(noteBtn, noteName) {
     if (!noteBtn.hasClass('focused')) {
       note = noteName;
-      moveFocusedClassTo(noteBtn);
+      $('.note-btn').removeClass('focused');
+      noteBtn.addClass('focused');
     }
   };
 
