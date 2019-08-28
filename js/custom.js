@@ -31,6 +31,8 @@ $(document).ready(() => {
   const TRIPLETSMIDRESTBTN = $('#triplets-mid-rest-btn');
   const QUADRUPLETSBTN = $('#quadruplets-btn');
   // Variables
+  const NORMALBEAT = new Audio('audio/beat_01.mp3');
+  const EMPHASISBEAT = new Audio('audio/beat_02.mp3');
   let note = 'Single';
 
   // functions
@@ -73,8 +75,6 @@ $(document).ready(() => {
   const BPMDECREASEBTN = $('#bpm-decrease-btn');
   const PLAYBUTTONLOGO = $('#play-pause-btn > .logo');
   // Variables
-  const NORMALBEAT = new Audio('audio/beat_01.mp3');
-  const EMPHASISBEAT = new Audio('audio/beat_02.mp3');
   let playInterval = null;
 
   // Functions
