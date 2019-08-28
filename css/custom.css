@@ -68,3 +68,8 @@ body {
   position: relative;
   top: 2px;
 }
+
+/* Notes-Per-Beat stylings */
+.notes-per-beat .note-logo {
+  height: 40px;
+}
