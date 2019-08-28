@@ -23,6 +23,17 @@ $(document).ready(() => {
   });
   // End of Beats related code
 
+  // Start of NotesPerBeat code
+  // Components
+  const SINGLEBTN = $('#single-btn');
+  const TUPLETSBTN = $('#tuplets-btn');
+  const TRIPLETSBTN = $('#triplets-btn');
+  const TRIPLETSMIDRESTBTN = $('#triplets-mid-rest-btn');
+  const QUADRUPLETSBTN = $('#quadruplets-btn');
+  // Variables
+  let note = 'Single';
+  // End of NotesPerBeat code
+
   // Start of Metronome related codes
   // Metronome components
   const BPMRANGESLIDER = $('#bpm-range-slider');
