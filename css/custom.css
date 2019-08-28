@@ -73,3 +73,7 @@ body {
 .notes-per-beat .note-logo {
   height: 40px;
 }
+
+.notes-per-beat .note-btn {
+  padding: 6px;
+}
