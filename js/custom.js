@@ -53,47 +53,43 @@ $(document).ready(() => {
   };
 
   const playSingle = function playSingleNote(isFirstBeat) {
-    firstBeatPlay(isFirstBeat)
+    firstBeatPlay(isFirstBeat);
   };
 
   const playTuplets = function playTupletsNote(isFirstBeat, bpm) {
-    let interval = Math.round(bpm / 2);
+    const INTERVAL = Math.round(bpm / 2);
 
-    firstBeatPlay(isFirstBeat)
+    firstBeatPlay(isFirstBeat);
 
-    setTimeout(() => { NORMALBEAT.play(); }, interval);
+    setTimeout(() => { NORMALBEAT.play(); }, INTERVAL);
   };
 
   const playTriplets = function playTripletsNote(isFirstBeat, bpm) {
-    let interval = Math.round(bpm / 3);
+    const INTERVAL = Math.round(bpm / 3);
 
-    firstBeatPlay(isFirstBeat)
+    firstBeatPlay(isFirstBeat);
 
-    for (let i = 0; i < 2 ; i += 1) {
-      setTimeout(() => { NORMALBEAT.play(); }, interval);
-    };
+    for (let i = 0; i < 2; i += 1) {
+      setTimeout(() => { NORMALBEAT.play(); }, INTERVAL);
+    }
   };
 
   const playTripletsMidRest = function playTripletsMidRestNote(isFirstBeat, bpm) {
-    let interval = Math.round(bpm / 3) * 2;
+    const INTERVAL = Math.round((bpm / 3) * 2);
 
-    firstBeatPlay(isFirstBeat)
+    firstBeatPlay(isFirstBeat);
 
-    setTimeout(() => { NORMALBEAT.play(); }, interval);
+    setTimeout(() => { NORMALBEAT.play(); }, INTERVAL);
   };
 
-  const playQuadruplets = function playQuadrupletsNote(isFirstNote, bpm) {
-    let interval = Math.round(bpm / 4);
+  const playQuadruplets = function playQuadrupletsNote(isFirstBeat, bpm) {
+    const INTERVAL = Math.round(bpm / 4);
 
-    if (isFirstNote && EMPHASIZE1STBEAT[0].checked) {
-      EMPHASISBEAT.play();
-    } else {
-      NORMALBEAT.play();
+    firstBeatPlay(isFirstBeat);
+
+    for (let i = 0; i < 3; i += 1) {
+      setTimeout(() => { NORMALBEAT.play(); }, INTERVAL);
     }
-
-    for (let i = 0; i < 3 ; i += 1) {
-      setTimeout(() => { NORMALBEAT.play(); }, interval);
-    };
   };
 
   // Events listeners
