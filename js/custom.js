@@ -120,12 +120,7 @@ $(document).ready(() => {
 
   // Functions
   const playMetronome = function playTheMetronome() {
-    // It plays the metronome by resetting the 'playInterval' - indicating the
-    // sets of actions & decisions it must do every single time and seconds it
-    // takes before the said sets of instructions execute again.
-    clearInterval(playInterval);
-    playInterval = setInterval(() => { playBeat(); },
-      Math.round(60000 / BPMRANGESLIDER.val()));
+    quarter();
   };
 
   const changeBpmAndPlay = function changeBpmEvenWhenPlaying() {
