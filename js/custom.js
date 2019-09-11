@@ -7,6 +7,22 @@ $(document).ready(() => {
   // Variable
   let currentBeat = 0;
 
+  // Functions
+  const animateVisual = function animateVisualBeat() {
+    currentBeat += 1;
+    const CURRVISBEAT = BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
+
+    if (currentBeat === 1) {
+      BEATSVISUAL.find('.beat').removeClass('beat-played');
+      CURRVISBEAT.addClass('beat-played');
+    } else if (currentBeat >= Number(BEATCOUNT.val(), 10)) {
+      CURRVISBEAT.addClass('beat-played');
+      currentBeat = 0;
+    } else {
+      CURRVISBEAT.addClass('beat-played');
+    }
+  };
+
   // Event handlers
   BEATCOUNT.change(() => {
     // When BEATCOUNT's value changes, it will first delete all '.beats'
@@ -96,28 +112,6 @@ $(document).ready(() => {
   let playInterval = null;
 
   // Functions
-  const playBeat = function playingTheBeat() {
-    currentBeat += 1;
-    let beatToPlay = NORMALBEAT;
-    const CURRVISBEAT = BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
-
-    if (currentBeat === 1) {
-      BEATSVISUAL.find('.beat').removeClass('beat-played');
-      CURRVISBEAT.addClass('beat-played');
-
-      if (EMPHASIZE1STBEAT[0].checked) {
-        beatToPlay = EMPHASISBEAT;
-      }
-    } else if (currentBeat === Number(BEATCOUNT.val(), 10)) {
-      CURRVISBEAT.addClass('beat-played');
-      currentBeat = 0;
-    } else {
-      CURRVISBEAT.addClass('beat-played');
-    }
-
-    beatToPlay.play();
-  };
-
   const playMetronome = function playTheMetronome() {
     // It plays the metronome by resetting the 'playInterval' - indicating the
     // sets of actions & decisions it must do every single time and seconds it
