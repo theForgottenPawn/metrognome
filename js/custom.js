@@ -191,10 +191,6 @@ $(document).ready(() => {
     }
   });
 
-  PLAYPAUSEBTN.dblclick((e) => {
-    e.preventDefault();
-  });
-
   // This changes the BPMINDICATOR's text according to BPMRANGESLIDER's value
   BPMRANGESLIDER.on('input', () => {
     Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
