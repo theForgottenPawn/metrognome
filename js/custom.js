@@ -127,12 +127,6 @@ $(document).ready(() => {
     Tone.Transport.stop();
   };
 
-  const changeBpmAndPlay = function changeBpmEvenWhenPlaying() {
-    if (PLAYBUTTONLOGO.hasClass('glyphicon-pause')) {
-      playMetronome();
-    }
-  };
-
   const minorBpmAdjust = function adjustBpmByOne(direction) {
     let newBpm = null;
 
@@ -167,8 +161,6 @@ $(document).ready(() => {
   BPMRANGESLIDER.on('input', () => {
     Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
     BPMINDICATOR.text(BPMRANGESLIDER.val());
-
-    changeBpmAndPlay();
   });
 
   BPMINCREASEBTN.click(() => {
