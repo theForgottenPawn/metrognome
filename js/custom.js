@@ -81,7 +81,7 @@ $(document).ready(() => {
       synth.triggerAttackRelease(note, '0:0:1');
     }, '4n');
 
-    loop.start('+0');
+    mainLoop.start('+0');
     Tone.Transport.start();
   };
 
