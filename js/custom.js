@@ -115,8 +115,8 @@ $(document).ready(() => {
   const BPMINCREASEBTN = $('#bpm-increase-btn');
   const BPMDECREASEBTN = $('#bpm-decrease-btn');
   const PLAYBUTTONLOGO = $('#play-pause-btn > .logo');
-  // Variables
-  let bpm = Tone.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
+  // Early tweak
+  Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
 
   // Functions
   const playMetronome = function playTheMetronome() {
@@ -165,6 +165,7 @@ $(document).ready(() => {
 
   // This changes the BPMINDICATOR's text according to BPMRANGESLIDER's value
   BPMRANGESLIDER.on('input', () => {
+    Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
     BPMINDICATOR.text(BPMRANGESLIDER.val());
 
     changeBpmAndPlay();
