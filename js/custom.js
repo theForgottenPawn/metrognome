@@ -86,7 +86,7 @@ $(document).ready(() => {
     mainLoop.start('+0');
   };
 
-  const quarter = function quarterNote() {
+  const singlet = function singletNote() {
     setMain();
   };
 
