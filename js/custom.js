@@ -197,6 +197,7 @@ $(document).ready(() => {
     BPMINDICATOR.text(BPMRANGESLIDER.val());
   });
 
+  // BPMINCREASEBTN events
   BPMINCREASEBTN.click(() => {
     minorBpmAdjustLoop('increase', false);
   });
@@ -213,6 +214,7 @@ $(document).ready(() => {
     clearInterval(bpmAdjust);
   });
 
+  // BPMDECREASEBTN events
   BPMDECREASEBTN.click(() => {
     minorBpmAdjustLoop('decrease', false);
   });
