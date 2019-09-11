@@ -138,10 +138,12 @@ $(document).ready(() => {
   const disposeLoops = function disposeTheLoops() {
     if (mainLoop !== null) {
       mainLoop.dispose();
+      mainLoop = null;
     }
 
     if (subLoop !== null) {
       subLoop.dispose();
+      subLoop = null;
     }
   };
 
@@ -219,8 +221,6 @@ $(document).ready(() => {
   const pauseMetronome = function pauseTheMetronome() {
     paused = true;
     Tone.Transport.stop();
-    // Dispose the loops when done, not doing it will results to duplication
-    // of the loops.
     disposeLoops();
   };
 
