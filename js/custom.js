@@ -116,7 +116,7 @@ $(document).ready(() => {
   const BPMDECREASEBTN = $('#bpm-decrease-btn');
   const PLAYBUTTONLOGO = $('#play-pause-btn > .logo');
   // Variables
-  let playInterval = null;
+  let bpm = Tone.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
 
   // Functions
   const playMetronome = function playTheMetronome() {
