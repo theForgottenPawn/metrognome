@@ -10,6 +10,7 @@ $(document).ready(() => {
   // Functions
   const animateVisual = function animateVisualBeat() {
     const CURRVISBEAT = BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
+    currentBeat += 1;
 
     if (currentBeat === 1) {
       BEATSVISUAL.find('.beat').removeClass('beat-played');
@@ -65,7 +66,6 @@ $(document).ready(() => {
   const setMain = function setMainLoop() {
     mainLoop = new Tone.Loop(() => {
       let chord = 'A5';
-      currentBeat += 1;
       animateVisual();
 
       if (EMPHASIZE1STBEAT[0].checked && (currentBeat === 1)) {
