@@ -102,6 +102,17 @@ $(document).ready(() => {
     Tone.Transport.start();
   };
 
+  const eightTriplets = function eightTripletsNote() {
+    setMain();
+
+    subLoop = new Tone.Loop(() => {
+      synth2.triggerAttackRelease('G3', '0:0:1');
+    }, '8t');
+
+    subLoop.start('+0');
+    Tone.Transport.start();
+  };
+
   // Events listeners
   SINGLEBTN.click(() => {
     changeNote(SINGLEBTN, 'Single');
@@ -141,7 +152,7 @@ $(document).ready(() => {
   // Functions
   const playMetronome = function playTheMetronome() {
     paused = false;
-    eight();
+    eightTriplets();
   };
 
   const pauseMetronome = function pauseTheMetronome() {
