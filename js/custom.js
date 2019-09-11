@@ -119,6 +119,7 @@ $(document).ready(() => {
   // Early tweak
   Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
   let paused = true;
+  let bpmAdjust = null;
 
   // Functions
   const playMetronome = function playTheMetronome() {
@@ -134,18 +135,46 @@ $(document).ready(() => {
     mainLoop.dispose();
   };
 
-  const minorBpmAdjust = function adjustBpmByOne(direction) {
+  const bpmPlusOne = function increaseBpmByOne() {
     let newBpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
-
-    if (direction === 'increase') {
+   
+    if (Number.parseInt(BPMRANGESLIDER.val(), 10) < 260) {
       newBpm += 1;
-    } else if (direction === 'decrease') {
-      newBpm -= 1;
+      BPMRANGESLIDER.val(newBpm);
+      BPMINDICATOR.text(newBpm);
+      Tone.Transport.bpm.value = newBpm;
     }
+  };
 
-    BPMRANGESLIDER.val(newBpm);
-    BPMINDICATOR.text(newBpm);
-    Tone.Transport.bpm.value = newBpm;
+  const bpmMinusOne = function decreaseBpmByOne() {
+    let newBpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
+   
+    if (Number.parseInt(BPMRANGESLIDER.val(), 10) > 20) {
+      newBpm -= 1;
+      BPMRANGESLIDER.val(newBpm);
+      BPMINDICATOR.text(newBpm);
+      Tone.Transport.bpm.value = newBpm;
+    }
+  };
+
+  const minorBpmAdjustLoop = function adjustBpmByOne(direction, willLoop) {
+    if (direction === 'increase') {
+      if (willLoop) {
+        bpmAdjust = setInterval(() => {
+          bpmPlusOne();
+        }, 200);
+      } else {
+        bpmPlusOne();
+      }
+    } else if (direction === 'decrease') {
+      if (willLoop) {
+        bpmAdjust = setInterval(() => {
+          bpmMinusOne();
+        }, 200);
+      } else {
+        bpmMinusOne();
+      }
+    }
   };
 
   // Events listeners
@@ -173,15 +202,35 @@ $(document).ready(() => {
   });
 
   BPMINCREASEBTN.click(() => {
-    if (Number.parseInt(BPMRANGESLIDER.val(), 10) < 260) {
-      minorBpmAdjust('increase');
-    }
+    minorBpmAdjustLoop('increase', false);
+  });
+
+  BPMINCREASEBTN.mousedown(() => {
+    minorBpmAdjustLoop('increase', true);
+  });
+
+  BPMINCREASEBTN.mouseup(() => {
+    clearInterval(bpmAdjust);
+  });
+
+  BPMINCREASEBTN.mouseleave(() => {
+    clearInterval(bpmAdjust);
   });
 
   BPMDECREASEBTN.click(() => {
-    if (Number.parseInt(BPMRANGESLIDER.val(), 10) > 20) {
-      minorBpmAdjust('decrease');
-    }
+    minorBpmAdjustLoop('decrease', false);
+  });
+
+  BPMDECREASEBTN.mousedown(() => {
+    minorBpmAdjustLoop('decrease', true);
+  });
+
+  BPMDECREASEBTN.mouseup(() => {
+    clearInterval(bpmAdjust);
+  });
+
+  BPMDECREASEBTN.mouseleave(() => {
+    clearInterval(bpmAdjust);
   });
   // End of Metronome related codes
 });
