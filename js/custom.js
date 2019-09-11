@@ -113,6 +113,25 @@ $(document).ready(() => {
     Tone.Transport.start();
   };
 
+  const eightTripletsMid = function eightTripletsMidRestNote() {
+    setMain();
+    let count = 1;
+
+    subLoop = new Tone.Loop(() => {
+      if (count === 1) {
+        synth2.triggerAttackRelease('G3', '0:0:1');
+      } else if (count >= 3) {
+        synth2.triggerAttackRelease('G3', '0:0:1');
+        count = 0;
+      }
+
+      count += 1;
+    }, '8t');
+
+    subLoop.start('+0');
+    Tone.Transport.start();
+  };
+
   // Events listeners
   SINGLEBTN.click(() => {
     changeNote(SINGLEBTN, 'Single');
@@ -152,7 +171,7 @@ $(document).ready(() => {
   // Functions
   const playMetronome = function playTheMetronome() {
     paused = false;
-    eightTriplets();
+    eightTripletsMid();
   };
 
   const pauseMetronome = function pauseTheMetronome() {
