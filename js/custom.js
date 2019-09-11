@@ -53,15 +53,7 @@ $(document).ready(() => {
     }
   };
 
-  const firstBeatPlay = function playFirstBeat(isFirstBeat) {
-    if (isFirstBeat && EMPHASIZE1STBEAT[0].checked) {
-      EMPHASISBEAT.play();
-    } else {
-      NORMALBEAT.play();
-    }
-  };
-
-  const playSingle = function playSingleNote(isFirstBeat) {
+  const quarter = function quarterNote(isFirstBeat) {
     firstBeatPlay(isFirstBeat);
   };
 
