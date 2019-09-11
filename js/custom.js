@@ -100,7 +100,7 @@ $(document).ready(() => {
     subLoop.start('+0');
   };
 
-  const Triplets = function tripletsNote() {
+  const triplets = function tripletsNote() {
     setMain();
 
     subLoop = new Tone.Loop(() => {
@@ -110,7 +110,7 @@ $(document).ready(() => {
     subLoop.start('+0');
   };
 
-  const eightTripletsMid = function eightTripletsMidRestNote() {
+  const tripletsMid = function tripletsMidRestNote() {
     setMain();
     let count = 1;
 
