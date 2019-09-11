@@ -117,13 +117,16 @@ $(document).ready(() => {
   const PLAYBUTTONLOGO = $('#play-pause-btn > .logo');
   // Early tweak
   Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
+  let paused = true;
 
   // Functions
   const playMetronome = function playTheMetronome() {
+    paused = false;
     quarter();
   };
 
   const pauseMetronome = function pauseTheMetronome() {
+    paused = true;
     Tone.Transport.stop();
   };
 
@@ -148,10 +151,8 @@ $(document).ready(() => {
     PLAYBUTTONLOGO.toggleClass('glyphicon-play');
     PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
 
-    if (PLAYBUTTONLOGO.hasClass('glyphicon-pause')) {
+    if (paused) {
       playMetronome();
-    } else if (PLAYBUTTONLOGO.hasClass('glyphicon-play')) {
-      pauseMetronome();
     } else {
       pauseMetronome();
     }
