@@ -9,7 +9,6 @@ $(document).ready(() => {
 
   // Functions
   const animateVisual = function animateVisualBeat() {
-    currentBeat += 1;
     const CURRVISBEAT = BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
 
     if (currentBeat === 1) {
@@ -58,6 +57,7 @@ $(document).ready(() => {
   const synth = new Tone.Synth(synthBlend).toMaster();
   const synth2 = new Tone.Synth(synthBlend).toMaster();
   synth2.volume.value = -6;
+  let mainLoop = null;
   let note = 'Single';
 
   // functions
@@ -70,8 +70,9 @@ $(document).ready(() => {
   };
 
   const quarter = function quarterNote() {
-    const mainLoop = new Tone.Loop((time) => {
+    mainLoop = new Tone.Loop((time) => {
       note = 'A5';
+      currentBeat += 1;
       animateVisual();
 
       if (EMPHASIZE1STBEAT[0].checked && (currentBeat === 1)) {
@@ -128,6 +129,9 @@ $(document).ready(() => {
   const pauseMetronome = function pauseTheMetronome() {
     paused = true;
     Tone.Transport.stop();
+    // Dispose the loops when done, not doing it will results to duplication
+    // of the loops.
+    mainLoop.dispose();
   };
 
   const minorBpmAdjust = function adjustBpmByOne(direction) {
@@ -156,6 +160,10 @@ $(document).ready(() => {
     } else {
       pauseMetronome();
     }
+  });
+
+  PLAYPAUSEBTN.dblclick((e) => {
+    e.preventDefault();
   });
 
   // This changes the BPMINDICATOR's text according to BPMRANGESLIDER's value
