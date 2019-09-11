@@ -70,11 +70,18 @@ $(document).ready(() => {
   };
 
   const quarter = function quarterNote() {
-    const loop = new Tone.Loop((time) => {
-      synth.triggerAttackRelease("E4", '0:0:1');
+    const mainLoop = new Tone.Loop((time) => {
+      note = 'A5';
+      animateVisual();
+
+      if (currentBeat === 1) {
+        note = 'B6';
+      }
+      
+      synth.triggerAttackRelease(note, '0:0:1');
     }, '4n');
 
-    loop.start('+0').stop('+0:4');
+    loop.start('+0');
     Tone.Transport.start();
   };
 
