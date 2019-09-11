@@ -62,14 +62,6 @@ $(document).ready(() => {
   let note = 'Single';
 
   // functions
-  const changeNote = function changeTheNote(noteBtn, noteName) {
-    if (!noteBtn.hasClass('focused')) {
-      note = noteName;
-      $('.note-btn').removeClass('focused');
-      noteBtn.addClass('focused');
-    }
-  };
-
   const setMain = function setMainLoop() {
     mainLoop = new Tone.Loop(() => {
       let chord = 'A5';
@@ -138,6 +130,43 @@ $(document).ready(() => {
     subLoop.start('+0');
   };
 
+  const disposeLoops = function disposeTheLoops() {
+    if (mainLoop !== null) {
+      mainLoop.dispose();
+    }
+
+    if (subLoop !== null) {
+      subLoop.dispose();
+    }
+  };
+
+  const setNote = function setTheNote() {
+    disposeLoops();
+
+    if (note === 'Single') {
+      singlet();
+    } else if (note === 'Tuplets') {
+      tuplets();
+    } else if (note === 'Triplets') {
+      triplets();
+    } else if (note === 'Triplets Mid Rest') {
+      tripletsMid();
+    } else if (note === 'Quadruplets') {
+      quadruplets();
+    }
+  };
+
+  const changeNote = function changeTheNote(noteBtn, noteName) {
+    if (!noteBtn.hasClass('focused')) {
+      note = noteName;
+      $('.note-btn').removeClass('focused');
+      noteBtn.addClass('focused');
+
+      setNote();
+      console.log(note);
+    }
+  };
+
   // Events listeners
   SINGLEBTN.click(() => {
     changeNote(SINGLEBTN, 'Single');
@@ -177,7 +206,7 @@ $(document).ready(() => {
   // Functions
   const playMetronome = function playTheMetronome() {
     paused = false;
-    sixteenth();
+    setNote();
     Tone.Transport.start();
   };
 
@@ -186,8 +215,7 @@ $(document).ready(() => {
     Tone.Transport.stop();
     // Dispose the loops when done, not doing it will results to duplication
     // of the loops.
-    mainLoop.dispose();
-    subLoop.dispose();
+    disposeLoops();
   };
 
   const bpmPlusOne = function increaseBpmByOne() {
