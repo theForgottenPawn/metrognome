@@ -8,16 +8,20 @@ $(document).ready(() => {
   let currentBeat = 0;
 
   // Functions
+  const revertVisual = function revertTheVisual() {
+    currentBeat = 0;
+  };
+
   const animateVisual = function animateVisualBeat() {
-    const CURRVISBEAT = BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
     currentBeat += 1;
+    const CURRVISBEAT = BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
 
     if (currentBeat === 1) {
       BEATSVISUAL.find('.beat').removeClass('beat-played');
       CURRVISBEAT.addClass('beat-played');
     } else if (currentBeat >= Number(BEATCOUNT.val(), 10)) {
       CURRVISBEAT.addClass('beat-played');
-      currentBeat = 0;
+      revertVisual();
     } else {
       CURRVISBEAT.addClass('beat-played');
     }
@@ -80,6 +84,7 @@ $(document).ready(() => {
 
   const singlet = function singletNote() {
     setMain();
+    subLoop = null;
   };
 
   const tuplets = function tupletsNote() {
@@ -142,6 +147,7 @@ $(document).ready(() => {
 
   const setNote = function setTheNote() {
     disposeLoops();
+    revertVisual();
 
     if (note === 'Single') {
       singlet();
