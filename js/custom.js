@@ -53,44 +53,13 @@ $(document).ready(() => {
     }
   };
 
-  const quarter = function quarterNote(isFirstBeat) {
-    firstBeatPlay(isFirstBeat);
-  };
+  const quarter = function quarterNote() {
+    const loop = new Tone.Loop((time) => {
+      synth.triggerAttackRelease("E4", '0:0:1');
+    }, '4n');
 
-  const playTuplets = function playTupletsNote(isFirstBeat, bpm) {
-    const INTERVAL = Math.round(bpm / 2);
-
-    firstBeatPlay(isFirstBeat);
-
-    setTimeout(() => { NORMALBEAT.play(); }, INTERVAL);
-  };
-
-  const playTriplets = function playTripletsNote(isFirstBeat, bpm) {
-    const INTERVAL = Math.round(bpm / 3);
-
-    firstBeatPlay(isFirstBeat);
-
-    for (let i = 0; i < 2; i += 1) {
-      setTimeout(() => { NORMALBEAT.play(); }, INTERVAL);
-    }
-  };
-
-  const playTripletsMidRest = function playTripletsMidRestNote(isFirstBeat, bpm) {
-    const INTERVAL = Math.round((bpm / 3) * 2);
-
-    firstBeatPlay(isFirstBeat);
-
-    setTimeout(() => { NORMALBEAT.play(); }, INTERVAL);
-  };
-
-  const playQuadruplets = function playQuadrupletsNote(isFirstBeat, bpm) {
-    const INTERVAL = Math.round(bpm / 4);
-
-    firstBeatPlay(isFirstBeat);
-
-    for (let i = 0; i < 3; i += 1) {
-      setTimeout(() => { NORMALBEAT.play(); }, INTERVAL);
-    }
+    loop.start('+0').stop('+0:4');
+    Tone.Transport.start();
   };
 
   // Events listeners
