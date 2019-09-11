@@ -157,9 +157,9 @@ $(document).ready(() => {
     if (PLAYBUTTONLOGO.hasClass('glyphicon-pause')) {
       playMetronome();
     } else if (PLAYBUTTONLOGO.hasClass('glyphicon-play')) {
-      clearInterval(playInterval);
+      pauseMetronome();
     } else {
-      clearInterval(playInterval);
+      pauseMetronome();
     }
   });
 
