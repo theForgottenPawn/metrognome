@@ -171,7 +171,6 @@ $(document).ready(() => {
       noteBtn.addClass('focused');
 
       setNote();
-      console.log(note);
     }
   };
 
