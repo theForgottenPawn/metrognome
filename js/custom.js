@@ -31,8 +31,17 @@ $(document).ready(() => {
   const TRIPLETSMIDRESTBTN = $('#triplets-mid-rest-btn');
   const QUADRUPLETSBTN = $('#quadruplets-btn');
   // Variables
-  const NORMALBEAT = new Audio('audio/beat_01.mp3');
-  const EMPHASISBEAT = new Audio('audio/beat_02.mp3');
+  const synthBlend = {
+    envelope: {
+      attack: 0.01,
+      decay: 0.01,
+      sustain: 0,
+      release: 0.01,
+    },
+  };
+  const synth = new Tone.Synth(synthBlend).toMaster();
+  const synth2 = new Tone.Synth(synthBlend).toMaster();
+  synth2.volume.value = -6;
   let note = 'Single';
 
   // functions
