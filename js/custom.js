@@ -58,6 +58,7 @@ $(document).ready(() => {
   const synth2 = new Tone.Synth(synthBlend).toMaster();
   synth2.volume.value = -6;
   let mainLoop = null;
+  let subLoop = null;
   let note = 'Single';
 
   // functions
@@ -69,7 +70,7 @@ $(document).ready(() => {
     }
   };
 
-  const quarter = function quarterNote() {
+  const setMain = function setMainLoop() {
     mainLoop = new Tone.Loop(() => {
       let chord = 'A5';
       currentBeat += 1;
@@ -83,6 +84,21 @@ $(document).ready(() => {
     }, '4n');
 
     mainLoop.start('+0');
+  };
+
+  const quarter = function quarterNote() {
+    setMain();
+    Tone.Transport.start();
+  };
+
+  const eight = function eightNote() {
+    setMain();
+
+    subLoop = new Tone.Loop(() => {
+      synth2.triggerAttackRelease('G3', '0:0:1');
+    }, '8n');
+
+    subLoop.start('+0');
     Tone.Transport.start();
   };
 
@@ -125,7 +141,7 @@ $(document).ready(() => {
   // Functions
   const playMetronome = function playTheMetronome() {
     paused = false;
-    quarter();
+    eight();
   };
 
   const pauseMetronome = function pauseTheMetronome() {
@@ -134,6 +150,7 @@ $(document).ready(() => {
     // Dispose the loops when done, not doing it will results to duplication
     // of the loops.
     mainLoop.dispose();
+    subLoop.dispose();
   };
 
   const bpmPlusOne = function increaseBpmByOne() {
