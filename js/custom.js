@@ -70,7 +70,7 @@ $(document).ready(() => {
   };
 
   const quarter = function quarterNote() {
-    mainLoop = new Tone.Loop((time) => {
+    mainLoop = new Tone.Loop(() => {
       note = 'A5';
       currentBeat += 1;
       animateVisual();
@@ -78,7 +78,7 @@ $(document).ready(() => {
       if (EMPHASIZE1STBEAT[0].checked && (currentBeat === 1)) {
         note = 'B6';
       }
-      
+
       synth.triggerAttackRelease(note, '0:0:1');
     }, '4n');
 
@@ -138,7 +138,7 @@ $(document).ready(() => {
 
   const bpmPlusOne = function increaseBpmByOne() {
     let newBpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
-   
+
     if (Number.parseInt(BPMRANGESLIDER.val(), 10) < 260) {
       newBpm += 1;
       BPMRANGESLIDER.val(newBpm);
@@ -149,7 +149,7 @@ $(document).ready(() => {
 
   const bpmMinusOne = function decreaseBpmByOne() {
     let newBpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
-   
+
     if (Number.parseInt(BPMRANGESLIDER.val(), 10) > 20) {
       newBpm -= 1;
       BPMRANGESLIDER.val(newBpm);
