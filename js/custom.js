@@ -118,6 +118,7 @@ $(document).ready(() => {
   const PLAYBUTTONLOGO = $('#play-pause-btn > .logo');
   // Early tweak
   Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
+  // Variables
   let paused = true;
   let bpmAdjust = null;
 
