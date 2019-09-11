@@ -74,7 +74,7 @@ $(document).ready(() => {
       note = 'A5';
       animateVisual();
 
-      if (currentBeat === 1) {
+      if (EMPHASIZE1STBEAT[0].checked && (currentBeat === 1)) {
         note = 'B6';
       }
       
