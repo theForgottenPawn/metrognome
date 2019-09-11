@@ -61,7 +61,7 @@ $(document).ready(() => {
   };
   const synth = new Tone.Synth(synthBlend).toMaster();
   const synth2 = new Tone.Synth(synthBlend).toMaster();
-  synth2.volume.value = -6;
+  synth2.volume.value = -17;
   let mainLoop = null;
   let subLoop = null;
   let note = 'Single';
