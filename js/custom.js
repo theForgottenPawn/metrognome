@@ -128,7 +128,7 @@ $(document).ready(() => {
     subLoop.start('+0');
   };
 
-  const sixteenth = function sixteenthNote() {
+  const quadruplets = function quadrupletsNote() {
     setMain();
 
     subLoop = new Tone.Loop(() => {
