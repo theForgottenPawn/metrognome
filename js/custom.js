@@ -88,10 +88,9 @@ $(document).ready(() => {
 
   const quarter = function quarterNote() {
     setMain();
-    Tone.Transport.start();
   };
 
-  const eight = function eightNote() {
+  const eighth = function eighthNote() {
     setMain();
 
     subLoop = new Tone.Loop(() => {
@@ -99,7 +98,6 @@ $(document).ready(() => {
     }, '8n');
 
     subLoop.start('+0');
-    Tone.Transport.start();
   };
 
   const eightTriplets = function eightTripletsNote() {
@@ -110,7 +108,6 @@ $(document).ready(() => {
     }, '8t');
 
     subLoop.start('+0');
-    Tone.Transport.start();
   };
 
   const eightTripletsMid = function eightTripletsMidRestNote() {
@@ -129,7 +126,6 @@ $(document).ready(() => {
     }, '8t');
 
     subLoop.start('+0');
-    Tone.Transport.start();
   };
 
   const sixteenth = function sixteenthNote() {
@@ -140,7 +136,6 @@ $(document).ready(() => {
     }, '16n');
 
     subLoop.start('+0');
-    Tone.Transport.start();
   };
 
   // Events listeners
@@ -183,6 +178,7 @@ $(document).ready(() => {
   const playMetronome = function playTheMetronome() {
     paused = false;
     sixteenth();
+    Tone.Transport.start();
   };
 
   const pauseMetronome = function pauseTheMetronome() {
