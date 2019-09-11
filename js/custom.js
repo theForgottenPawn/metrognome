@@ -90,7 +90,7 @@ $(document).ready(() => {
     setMain();
   };
 
-  const eighth = function eighthNote() {
+  const tuplets = function tupletsNote() {
     setMain();
 
     subLoop = new Tone.Loop(() => {
