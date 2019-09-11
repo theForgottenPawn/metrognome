@@ -135,17 +135,17 @@ $(document).ready(() => {
   };
 
   const minorBpmAdjust = function adjustBpmByOne(direction) {
-    let newBpm = null;
+    let newBpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
 
     if (direction === 'increase') {
-      newBpm = Number.parseInt(BPMRANGESLIDER.val(), 10) + 1;
+      newBpm += 1;
     } else if (direction === 'decrease') {
-      newBpm = Number.parseInt(BPMRANGESLIDER.val(), 10) - 1;
+      newBpm -= 1;
     }
 
     BPMRANGESLIDER.val(newBpm);
     BPMINDICATOR.text(newBpm);
-    changeBpmAndPlay();
+    Tone.Transport.bpm.value = newBpm;
   };
 
   // Events listeners
