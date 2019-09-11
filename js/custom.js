@@ -123,6 +123,10 @@ $(document).ready(() => {
     quarter();
   };
 
+  const pauseMetronome = function pauseTheMetronome() {
+    Tone.Transport.stop();
+  };
+
   const changeBpmAndPlay = function changeBpmEvenWhenPlaying() {
     if (PLAYBUTTONLOGO.hasClass('glyphicon-pause')) {
       playMetronome();
