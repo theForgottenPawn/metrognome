@@ -71,15 +71,15 @@ $(document).ready(() => {
 
   const quarter = function quarterNote() {
     mainLoop = new Tone.Loop(() => {
-      note = 'A5';
+      let chord = 'A5';
       currentBeat += 1;
       animateVisual();
 
       if (EMPHASIZE1STBEAT[0].checked && (currentBeat === 1)) {
-        note = 'B6';
+        chord = 'B6';
       }
 
-      synth.triggerAttackRelease(note, '0:0:1');
+      synth.triggerAttackRelease(chord, '0:0:1');
     }, '4n');
 
     mainLoop.start('+0');
