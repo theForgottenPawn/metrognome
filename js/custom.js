@@ -145,10 +145,17 @@ $(document).ready(() => {
       subLoop.dispose();
       subLoop = null;
     }
+
+    if ($('#play-pause-btn').hasClass('playing')) {
+      Tone.Transport.stop();
+      return true;
+    }
+
+    return false;
   };
 
   const setNote = function setTheNote() {
-    disposeLoops();
+    const FORCE_PAUSED = disposeLoops();
     revertVisual();
 
     if (note === 'Single') {
@@ -161,6 +168,10 @@ $(document).ready(() => {
       tripletsMid();
     } else if (note === 'Quadruplets') {
       quadruplets();
+    }
+
+    if (FORCE_PAUSED) {
+      Tone.Transport.start();
     }
   };
 
@@ -271,6 +282,7 @@ $(document).ready(() => {
     // for changing the logo
     PLAYBUTTONLOGO.toggleClass('glyphicon-play');
     PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
+    PLAYPAUSEBTN.toggleClass('playing');
 
     if (paused) {
       playMetronome();
