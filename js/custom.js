@@ -237,7 +237,7 @@ $(document).ready(() => {
   // Functions
   const playMetronome = function playTheMetronome() {
     paused = false;
-    // Enhancement: The setNote() function call sets the variables mainLoop and
+    // Enhancement-Unnecessary: The setNote() function call sets the variables mainLoop and
     // subLoop, in any case those said variables are already set before this
     // function is called then an unnecessary resetting will occur. Try to find
     // a way remove the unnecessary resetting while maintaining it's main
