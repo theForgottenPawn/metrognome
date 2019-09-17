@@ -255,14 +255,21 @@ $(document).ready(() => {
     npbPlayedToggle();
   };
 
+  const setBpm = function setTheBPM(newBpm) {
+    BPMINDICATOR.text(newBpm);
+    Tone.Transport.bpm.value = newBpm;
+  };
+
   const bpmPlusOne = function increaseBpmByOne() {
     let newBpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
 
     if (Number.parseInt(BPMRANGESLIDER.val(), 10) < 260) {
       newBpm += 1;
-      BPMRANGESLIDER.val(newBpm);         // Error: Duplicated code: create
-      BPMINDICATOR.text(newBpm);          // separate  function and call it
-      Tone.Transport.bpm.value = newBpm;  // on functionsthat needs it.
+      BPMRANGESLIDER.val(newBpm);
+      // Error-Resolved: Duplicated code: create
+      // separate  function and call it
+      // on functionsthat needs it.
+      setBpm(newBpm);
     }
   };
 
@@ -271,9 +278,11 @@ $(document).ready(() => {
 
     if (Number.parseInt(BPMRANGESLIDER.val(), 10) > 20) {
       newBpm -= 1;
-      BPMRANGESLIDER.val(newBpm);         // Error: Duplicated code: create
-      BPMINDICATOR.text(newBpm);          // separate  function and call it
-      Tone.Transport.bpm.value = newBpm;  // on functionsthat needs it.
+      BPMRANGESLIDER.val(newBpm);
+      // Error-Resolved: Duplicated code: create
+      // separate  function and call it
+      // on functionsthat needs it.
+      setBpm(newBpm);
     }
   };
 
@@ -315,8 +324,7 @@ $(document).ready(() => {
 
   // This changes the BPMINDICATOR's text according to BPMRANGESLIDER's value
   BPMRANGESLIDER.on('input', () => {
-    Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
-    BPMINDICATOR.text(BPMRANGESLIDER.val());
+    setBpm(Number.parseInt(BPMRANGESLIDER.val(), 10));
   });
 
   // BPMINCREASEBTN events
