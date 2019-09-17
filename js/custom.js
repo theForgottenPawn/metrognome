@@ -239,9 +239,9 @@ $(document).ready(() => {
 
     if (Number.parseInt(BPMRANGESLIDER.val(), 10) < 260) {
       newBpm += 1;
-      BPMRANGESLIDER.val(newBpm);
-      BPMINDICATOR.text(newBpm);
-      Tone.Transport.bpm.value = newBpm;
+      BPMRANGESLIDER.val(newBpm);         //  Duplicated code: create separate 
+      BPMINDICATOR.text(newBpm);          //  function and call it on functions
+      Tone.Transport.bpm.value = newBpm;  //  that needs it.
     }
   };
 
@@ -250,9 +250,9 @@ $(document).ready(() => {
 
     if (Number.parseInt(BPMRANGESLIDER.val(), 10) > 20) {
       newBpm -= 1;
-      BPMRANGESLIDER.val(newBpm);
-      BPMINDICATOR.text(newBpm);
-      Tone.Transport.bpm.value = newBpm;
+      BPMRANGESLIDER.val(newBpm);         //  Duplicated code: create separate 
+      BPMINDICATOR.text(newBpm);          //  function and call it on functions
+      Tone.Transport.bpm.value = newBpm;  //  that needs it.
     }
   };
 
@@ -282,6 +282,8 @@ $(document).ready(() => {
     // for changing the logo
     PLAYBUTTONLOGO.toggleClass('glyphicon-play');
     PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
+    // This line was used functional wise which is not advisable, please remove
+    // it.
     PLAYPAUSEBTN.toggleClass('playing');
 
     if (paused) {
