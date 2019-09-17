@@ -61,8 +61,9 @@ $(document).ready(() => {
   };
   const synth = new Tone.Synth(synthBlend).toMaster();
   const synth2 = new Tone.Synth(synthBlend).toMaster();
-  // Volume too low, can't be heard on built in pc speakers. Please increase.
-  synth2.volume.value = -17;
+  // Error-Resolved: Volume too low, can't be heard on built in pc speakers.
+  // Please increase.
+  synth2.volume.value = -3;
   let mainLoop = null;
   let subLoop = null;
   let note = 'Single';
