@@ -61,8 +61,6 @@ $(document).ready(() => {
   };
   const synth = new Tone.Synth(synthBlend).toMaster();
   const synth2 = new Tone.Synth(synthBlend).toMaster();
-  // Error-Resolved: Volume too low, can't be heard on built in pc speakers.
-  // Please increase.
   synth2.volume.value = -3;
   let mainLoop = null;
   let subLoop = null;
@@ -157,8 +155,6 @@ $(document).ready(() => {
       subLoop = null;
     }
 
-    // Error-Resolved: This functionality must not depend on a class name or
-    // anything at the presentation side. Please revise it.
     if (npbPlayed) {
       Tone.Transport.stop();
       return true;
@@ -237,12 +233,6 @@ $(document).ready(() => {
   // Functions
   const playMetronome = function playTheMetronome() {
     paused = false;
-    // Enhancement-Unnecessary: The setNote() function call sets the variables mainLoop and
-    // subLoop, in any case those said variables are already set before this
-    // function is called then an unnecessary resetting will occur. Try to find
-    // a way remove the unnecessary resetting while maintaining it's main
-    // behavior which is setting mainLoop and subLoop only if they're not yet
-    // set.
     setNote();
     npbPlayedToggle();
     Tone.Transport.start();
@@ -266,9 +256,6 @@ $(document).ready(() => {
     if (Number.parseInt(BPMRANGESLIDER.val(), 10) < 260) {
       newBpm += 1;
       BPMRANGESLIDER.val(newBpm);
-      // Error-Resolved: Duplicated code: create
-      // separate  function and call it
-      // on functionsthat needs it.
       setBpm(newBpm);
     }
   };
@@ -279,9 +266,6 @@ $(document).ready(() => {
     if (Number.parseInt(BPMRANGESLIDER.val(), 10) > 20) {
       newBpm -= 1;
       BPMRANGESLIDER.val(newBpm);
-      // Error-Resolved: Duplicated code: create
-      // separate  function and call it
-      // on functionsthat needs it.
       setBpm(newBpm);
     }
   };
@@ -312,8 +296,6 @@ $(document).ready(() => {
     // for changing the logo
     PLAYBUTTONLOGO.toggleClass('glyphicon-play');
     PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
-    // Error-Resolved: This line was used functional wise which is not advisable, please
-    // remove it.
 
     if (paused) {
       playMetronome();
