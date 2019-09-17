@@ -66,9 +66,18 @@ $(document).ready(() => {
   synth2.volume.value = -3;
   let mainLoop = null;
   let subLoop = null;
+  let npbPlayed = false;
   let note = 'Single';
 
   // functions
+  const npbPlayedToggle = function notesPerbeatPlayedToggle() {
+    if (npbPlayed) {
+      npbPlayed = false;
+    } else {
+      npbPlayed = true;
+    }
+  };
+
   const setMain = function setMainLoop() {
     mainLoop = new Tone.Loop(() => {
       let chord = 'A5';
@@ -148,9 +157,9 @@ $(document).ready(() => {
       subLoop = null;
     }
 
-    // Error: This functionality must not depend on a class name or anything at
-    // the presentation side. Please revise it.
-    if ($('#play-pause-btn').hasClass('playing')) {
+    // Error-Resolved: This functionality must not depend on a class name or
+    // anything at the presentation side. Please revise it.
+    if (npbPlayed) {
       Tone.Transport.stop();
       return true;
     }
@@ -159,7 +168,7 @@ $(document).ready(() => {
   };
 
   const setNote = function setTheNote() {
-    const FORCE_PAUSED = disposeLoops();
+    const FORCE_STOPED = disposeLoops();
     revertVisual();
 
     if (note === 'Single') {
@@ -174,7 +183,7 @@ $(document).ready(() => {
       quadruplets();
     }
 
-    if (FORCE_PAUSED) {
+    if (FORCE_STOPED) {
       Tone.Transport.start();
     }
   };
@@ -235,6 +244,7 @@ $(document).ready(() => {
     // behavior which is setting mainLoop and subLoop only if they're not yet
     // set.
     setNote();
+    npbPlayedToggle();
     Tone.Transport.start();
   };
 
@@ -242,6 +252,7 @@ $(document).ready(() => {
     paused = true;
     Tone.Transport.stop();
     disposeLoops();
+    npbPlayedToggle();
   };
 
   const bpmPlusOne = function increaseBpmByOne() {
@@ -292,9 +303,8 @@ $(document).ready(() => {
     // for changing the logo
     PLAYBUTTONLOGO.toggleClass('glyphicon-play');
     PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
-    // This line was used functional wise which is not advisable, please remove
-    // it.
-    PLAYPAUSEBTN.toggleClass('playing');
+    // Error-Resolved: This line was used functional wise which is not advisable, please
+    // remove it.
 
     if (paused) {
       playMetronome();
