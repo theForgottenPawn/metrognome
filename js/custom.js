@@ -61,6 +61,7 @@ $(document).ready(() => {
   };
   const synth = new Tone.Synth(synthBlend).toMaster();
   const synth2 = new Tone.Synth(synthBlend).toMaster();
+  // Volume too low, can't be heard on built in pc speakers. Please increase.
   synth2.volume.value = -17;
   let mainLoop = null;
   let subLoop = null;
@@ -146,6 +147,9 @@ $(document).ready(() => {
       subLoop = null;
     }
 
+
+    // Error: This functionality must not depend on a class name or anything at
+    // the presentation side. Please revise it.
     if ($('#play-pause-btn').hasClass('playing')) {
       Tone.Transport.stop();
       return true;
