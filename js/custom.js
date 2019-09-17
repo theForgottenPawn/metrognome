@@ -147,7 +147,6 @@ $(document).ready(() => {
       subLoop = null;
     }
 
-
     // Error: This functionality must not depend on a class name or anything at
     // the presentation side. Please revise it.
     if ($('#play-pause-btn').hasClass('playing')) {
@@ -228,6 +227,12 @@ $(document).ready(() => {
   // Functions
   const playMetronome = function playTheMetronome() {
     paused = false;
+    // Enhancement: The setNote() function call sets the variables mainLoop and
+    // subLoop, in any case those said variables are already set before this
+    // function is called then an unnecessary resetting will occur. Try to find
+    // a way remove the unnecessary resetting while maintaining it's main
+    // behavior which is setting mainLoop and subLoop only if they're not yet
+    // set.
     setNote();
     Tone.Transport.start();
   };
@@ -243,9 +248,9 @@ $(document).ready(() => {
 
     if (Number.parseInt(BPMRANGESLIDER.val(), 10) < 260) {
       newBpm += 1;
-      BPMRANGESLIDER.val(newBpm);         //  Duplicated code: create separate 
-      BPMINDICATOR.text(newBpm);          //  function and call it on functions
-      Tone.Transport.bpm.value = newBpm;  //  that needs it.
+      BPMRANGESLIDER.val(newBpm);         // Error: Duplicated code: create
+      BPMINDICATOR.text(newBpm);          // separate  function and call it
+      Tone.Transport.bpm.value = newBpm;  // on functionsthat needs it.
     }
   };
 
@@ -254,9 +259,9 @@ $(document).ready(() => {
 
     if (Number.parseInt(BPMRANGESLIDER.val(), 10) > 20) {
       newBpm -= 1;
-      BPMRANGESLIDER.val(newBpm);         //  Duplicated code: create separate 
-      BPMINDICATOR.text(newBpm);          //  function and call it on functions
-      Tone.Transport.bpm.value = newBpm;  //  that needs it.
+      BPMRANGESLIDER.val(newBpm);         // Error: Duplicated code: create
+      BPMINDICATOR.text(newBpm);          // separate  function and call it
+      Tone.Transport.bpm.value = newBpm;  // on functionsthat needs it.
     }
   };
 
