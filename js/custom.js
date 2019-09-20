@@ -1,4 +1,6 @@
 $(document).ready(() => {
+  // General Variable
+  let paused = true;
   // Start of Beats related code
   // Components
   const BEATSVISUAL = $('.beats-visual');
@@ -304,8 +306,21 @@ $(document).ready(() => {
     }
   };
 
+  const isTimeReachedMinimum = function isTimeReachedMinimum() {
+    if (min <= MINIMUM_TIME[0]) {
+      if (sec < MINIMUM_TIME[1]) {
+        alert(`Timer must be set for atleast ${MINIMUM_TIME[1]} seconds!`);
+        
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   const timerPauseMetronome = function timerWillPauseTheMetronome() {
     const PLAYBUTTONLOGO = $('#play-pause-btn > .logo');
+    paused = true;
 
     // Function from Notes Per Beat, this function is responsible for actually
     // pausing the looping of the beat sounds.
@@ -337,12 +352,18 @@ $(document).ready(() => {
     resetTimer();
   };
 
+  const timeStep = function timerStep() {
+  };
+
   const startTimer = function startTheTimer() {
     const MIN_MONITOR = $('#min-monitor');
     const SEC_MONITOR = $('#sec-monitor');
 
     disableTimeEditing();
     ENABLE_TIMER_TOGGLER.attr('disabled', true);
+
+    sec -= 1;
+    SEC_MONITOR.text(`${padTime(sec)}s`);
 
     timerInterval = setInterval(() => {
       if (sec > 0) {
@@ -385,13 +406,13 @@ $(document).ready(() => {
   });
 
   MIN_SETTER.change(() => {
-    time = Number.parseInt(MIN_SETTER.find(':selected').val());
-    changeTime('min', time);
+    const TIME = Number.parseInt(MIN_SETTER.val());
+    changeTime('min', TIME);
   });
 
   SEC_SETTER.change(() => {
-    time = Number.parseInt(SEC_SETTER.find(':selected').val());
-    changeTime('sec', time);
+    const TIME = Number.parseInt(SEC_SETTER.val());
+    changeTime('sec', TIME);
   });
 
   TIME_RESETTER.click(() => {
@@ -415,12 +436,17 @@ $(document).ready(() => {
   // Early tweak
   Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
   // Variables
-  let paused = true;
   let bpmAdjust = null;
 
   // Functions
+  const togglePlayLogo = function togglePlayButtonLogo() {
+    PLAYBUTTONLOGO.toggleClass('glyphicon-play');
+    PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
+  };
+
   const playMetronome = function playTheMetronome() {
     paused = false;
+    togglePlayLogo();
     setNote();
     npbPlayedToggle();
     Tone.Transport.start();
@@ -432,6 +458,7 @@ $(document).ready(() => {
 
   const pauseMetronome = function pauseTheMetronome() {
     paused = true;
+    togglePlayLogo();
     Tone.Transport.stop();
     disposeLoops();
     npbPlayedToggle();
@@ -489,12 +516,14 @@ $(document).ready(() => {
   // Events listeners
   // This plays/pauses the metronome
   PLAYPAUSEBTN.click(() => {
-    // for changing the logo
-    PLAYBUTTONLOGO.toggleClass('glyphicon-play');
-    PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
-
     if (paused) {
-      playMetronome();
+      if (ENABLE_TIMER_TOGGLER[0].checked) {
+        if (isTimeReachedMinimum()) {
+          playMetronome();
+        }
+      } else {
+        playMetronome();
+      }
     } else {
       pauseMetronome();
     }
