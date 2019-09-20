@@ -12,7 +12,8 @@ body {
 }
 
 .section.beats,
-.section.notes-per-beat {
+.section.notes-per-beat,
+.section.timer {
   border-top: 1px solid #cccccc;
   padding: 0 10px;
 }
@@ -82,4 +83,28 @@ body {
 .note-btn.focused {
   background-color: #c9302c;
   border-color: #761c19;
+}
+
+/* Timer stylings */
+.timer .wrapper {
+  position: relative;
+  top: 2px
+}
+
+.timer > .wrapper {
+  margin: 0 5px;
+}
+
+.enable-timer-wrapper > .enable-timer-toggler {
+  position: relative;
+  top: 1px;
+}
+
+.timer > .time-resetter {
+  margin: 0 0 0 25px;
+}
+
+/* Footer */
+.footer {
+  margin-bottom: 100px;
 }
