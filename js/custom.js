@@ -17,12 +17,20 @@ $(document).ready(() => {
     MIN_SETTER.attr('disabled', false);
     SEC_SETTER.attr('disabled', false);
     TIME_RESETTER.attr('disabled', false);
+
+    if ($('.remaining-time-wrapper')) {
+      $('.remaining-time-wrapper').addClass('disabled');
+    }    
   };
 
   const disableTimeEditing = function disableTheTimeEditing() {
     MIN_SETTER.attr('disabled', true);
     SEC_SETTER.attr('disabled', true);
     TIME_RESETTER.attr('disabled', true);
+
+    if ($('.remaining-time-wrapper')) {
+      $('.remaining-time-wrapper').removeClass('disabled');
+    }    
   };
 
   const createRemaingTime = function createRemaingTimeComponent() {
