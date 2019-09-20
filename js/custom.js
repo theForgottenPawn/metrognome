@@ -3,26 +3,42 @@ $(document).ready(() => {
   // Components
   const ENABLE_TIMER_TOGGLER = $('#enable-timer-toggler');
   const MIN_SETTER = $('#min-select');
-  const SEC_SELECT = $('#sec-select');
+  const SEC_SETTER = $('#sec-select');
   const TIME_RESETTER = $('#time-resetter');
   // Constant Variable
   const MINIMUM_TIME = [0, 10];
   // Variables
   let min = Number.parseInt(MIN_SETTER.val(), 10);
-  let sec = Number.parseInt(SEC_SELECT.val(), 10);
+  let sec = Number.parseInt(SEC_SETTER.val(), 10);
   let timerInterval = null;
 
   // Funcitons
   const enableTimeEditing = function enableTheTimeEditing() {
     MIN_SETTER.attr('disabled', false);
-    SEC_SELECT.attr('disabled', false);
+    SEC_SETTER.attr('disabled', false);
     TIME_RESETTER.attr('disabled', false);
   };
 
   const disableTimeEditing = function disableTheTimeEditing() {
     MIN_SETTER.attr('disabled', true);
-    SEC_SELECT.attr('disabled', true);
+    SEC_SETTER.attr('disabled', true);
     TIME_RESETTER.attr('disabled', true);
+  };
+
+  const createRemaingTime = function createRemaingTimeComponent() {
+    const WRAPPER = $('div')
+    const LABEL = $('<b>Remaining Time: </b>')
+    const MIN_MONITOR = $('span');
+    const SEC_MONITOR = $('span');
+
+    WRAPPER.addClass('section remaining-time-wrapper');
+    MIN_MONITOR.addClass('time-monitor min');
+    MIN_MONITOR.text(MIN_SETTER.val());
+    SEC_MONITOR.text(SEC_SETTER.val());
+    SEC_MONITOR.addClass('time-monitor sec');
+
+
+    WRAPPER.append(LABEL);
   };
 
   const enableTimer = function enableTheTimer() {
