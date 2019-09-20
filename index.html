@@ -211,6 +211,23 @@
     </span>
     <button class='btn btn-default time-resetter' id='time-resetter' disabled='true'>Reset Timer</button>
   </div>
+
+  <div class='modal fade error-message' id='error-msg-modal' tabindex='-1' role='dialog'>
+    <div class='modal-dialog' role='document'>
+      <div class='modal-content'>
+        <div class='modal-header'>
+          <h4 class='modal-title head-text'>Oops&hellip;</h4>
+        </div>
+        <div class='modal-body'>
+          <p class='error-text'>Timer must be set for atleast 10 seconds!</p>
+        </div>
+        <div class='modal-footer'>
+          <button type='button' class='btn btn-success modal-close' data-dismiss='modal'>Okay</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
   <!-- Scripts -->
   <script src='js/jquery.min.js'></script>
   <script src='js/bootstrap.min.js'></script>

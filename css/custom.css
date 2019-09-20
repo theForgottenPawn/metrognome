@@ -121,3 +121,16 @@ body {
 .footer {
   margin-bottom: 100px;
 }
+
+/* Modal */
+.error-message .error-text {
+  font-size: 20px;
+}
+
+.error-message .head-text {
+  font-size: 23px;
+}
+
+.error-message .modal-close {
+  font-weight: bold;
+}
