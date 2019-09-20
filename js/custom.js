@@ -40,9 +40,11 @@ $(document).ready(() => {
     const SEC_MONITOR = $('<span>');
 
     WRAPPER.addClass('section remaining-time-wrapper disabled');
-    MIN_MONITOR.addClass('time-monitor min');
+    MIN_MONITOR.addClass('time-monitor');
+    MIN_MONITOR.attr('id', 'min-monitor');
     MIN_MONITOR.text(`${MIN_SETTER.val()}m`);
     SEC_MONITOR.addClass('time-monitor sec');
+    SEC_MONITOR.attr('id', 'sec-monitor');
     SEC_MONITOR.text(`${SEC_SETTER.val()}s`);
 
     WRAPPER.append(LABEL);
@@ -74,6 +76,17 @@ $(document).ready(() => {
     } else {
       disableTimer();
     }
+  };
+
+  const startTimer = function startTheTimer() {
+    const MIN_MONITOR = $('.time')
+    disableTimeEditing();
+
+    timerInterval = setInterval(() => {
+      if (sec > 0) {
+        sec -= 1;
+      }
+    }, 1000)
   };
 
   // Event Handlers
