@@ -240,7 +240,7 @@ $(document).ready(() => {
     if ($('.remaining-time-wrapper')) {
       ENABLE_TIMER_TOGGLER.attr('disabled', false);
       $('.remaining-time-wrapper').addClass('disabled');
-    }    
+    }
   };
 
   const disableTimeEditing = function disableTheTimeEditing() {
@@ -250,7 +250,7 @@ $(document).ready(() => {
 
     if ($('.remaining-time-wrapper')) {
       $('.remaining-time-wrapper').removeClass('disabled');
-    }    
+    }
   };
 
   const padTime = function padTheTime(time) {
@@ -260,10 +260,10 @@ $(document).ready(() => {
 
     return time.toString();
   };
-  
+
   const createRemaingTime = function createRemaingTimeComponent() {
-    const WRAPPER = $('<div>')
-    const LABEL = $('<b>Remaining Time: </b>')
+    const WRAPPER = $('<div>');
+    const LABEL = $('<b>Remaining Time: </b>');
     const MIN_MONITOR = $('<span>');
     const SEC_MONITOR = $('<span>');
 
@@ -309,8 +309,9 @@ $(document).ready(() => {
   const isTimeReachedMinimum = function isTimeReachedMinimum() {
     if (min <= MINIMUM_TIME[0]) {
       if (sec < MINIMUM_TIME[1]) {
-        alert(`Timer must be set for atleast ${MINIMUM_TIME[1]} seconds!`);
-        
+        const ERROR_MODAL = $('#error-msg-modal');
+        ERROR_MODAL.modal('show');
+
         return false;
       }
     }
@@ -340,7 +341,7 @@ $(document).ready(() => {
 
     MIN_MONITOR.text(`${MIN_SETTER.val()}m`);
     SEC_MONITOR.text(`${SEC_SETTER.val()}s`);
-  }; 
+  };
 
   const pauseTimer = function pauseTheTimer() {
     clearInterval(timerInterval);
@@ -363,7 +364,7 @@ $(document).ready(() => {
     } else if (min > 0) {
       min -= 1;
       sec = 59;
-      
+
       MIN_MONITOR.text(`${padTime(min)}m`);
       SEC_MONITOR.text(`${padTime(sec)}s`);
     } else {
@@ -377,13 +378,13 @@ $(document).ready(() => {
 
     timerInterval = setInterval(() => {
       timeStep();
-    }, 1000)
+    }, 1000);
   };
 
   const changeTime = function changeTheTime(timeType, newTime) {
     let monitor = null;
     let timeUnit = null;
-    
+
     if (timeType === 'min') {
       min = newTime;
       monitor = $('#min-monitor');
@@ -393,7 +394,7 @@ $(document).ready(() => {
       monitor = $('#sec-monitor');
       timeUnit = 's';
     }
-    
+
     if (monitor != null) {
       monitor.text(`${padTime(newTime)}${timeUnit}`);
     }
@@ -405,19 +406,19 @@ $(document).ready(() => {
   });
 
   MIN_SETTER.change(() => {
-    const TIME = Number.parseInt(MIN_SETTER.val());
+    const TIME = Number.parseInt(MIN_SETTER.val(), 10);
     changeTime('min', TIME);
   });
 
   SEC_SETTER.change(() => {
-    const TIME = Number.parseInt(SEC_SETTER.val());
+    const TIME = Number.parseInt(SEC_SETTER.val(), 10);
     changeTime('sec', TIME);
   });
 
   TIME_RESETTER.click(() => {
     if (
-      (padTime(min) != MIN_SETTER.val())
-      || (padTime(sec) != SEC_SETTER.val())
+      (padTime(min) !== MIN_SETTER.val())
+      || (padTime(sec) !== SEC_SETTER.val())
     ) {
       resetTimer();
     }
