@@ -26,32 +26,43 @@ $(document).ready(() => {
   };
 
   const createRemaingTime = function createRemaingTimeComponent() {
-    const WRAPPER = $('div')
+    const WRAPPER = $('<div>')
     const LABEL = $('<b>Remaining Time: </b>')
-    const MIN_MONITOR = $('span');
-    const SEC_MONITOR = $('span');
+    const MIN_MONITOR = $('<span>');
+    const SEC_MONITOR = $('<span>');
 
-    WRAPPER.addClass('section remaining-time-wrapper');
+    WRAPPER.addClass('section remaining-time-wrapper disabled');
     MIN_MONITOR.addClass('time-monitor min');
-    MIN_MONITOR.text(MIN_SETTER.val());
-    SEC_MONITOR.text(SEC_SETTER.val());
+    MIN_MONITOR.text(`${MIN_SETTER.val()}m`);
     SEC_MONITOR.addClass('time-monitor sec');
-
+    SEC_MONITOR.text(`${SEC_SETTER.val()}s`);
 
     WRAPPER.append(LABEL);
+    WRAPPER.append(MIN_MONITOR);
+    WRAPPER.append(SEC_MONITOR);
+
+    $('body').prepend(WRAPPER);
+  };
+
+  const destroyRemainingTime = function destroyRemainingTimeComponent() {
+    if ($('.remaining-time-wrapper')) {
+      $('.remaining-time-wrapper').remove();
+    }
   };
 
   const enableTimer = function enableTheTimer() {
     enableTimeEditing();
+    createRemaingTime();
   };
 
   const disableTimer = function disableTheTimer() {
     disableTimeEditing();
+    destroyRemainingTime();
   };
 
   const toggleTimer = function toggleTheTimer() {
     if (ENABLE_TIMER_TOGGLER[0].checked) {
-      enableTimeEditing();
+      enableTimer();
     } else {
       disableTimer();
     }
