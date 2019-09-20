@@ -1,123 +1,4 @@
 $(document).ready(() => {
-  // Start of Timer related code
-  // Components
-  const ENABLE_TIMER_TOGGLER = $('#enable-timer-toggler');
-  const MIN_SETTER = $('#min-select');
-  const SEC_SETTER = $('#sec-select');
-  const TIME_RESETTER = $('#time-resetter');
-  // Constant Variable
-  const MINIMUM_TIME = [0, 10];
-  // Variables
-  let min = Number.parseInt(MIN_SETTER.val(), 10);
-  let sec = Number.parseInt(SEC_SETTER.val(), 10);
-  let timerInterval = null;
-
-  // Funcitons
-  const enableTimeEditing = function enableTheTimeEditing() {
-    MIN_SETTER.attr('disabled', false);
-    SEC_SETTER.attr('disabled', false);
-    TIME_RESETTER.attr('disabled', false);
-
-    if ($('.remaining-time-wrapper')) {
-      ENABLE_TIMER_TOGGLER.attr('disabled', false);
-      $('.remaining-time-wrapper').addClass('disabled');
-    }    
-  };
-
-  const disableTimeEditing = function disableTheTimeEditing() {
-    MIN_SETTER.attr('disabled', true);
-    SEC_SETTER.attr('disabled', true);
-    TIME_RESETTER.attr('disabled', true);
-
-    if ($('.remaining-time-wrapper')) {
-      ENABLE_TIMER_TOGGLER.attr('disabled', true);
-      $('.remaining-time-wrapper').removeClass('disabled');
-    }    
-  };
-
-  const createRemaingTime = function createRemaingTimeComponent() {
-    const WRAPPER = $('<div>')
-    const LABEL = $('<b>Remaining Time: </b>')
-    const MIN_MONITOR = $('<span>');
-    const SEC_MONITOR = $('<span>');
-
-    WRAPPER.addClass('section remaining-time-wrapper disabled');
-    MIN_MONITOR.addClass('time-monitor');
-    MIN_MONITOR.attr('id', 'min-monitor');
-    MIN_MONITOR.text(`${MIN_SETTER.val()}m`);
-    SEC_MONITOR.addClass('time-monitor sec');
-    SEC_MONITOR.attr('id', 'sec-monitor');
-    SEC_MONITOR.text(`${SEC_SETTER.val()}s`);
-
-    WRAPPER.append(LABEL);
-    WRAPPER.append(MIN_MONITOR);
-    WRAPPER.append(SEC_MONITOR);
-
-    $('body').prepend(WRAPPER);
-  };
-
-  const destroyRemainingTime = function destroyRemainingTimeComponent() {
-    if ($('.remaining-time-wrapper')) {
-      $('.remaining-time-wrapper').remove();
-    }
-  };
-
-  const enableTimer = function enableTheTimer() {
-    enableTimeEditing();
-    createRemaingTime();
-  };
-
-  const disableTimer = function disableTheTimer() {
-    disableTimeEditing();
-    destroyRemainingTime();
-  };
-
-  const toggleTimer = function toggleTheTimer() {
-    if (ENABLE_TIMER_TOGGLER[0].checked) {
-      enableTimer();
-    } else {
-      disableTimer();
-    }
-  };
-
-  const padTime = function padTheTime(time) {
-    if (time < 10) {
-      return `0${time}`;
-    }
-
-    return time.toString();
-  };
-
-  const startTimer = function startTheTimer() {
-    const MIN_MONITOR = $('#min-monitor');
-    const SEC_MONITOR = $('#sec-monitor');
-    disableTimeEditing();
-
-    timerInterval = setInterval(() => {
-      if (sec > 0) {
-        sec -= 1;
-        SEC_MONITOR.text(`${padTime(sec)}s`);
-      } else if (min > 0) {
-        min -= 1;
-        sec = 59;
-        
-        MIN_MONITOR.text(`${padTime(min)}m`);
-        SEC_MONITOR.text(`${padTime(sec)}s`);
-      }
-    }, 1000)
-  };
-
-  const pauseTimer = function pauseTheTimer() {
-    clearInterval(timerInterval);
-    enableTimeEditing();
-  };
-
-  // Event Handlers
-  ENABLE_TIMER_TOGGLER.click(() => {
-    toggleTimer();
-  });
-  // End of Timer related code
-
   // Start of Beats related code
   // Components
   const BEATSVISUAL = $('.beats-visual');
@@ -334,6 +215,150 @@ $(document).ready(() => {
     changeNote(QUADRUPLETSBTN, 'Quadruplets');
   });
   // End of NotesPerBeat code
+
+  // Start of Timer related code
+  // Components
+  const ENABLE_TIMER_TOGGLER = $('#enable-timer-toggler');
+  const MIN_SETTER = $('#min-select');
+  const SEC_SETTER = $('#sec-select');
+  const TIME_RESETTER = $('#time-resetter');
+  // Constant Variable
+  const MINIMUM_TIME = [0, 10];
+  // Variables
+  let min = Number.parseInt(MIN_SETTER.val(), 10);
+  let sec = Number.parseInt(SEC_SETTER.val(), 10);
+  let timerInterval = null;
+
+  // Funcitons
+  const enableTimeEditing = function enableTheTimeEditing() {
+    MIN_SETTER.attr('disabled', false);
+    SEC_SETTER.attr('disabled', false);
+    TIME_RESETTER.attr('disabled', false);
+
+    if ($('.remaining-time-wrapper')) {
+      ENABLE_TIMER_TOGGLER.attr('disabled', false);
+      $('.remaining-time-wrapper').addClass('disabled');
+    }    
+  };
+
+  const disableTimeEditing = function disableTheTimeEditing() {
+    MIN_SETTER.attr('disabled', true);
+    SEC_SETTER.attr('disabled', true);
+    TIME_RESETTER.attr('disabled', true);
+
+    if ($('.remaining-time-wrapper')) {
+      ENABLE_TIMER_TOGGLER.attr('disabled', true);
+      $('.remaining-time-wrapper').removeClass('disabled');
+    }    
+  };
+
+  const createRemaingTime = function createRemaingTimeComponent() {
+    const WRAPPER = $('<div>')
+    const LABEL = $('<b>Remaining Time: </b>')
+    const MIN_MONITOR = $('<span>');
+    const SEC_MONITOR = $('<span>');
+
+    WRAPPER.addClass('section remaining-time-wrapper disabled');
+    MIN_MONITOR.addClass('time-monitor');
+    MIN_MONITOR.attr('id', 'min-monitor');
+    MIN_MONITOR.text(`${MIN_SETTER.val()}m`);
+    SEC_MONITOR.addClass('time-monitor sec');
+    SEC_MONITOR.attr('id', 'sec-monitor');
+    SEC_MONITOR.text(`${SEC_SETTER.val()}s`);
+
+    WRAPPER.append(LABEL);
+    WRAPPER.append(MIN_MONITOR);
+    WRAPPER.append(SEC_MONITOR);
+
+    $('body').prepend(WRAPPER);
+  };
+
+  const destroyRemainingTime = function destroyRemainingTimeComponent() {
+    if ($('.remaining-time-wrapper')) {
+      $('.remaining-time-wrapper').remove();
+    }
+  };
+
+  const enableTimer = function enableTheTimer() {
+    enableTimeEditing();
+    createRemaingTime();
+  };
+
+  const disableTimer = function disableTheTimer() {
+    disableTimeEditing();
+    destroyRemainingTime();
+  };
+
+  const toggleTimer = function toggleTheTimer() {
+    if (ENABLE_TIMER_TOGGLER[0].checked) {
+      enableTimer();
+    } else {
+      disableTimer();
+    }
+  };
+
+  const padTime = function padTheTime(time) {
+    if (time < 10) {
+      return `0${time}`;
+    }
+
+    return time.toString();
+  };
+  
+  const pauseTimer = function pauseTheTimer() {
+    clearInterval(timerInterval);
+    enableTimeEditing();
+  };
+
+  const timerPauseMetronome = function timerWillPauseTheMetronome() {
+    const PLAYBUTTONLOGO = $('#play-pause-btn > .logo');
+
+    disposeLoops();
+
+    PLAYBUTTONLOGO.toggleClass('glyphicon-play');
+    PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
+  };
+
+  const stopTimer = function stopTheTimer() {
+    const MIN_MONITOR = $('#min-monitor');
+    const SEC_MONITOR = $('#sec-monitor');
+
+    pauseTimer();
+    timerPauseMetronome();
+
+    min = Number.parseInt(MIN_SETTER.val(), 10);
+    sec = Number.parseInt(SEC_SETTER.val(), 10);
+
+    MIN_MONITOR.text(`${MIN_SETTER.val()}m`);
+    SEC_MONITOR.text(`${SEC_SETTER.val()}s`);
+  };
+
+  const startTimer = function startTheTimer() {
+    const MIN_MONITOR = $('#min-monitor');
+    const SEC_MONITOR = $('#sec-monitor');
+    disableTimeEditing();
+
+    timerInterval = setInterval(() => {
+      if (sec > 0) {
+        sec -= 1;
+        SEC_MONITOR.text(`${padTime(sec)}s`);
+      } else if (min > 0) {
+        min -= 1;
+        sec = 59;
+        
+        MIN_MONITOR.text(`${padTime(min)}m`);
+        SEC_MONITOR.text(`${padTime(sec)}s`);
+      } else {
+        stopTimer();
+      }
+    }, 1000)
+  };
+
+  // Event Handlers
+  ENABLE_TIMER_TOGGLER.click(() => {
+    toggleTimer();
+  });
+  // End of Timer related code
 
   // Start of Metronome related codes
   // Metronome components
