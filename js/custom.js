@@ -304,32 +304,37 @@ $(document).ready(() => {
     }
   };
 
-  const pauseTimer = function pauseTheTimer() {
-    clearInterval(timerInterval);
-    enableTimeEditing();
-  };
-
   const timerPauseMetronome = function timerWillPauseTheMetronome() {
     const PLAYBUTTONLOGO = $('#play-pause-btn > .logo');
 
+    // Function from Notes Per Beat, this function is responsible for actually
+    // pausing the looping of the beat sounds.
     disposeLoops();
 
     PLAYBUTTONLOGO.toggleClass('glyphicon-play');
     PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
   };
 
-  const stopTimer = function stopTheTimer() {
+  const resetTimer = function resetTheTimer() {
     const MIN_MONITOR = $('#min-monitor');
     const SEC_MONITOR = $('#sec-monitor');
-
-    pauseTimer();
-    timerPauseMetronome();
 
     min = Number.parseInt(MIN_SETTER.val(), 10);
     sec = Number.parseInt(SEC_SETTER.val(), 10);
 
     MIN_MONITOR.text(`${MIN_SETTER.val()}m`);
     SEC_MONITOR.text(`${SEC_SETTER.val()}s`);
+  }; 
+
+  const pauseTimer = function pauseTheTimer() {
+    clearInterval(timerInterval);
+    enableTimeEditing();
+  };
+
+  const stopTimer = function stopTheTimer() {
+    pauseTimer();
+    timerPauseMetronome();
+    resetTimer();
   };
 
   const startTimer = function startTheTimer() {
@@ -355,9 +360,47 @@ $(document).ready(() => {
     }, 1000)
   };
 
+  const changeTime = function changeTheTime(timeType, newTime) {
+    let monitor = null;
+    let timeUnit = null;
+    
+    if (timeType === 'min') {
+      min = newTime;
+      monitor = $('#min-monitor');
+      timeUnit = 'm';
+    } else if (timeType === 'sec') {
+      sec = newTime;
+      monitor = $('#sec-monitor');
+      timeUnit = 's';
+    }
+    
+    if (monitor != null) {
+      monitor.text(`${padTime(newTime)}${timeUnit}`);
+    }
+  };
+
   // Event Handlers
   ENABLE_TIMER_TOGGLER.click(() => {
     toggleTimer();
+  });
+
+  MIN_SETTER.change(() => {
+    time = Number.parseInt(MIN_SETTER.find(':selected').val());
+    changeTime('min', time);
+  });
+
+  SEC_SETTER.change(() => {
+    time = Number.parseInt(SEC_SETTER.find(':selected').val());
+    changeTime('sec', time);
+  });
+
+  TIME_RESETTER.click(() => {
+    if (
+      (padTime(min) != MIN_SETTER.val())
+      || (padTime(sec) != SEC_SETTER.val())
+    ) {
+      resetTimer();
+    }
   });
   // End of Timer related code
 
