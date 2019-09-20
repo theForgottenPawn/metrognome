@@ -325,6 +325,7 @@ $(document).ready(() => {
     // Function from Notes Per Beat, this function is responsible for actually
     // pausing the looping of the beat sounds.
     disposeLoops();
+    npbPlayedToggle();
 
     PLAYBUTTONLOGO.toggleClass('glyphicon-play');
     PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
