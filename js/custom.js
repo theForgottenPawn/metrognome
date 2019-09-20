@@ -353,31 +353,29 @@ $(document).ready(() => {
   };
 
   const timeStep = function timerStep() {
-  };
-
-  const startTimer = function startTheTimer() {
     const MIN_MONITOR = $('#min-monitor');
     const SEC_MONITOR = $('#sec-monitor');
 
+    if (sec > 1) {
+      sec -= 1;
+      SEC_MONITOR.text(`${padTime(sec)}s`);
+    } else if (min > 0) {
+      min -= 1;
+      sec = 59;
+      
+      MIN_MONITOR.text(`${padTime(min)}m`);
+      SEC_MONITOR.text(`${padTime(sec)}s`);
+    } else {
+      stopTimer();
+    }
+  };
+
+  const startTimer = function startTheTimer() {
     disableTimeEditing();
     ENABLE_TIMER_TOGGLER.attr('disabled', true);
 
-    sec -= 1;
-    SEC_MONITOR.text(`${padTime(sec)}s`);
-
     timerInterval = setInterval(() => {
-      if (sec > 0) {
-        sec -= 1;
-        SEC_MONITOR.text(`${padTime(sec)}s`);
-      } else if (min > 0) {
-        min -= 1;
-        sec = 59;
-        
-        MIN_MONITOR.text(`${padTime(min)}m`);
-        SEC_MONITOR.text(`${padTime(sec)}s`);
-      } else {
-        stopTimer();
-      }
+      timeStep();
     }, 1000)
   };
 
