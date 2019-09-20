@@ -11,6 +11,40 @@ $(document).ready(() => {
   let min = Number.parseInt(MIN_SETTER.val(), 10);
   let sec = Number.parseInt(SEC_SELECT.val(), 10);
   let timerInterval = null;
+
+  // Funcitons
+  const enableTimeEditing = function enableTheTimeEditing() {
+    MIN_SETTER.attr('disabled', false);
+    SEC_SELECT.attr('disabled', false);
+    TIME_RESETTER.attr('disabled', false);
+  };
+
+  const disableTimeEditing = function disableTheTimeEditing() {
+    MIN_SETTER.attr('disabled', true);
+    SEC_SELECT.attr('disabled', true);
+    TIME_RESETTER.attr('disabled', true);
+  };
+
+  const enableTimer = function enableTheTimer() {
+    enableTimeEditing();
+  };
+
+  const disableTimer = function disableTheTimer() {
+    disableTimeEditing();
+  };
+
+  const toggleTimer = function toggleTheTimer() {
+    if (ENABLE_TIMER_TOGGLER[0].checked) {
+      enableTimeEditing();
+    } else {
+      disableTimer();
+    }
+  };
+
+  // Event Handlers
+  ENABLE_TIMER_TOGGLER.click(() => {
+    toggleTimer();
+  });
   // End of Timer related code
 
   // Start of Beats related code
