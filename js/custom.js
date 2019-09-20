@@ -19,6 +19,7 @@ $(document).ready(() => {
     TIME_RESETTER.attr('disabled', false);
 
     if ($('.remaining-time-wrapper')) {
+      ENABLE_TIMER_TOGGLER.attr('disabled', false);
       $('.remaining-time-wrapper').addClass('disabled');
     }    
   };
@@ -29,6 +30,7 @@ $(document).ready(() => {
     TIME_RESETTER.attr('disabled', true);
 
     if ($('.remaining-time-wrapper')) {
+      ENABLE_TIMER_TOGGLER.attr('disabled', true);
       $('.remaining-time-wrapper').removeClass('disabled');
     }    
   };
@@ -78,15 +80,36 @@ $(document).ready(() => {
     }
   };
 
+  const padTime = function padTheTime(time) {
+    if (time < 10) {
+      return `0${time}`;
+    }
+
+    return time.toString();
+  };
+
   const startTimer = function startTheTimer() {
-    const MIN_MONITOR = $('.time')
+    const MIN_MONITOR = $('#min-monitor');
+    const SEC_MONITOR = $('#sec-monitor');
     disableTimeEditing();
 
     timerInterval = setInterval(() => {
       if (sec > 0) {
         sec -= 1;
+        SEC_MONITOR.text(`${padTime(sec)}s`);
+      } else if (min > 0) {
+        min -= 1;
+        sec = 59;
+        
+        MIN_MONITOR.text(`${padTime(min)}m`);
+        SEC_MONITOR.text(`${padTime(sec)}s`);
       }
     }, 1000)
+  };
+
+  const pauseTimer = function pauseTheTimer() {
+    clearInterval(timerInterval);
+    enableTimeEditing();
   };
 
   // Event Handlers
@@ -332,6 +355,10 @@ $(document).ready(() => {
     setNote();
     npbPlayedToggle();
     Tone.Transport.start();
+
+    if (ENABLE_TIMER_TOGGLER[0].checked) {
+      startTimer();
+    }
   };
 
   const pauseMetronome = function pauseTheMetronome() {
@@ -339,6 +366,10 @@ $(document).ready(() => {
     Tone.Transport.stop();
     disposeLoops();
     npbPlayedToggle();
+
+    if (ENABLE_TIMER_TOGGLER[0].checked) {
+      pauseTimer();
+    }
   };
 
   const setBpm = function setTheBPM(newBpm) {
