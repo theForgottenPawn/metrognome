@@ -247,11 +247,18 @@ $(document).ready(() => {
     TIME_RESETTER.attr('disabled', true);
 
     if ($('.remaining-time-wrapper')) {
-      ENABLE_TIMER_TOGGLER.attr('disabled', true);
       $('.remaining-time-wrapper').removeClass('disabled');
     }    
   };
 
+  const padTime = function padTheTime(time) {
+    if (time < 10) {
+      return `0${time}`;
+    }
+
+    return time.toString();
+  };
+  
   const createRemaingTime = function createRemaingTimeComponent() {
     const WRAPPER = $('<div>')
     const LABEL = $('<b>Remaining Time: </b>')
@@ -261,10 +268,10 @@ $(document).ready(() => {
     WRAPPER.addClass('section remaining-time-wrapper disabled');
     MIN_MONITOR.addClass('time-monitor');
     MIN_MONITOR.attr('id', 'min-monitor');
-    MIN_MONITOR.text(`${MIN_SETTER.val()}m`);
+    MIN_MONITOR.text(`${padTime(min)}m`);
     SEC_MONITOR.addClass('time-monitor sec');
     SEC_MONITOR.attr('id', 'sec-monitor');
-    SEC_MONITOR.text(`${SEC_SETTER.val()}s`);
+    SEC_MONITOR.text(`${padTime(sec)}s`);
 
     WRAPPER.append(LABEL);
     WRAPPER.append(MIN_MONITOR);
@@ -297,14 +304,6 @@ $(document).ready(() => {
     }
   };
 
-  const padTime = function padTheTime(time) {
-    if (time < 10) {
-      return `0${time}`;
-    }
-
-    return time.toString();
-  };
-  
   const pauseTimer = function pauseTheTimer() {
     clearInterval(timerInterval);
     enableTimeEditing();
@@ -336,7 +335,9 @@ $(document).ready(() => {
   const startTimer = function startTheTimer() {
     const MIN_MONITOR = $('#min-monitor');
     const SEC_MONITOR = $('#sec-monitor');
+
     disableTimeEditing();
+    ENABLE_TIMER_TOGGLER.attr('disabled', true);
 
     timerInterval = setInterval(() => {
       if (sec > 0) {
