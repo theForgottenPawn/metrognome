@@ -1,4 +1,18 @@
 $(document).ready(() => {
+  // Start of Timer related code
+  // Components
+  const ENABLE_TIMER_TOGGLER = $('#enable-timer-toggler');
+  const MIN_SETTER = $('#min-select');
+  const SEC_SELECT = $('#sec-select');
+  const TIME_RESETTER = $('#time-resetter');
+  // Constant Variable
+  const MINIMUM_TIME = [0, 10];
+  // Variables
+  let min = Number.parseInt(MIN_SETTER.val(), 10);
+  let sec = Number.parseInt(SEC_SELECT.val(), 10);
+  let timerInterval = null;
+  // End of Timer related code
+
   // Start of Beats related code
   // Components
   const BEATSVISUAL = $('.beats-visual');
