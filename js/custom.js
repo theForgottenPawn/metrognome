@@ -211,10 +211,10 @@ $(document).ready(() => {
     MIN_SETTER.attr('disabled', false);
     SEC_SETTER.attr('disabled', false);
     TIME_RESETTER.attr('disabled', false);
+    // Enhancement(Resolved): This line doesn't need to be inside this if block.
+    ENABLE_TIMER_TOGGLER.attr('disabled', false);
 
     if ($('.remaining-time-wrapper')) {
-      // Enhancement: This line doesn't need to be inside this if block.
-      ENABLE_TIMER_TOGGLER.attr('disabled', false);
       $('.remaining-time-wrapper').addClass('disabled');
     }
   };
@@ -240,18 +240,16 @@ $(document).ready(() => {
   const createRemaingTime = function createRemaingTimeComponent() {
     const WRAPPER = $('<div>');
     const LABEL = $('<b>Remaining Time: </b>');
-    const MIN_MONITOR = $('<span>');
-    const SEC_MONITOR = $('<span>');
+    // Enhancement(Resolved): Try to include the text on declaration.
+    const MIN_MONITOR = $(`<span>${padTime(min)}m</span>`);
+    // Enhancement(Resolved): Try to include the text on declaration.
+    const SEC_MONITOR = $(`<span>${padTime(sec)}m</span>`);
 
     WRAPPER.addClass('section remaining-time-wrapper disabled');
     MIN_MONITOR.addClass('time-monitor');
     MIN_MONITOR.attr('id', 'min-monitor');
-    // Enhancement: Try to include the text on declaration.
-    MIN_MONITOR.text(`${padTime(min)}m`);
-    SEC_MONITOR.addClass('time-monitor sec');
+    SEC_MONITOR.addClass('time-monitor');
     SEC_MONITOR.attr('id', 'sec-monitor');
-    // Enhancement: Try to include the text on declaration.
-    SEC_MONITOR.text(`${padTime(sec)}s`);
 
     WRAPPER.append(LABEL);
     WRAPPER.append(MIN_MONITOR);
@@ -383,20 +381,8 @@ $(document).ready(() => {
     }
   };
 
-  const playMetronome = function playTheMetronome() {
-    playNote();
-    startTimer();
-    metronomePaused = false;
-  };
-
-  const pauseMetronome = function pauseTheMetronome() {
-    pauseNote();
-    pauseTimer();
-    metronomePaused = true;
-  };
-
-  // Enhancement: This function can be placed on the cluster of timer functions
-  // since it doesn't call the metronome functions above.
+  // Enhancement(Resolved): This function can be placed on the cluster of timer
+  // functions since it doesn't call the metronome functions above.
   const isTimeReachedMinimum = function isTimeReachedMinimum() {
     if (min <= MINIMUM_TIME[0]) {
       if (sec < MINIMUM_TIME[1]) {
@@ -408,6 +394,18 @@ $(document).ready(() => {
     }
 
     return true;
+  };
+
+  const playMetronome = function playTheMetronome() {
+    playNote();
+    startTimer();
+    metronomePaused = false;
+  };
+
+  const pauseMetronome = function pauseTheMetronome() {
+    pauseNote();
+    pauseTimer();
+    metronomePaused = true;
   };
 
   const setBpm = function setTheBPM(newBpm) {
@@ -553,17 +551,15 @@ $(document).ready(() => {
   });
 
   MIN_SETTER.change(() => {
-    // Enhancement: Try to pass the value of this constant directly as the
+    // Enhancement(Resolved): Try to pass the value of this constant directly as the
     // second value of your function call.
-    const TIME = Number.parseInt(MIN_SETTER.val(), 10);
-    changeTime('min', TIME);
+    changeTime('min', Number.parseInt(MIN_SETTER.val(), 10));
   });
 
   SEC_SETTER.change(() => {
-    // Enhancement: Try to pass the value of this constant directly as the
+    // Enhancement(Resolved): Try to pass the value of this constant directly as the
     // second value of your function call.
-    const TIME = Number.parseInt(SEC_SETTER.val(), 10);
-    changeTime('sec', TIME);
+    changeTime('sec', Number.parseInt(SEC_SETTER.val(), 10));
   });
 
   TIME_RESETTER.click(() => {
