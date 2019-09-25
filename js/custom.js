@@ -11,24 +11,15 @@ $(document).ready(() => {
   const BEATSVISUAL = $('.beats-visual');
   const EMPHASIZE1STBEAT = $('#emphasize-1st-beat');
   const BEATCOUNT = $('#beat-count');
-  
-  // Variables
-  // Metronome
-  let paused = true;
-  let bpmAdjust = null;
-  // Beats
-  let currentBeat = 0;
-  // Early tweak
-  Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
-
-  // Start of NotesPerBeat code
-  // Components
+  // Notes Per Beat
   const SINGLEBTN = $('#single-btn');
   const TUPLETSBTN = $('#tuplets-btn');
   const TRIPLETSBTN = $('#triplets-btn');
   const TRIPLETSMIDRESTBTN = $('#triplets-mid-rest-btn');
   const QUADRUPLETSBTN = $('#quadruplets-btn');
-  // Variables
+
+  // Constants
+  // Notes Per Beat
   const synthBlend = {
     envelope: {
       attack: 0.01,
@@ -39,160 +30,24 @@ $(document).ready(() => {
   };
   const synth = new Tone.Synth(synthBlend).toMaster();
   const synth2 = new Tone.Synth(synthBlend).toMaster();
-  synth2.volume.value = -3;
+  
+  // Variables
+  // Metronome
+  let metronome_paused = true;
+  let bpmAdjust = null;
+  // Beats
+  let currentBeat = 0;
+  // Notes Per Beat
   let mainLoop = null;
   let subLoop = null;
   let npbPlayed = false;
   let note = 'Single';
-
-  // functions
-  const npbPlayedToggle = function notesPerbeatPlayedToggle() {
-    if (npbPlayed) {
-      npbPlayed = false;
-    } else {
-      npbPlayed = true;
-    }
-  };
-
-  const setMain = function setMainLoop() {
-    mainLoop = new Tone.Loop(() => {
-      let chord = 'A5';
-      animateVisual();
-
-      if (EMPHASIZE1STBEAT[0].checked && (currentBeat === 1)) {
-        chord = 'B6';
-      }
-
-      synth.triggerAttackRelease(chord, '0:0:1');
-    }, '4n');
-
-    mainLoop.start('+0');
-  };
-
-  const singlet = function singletNote() {
-    setMain();
-    subLoop = null;
-  };
-
-  const tuplets = function tupletsNote() {
-    setMain();
-
-    subLoop = new Tone.Loop(() => {
-      synth2.triggerAttackRelease('G3', '0:0:1');
-    }, '8n');
-
-    subLoop.start('+0');
-  };
-
-  const triplets = function tripletsNote() {
-    setMain();
-
-    subLoop = new Tone.Loop(() => {
-      synth2.triggerAttackRelease('G3', '0:0:1');
-    }, '8t');
-
-    subLoop.start('+0');
-  };
-
-  const tripletsMid = function tripletsMidRestNote() {
-    setMain();
-    let count = 1;
-
-    subLoop = new Tone.Loop(() => {
-      if (count === 1) {
-        synth2.triggerAttackRelease('G3', '0:0:1');
-      } else if (count >= 3) {
-        synth2.triggerAttackRelease('G3', '0:0:1');
-        count = 0;
-      }
-
-      count += 1;
-    }, '8t');
-
-    subLoop.start('+0');
-  };
-
-  const quadruplets = function quadrupletsNote() {
-    setMain();
-
-    subLoop = new Tone.Loop(() => {
-      synth2.triggerAttackRelease('G3', '0:0:1');
-    }, '16n');
-
-    subLoop.start('+0');
-  };
-
-  const disposeLoops = function disposeTheLoops() {
-    if (mainLoop !== null) {
-      mainLoop.dispose();
-      mainLoop = null;
-    }
-
-    if (subLoop !== null) {
-      subLoop.dispose();
-      subLoop = null;
-    }
-
-    if (npbPlayed) {
-      Tone.Transport.stop();
-      return true;
-    }
-
-    return false;
-  };
-
-  const setNote = function setTheNote() {
-    const FORCE_STOPED = disposeLoops();
-    revertVisual();
-
-    if (note === 'Single') {
-      singlet();
-    } else if (note === 'Tuplets') {
-      tuplets();
-    } else if (note === 'Triplets') {
-      triplets();
-    } else if (note === 'Triplets Mid Rest') {
-      tripletsMid();
-    } else if (note === 'Quadruplets') {
-      quadruplets();
-    }
-
-    if (FORCE_STOPED) {
-      Tone.Transport.start();
-    }
-  };
-
-  const changeNote = function changeTheNote(noteBtn, noteName) {
-    if (!noteBtn.hasClass('focused')) {
-      note = noteName;
-      $('.note-btn').removeClass('focused');
-      noteBtn.addClass('focused');
-
-      setNote();
-    }
-  };
-
-  // Events listeners
-  SINGLEBTN.click(() => {
-    changeNote(SINGLEBTN, 'Single');
-  });
-
-  TUPLETSBTN.click(() => {
-    changeNote(TUPLETSBTN, 'Tuplets');
-  });
-
-  TRIPLETSBTN.click(() => {
-    changeNote(TRIPLETSBTN, 'Triplets');
-  });
-
-  TRIPLETSMIDRESTBTN.click(() => {
-    changeNote(TRIPLETSMIDRESTBTN, 'Triplets Mid Rest');
-  });
-
-  QUADRUPLETSBTN.click(() => {
-    changeNote(QUADRUPLETSBTN, 'Quadruplets');
-  });
-  // End of NotesPerBeat code
+  
+  // Early tweak
+  // Metronome
+  Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
+  // Notes Per Beat
+  synth2.volume.value = -3;
 
   // Start of Timer related code
   // Components
@@ -402,17 +257,161 @@ $(document).ready(() => {
   // End of Timer related code
 
   // Functions
+  const revertVisual = function revertTheVisual() {
+    currentBeat = 0;
+  };
+
+  const animateVisual = function animateVisualBeat() {
+    currentBeat += 1;
+    const CURRVISBEAT = BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
+
+    if (currentBeat === 1) {
+      BEATSVISUAL.find('.beat').removeClass('beat-played');
+      CURRVISBEAT.addClass('beat-played');
+    } else if (currentBeat >= Number(BEATCOUNT.val(), 10)) {
+      CURRVISBEAT.addClass('beat-played');
+      revertVisual();
+    } else {
+      CURRVISBEAT.addClass('beat-played');
+    }
+  };
+
+  const setMain = function setMainLoop() {
+    mainLoop = new Tone.Loop(() => {
+      let chord = 'A5';
+      animateVisual();
+
+      if (EMPHASIZE1STBEAT[0].checked && (currentBeat === 1)) {
+        chord = 'B6';
+      }
+
+      synth.triggerAttackRelease(chord, '0:0:1');
+    }, '4n');
+
+    mainLoop.start('+0');
+  };
+
+  const singlet = function singletNote() {
+    setMain();
+    subLoop = null;
+  };
+
+  const tuplets = function tupletsNote() {
+    setMain();
+
+    subLoop = new Tone.Loop(() => {
+      synth2.triggerAttackRelease('G3', '0:0:1');
+    }, '8n');
+
+    subLoop.start('+0');
+  };
+
+  const triplets = function tripletsNote() {
+    setMain();
+
+    subLoop = new Tone.Loop(() => {
+      synth2.triggerAttackRelease('G3', '0:0:1');
+    }, '8t');
+
+    subLoop.start('+0');
+  };
+
+  const tripletsMid = function tripletsMidRestNote() {
+    setMain();
+    let count = 1;
+
+    subLoop = new Tone.Loop(() => {
+      if (count === 1) {
+        synth2.triggerAttackRelease('G3', '0:0:1');
+      } else if (count >= 3) {
+        synth2.triggerAttackRelease('G3', '0:0:1');
+        count = 0;
+      }
+
+      count += 1;
+    }, '8t');
+
+    subLoop.start('+0');
+  };
+
+  const quadruplets = function quadrupletsNote() {
+    setMain();
+
+    subLoop = new Tone.Loop(() => {
+      synth2.triggerAttackRelease('G3', '0:0:1');
+    }, '16n');
+
+    subLoop.start('+0');
+  };
+
+  const disposeLoops = function disposeTheLoops() {
+    if (mainLoop !== null) {
+      mainLoop.dispose();
+      mainLoop = null;
+    }
+
+    if (subLoop !== null) {
+      subLoop.dispose();
+      subLoop = null;
+    }
+
+    if (!metronome_paused) {
+      Tone.Transport.stop();
+      return true;
+    }
+
+    return false;
+  };
+
+  const setNote = function setTheNote() {
+    const FORCE_STOPED = disposeLoops();
+    revertVisual();
+
+    if (note === 'Single') {
+      singlet();
+    } else if (note === 'Tuplets') {
+      tuplets();
+    } else if (note === 'Triplets') {
+      triplets();
+    } else if (note === 'Triplets Mid Rest') {
+      tripletsMid();
+    } else if (note === 'Quadruplets') {
+      quadruplets();
+    }
+
+    if (FORCE_STOPED) {
+      Tone.Transport.start();
+    }
+  };
+
+  const changeNote = function changeTheNote(noteBtn, noteName) {
+    if (!noteBtn.hasClass('focused')) {
+      note = noteName;
+      $('.note-btn').removeClass('focused');
+      noteBtn.addClass('focused');
+
+      setNote();
+    }
+  };
+
+  const playNote = function playTheNote() {
+    setNote();
+    Tone.Transport.start();
+  };
+
+  const pauseNote = function pauseTheNote() {
+    Tone.Transport.stop();
+    disposeLoops();
+  };
+
   const togglePlayLogo = function togglePlayButtonLogo() {
     PLAYBUTTONLOGO.toggleClass('glyphicon-play');
     PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
   };
 
   const playMetronome = function playTheMetronome() {
-    paused = false;
-    togglePlayLogo();
-    setNote();
-    npbPlayedToggle();
-    Tone.Transport.start();
+    playNote();
+    metronome_paused = false;
 
     if (ENABLE_TIMER_TOGGLER[0].checked) {
       startTimer();
@@ -420,11 +419,8 @@ $(document).ready(() => {
   };
 
   const pauseMetronome = function pauseTheMetronome() {
-    paused = true;
-    togglePlayLogo();
-    Tone.Transport.stop();
-    disposeLoops();
-    npbPlayedToggle();
+    pauseNote();
+    metronome_paused = true;
 
     if (ENABLE_TIMER_TOGGLER[0].checked) {
       pauseTimer();
@@ -476,30 +472,12 @@ $(document).ready(() => {
     }
   };
 
-  // Beats
-  const revertVisual = function revertTheVisual() {
-    currentBeat = 0;
-  };
-
-  const animateVisual = function animateVisualBeat() {
-    currentBeat += 1;
-    const CURRVISBEAT = BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
-
-    if (currentBeat === 1) {
-      BEATSVISUAL.find('.beat').removeClass('beat-played');
-      CURRVISBEAT.addClass('beat-played');
-    } else if (currentBeat >= Number(BEATCOUNT.val(), 10)) {
-      CURRVISBEAT.addClass('beat-played');
-      revertVisual();
-    } else {
-      CURRVISBEAT.addClass('beat-played');
-    }
-  };
-
   // Events listeners
-  // Metronome
+  // Metronome start
   PLAYPAUSEBTN.click(() => {
-    if (paused) {
+    togglePlayLogo();
+
+    if (metronome_paused) {
       if (ENABLE_TIMER_TOGGLER[0].checked) {
         if (isTimeReachedMinimum()) {
           playMetronome();
@@ -549,8 +527,9 @@ $(document).ready(() => {
   BPMDECREASEBTN.mouseleave(() => {
     clearInterval(bpmAdjust);
   });
+  // Metronome end
 
-  // Beats
+  // Beats start
   BEATCOUNT.change(() => {
     currentBeat = 0;
     BEATSVISUAL.find('.beat').remove();
@@ -561,4 +540,27 @@ $(document).ready(() => {
       BEATSVISUAL.append(BEAT);
     }
   });
+  // Beats end
+
+  // Notes Per Beat start
+  SINGLEBTN.click(() => {
+    changeNote(SINGLEBTN, 'Single');
+  });
+
+  TUPLETSBTN.click(() => {
+    changeNote(TUPLETSBTN, 'Tuplets');
+  });
+
+  TRIPLETSBTN.click(() => {
+    changeNote(TRIPLETSBTN, 'Triplets');
+  });
+
+  TRIPLETSMIDRESTBTN.click(() => {
+    changeNote(TRIPLETSMIDRESTBTN, 'Triplets Mid Rest');
+  });
+
+  QUADRUPLETSBTN.click(() => {
+    changeNote(QUADRUPLETSBTN, 'Quadruplets');
+  });
+  // Notes Per Beat end
 });
