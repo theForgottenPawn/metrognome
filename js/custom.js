@@ -213,6 +213,7 @@ $(document).ready(() => {
     TIME_RESETTER.attr('disabled', false);
 
     if ($('.remaining-time-wrapper')) {
+      // Enhancement: This line doesn't need to be inside this if block.
       ENABLE_TIMER_TOGGLER.attr('disabled', false);
       $('.remaining-time-wrapper').addClass('disabled');
     }
@@ -245,9 +246,11 @@ $(document).ready(() => {
     WRAPPER.addClass('section remaining-time-wrapper disabled');
     MIN_MONITOR.addClass('time-monitor');
     MIN_MONITOR.attr('id', 'min-monitor');
+    // Enhancement: Try to include the text on declaration.
     MIN_MONITOR.text(`${padTime(min)}m`);
     SEC_MONITOR.addClass('time-monitor sec');
     SEC_MONITOR.attr('id', 'sec-monitor');
+    // Enhancement: Try to include the text on declaration.
     SEC_MONITOR.text(`${padTime(sec)}s`);
 
     WRAPPER.append(LABEL);
@@ -301,6 +304,9 @@ $(document).ready(() => {
   };
 
   const resetTimer = function resetTheTimer() {
+    // Error: Since $('#min-monitor') and $('#sec-monitor') are elements you
+    // create and remove on the fly, it's better to check first if they're
+    // present before using it.
     const MIN_MONITOR = $('#min-monitor');
     const SEC_MONITOR = $('#sec-monitor');
 
@@ -336,6 +342,9 @@ $(document).ready(() => {
   };
 
   const timeStep = function timerStep() {
+    // Error: Since $('#min-monitor') and $('#sec-monitor') are elements you
+    // create and remove on the fly, it's better to check first if they're
+    // present before using it.
     const MIN_MONITOR = $('#min-monitor');
     const SEC_MONITOR = $('#sec-monitor');
 
@@ -376,6 +385,8 @@ $(document).ready(() => {
     metronomePaused = true;
   };
 
+  // Enhancement: This function can be placed on the cluster of timer functions
+  // since it doesn't call the metronome functions above.
   const isTimeReachedMinimum = function isTimeReachedMinimum() {
     if (min <= MINIMUM_TIME[0]) {
       if (sec < MINIMUM_TIME[1]) {
@@ -532,11 +543,15 @@ $(document).ready(() => {
   });
 
   MIN_SETTER.change(() => {
+    // Enhancement: Try to pass the value of this constant directly as the
+    // second value of your function call.
     const TIME = Number.parseInt(MIN_SETTER.val(), 10);
     changeTime('min', TIME);
   });
 
   SEC_SETTER.change(() => {
+    // Enhancement: Try to pass the value of this constant directly as the
+    // second value of your function call.
     const TIME = Number.parseInt(SEC_SETTER.val(), 10);
     changeTime('sec', TIME);
   });
