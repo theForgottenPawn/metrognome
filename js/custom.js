@@ -229,30 +229,6 @@ $(document).ready(() => {
       monitor.text(`${padTime(newTime)}${timeUnit}`);
     }
   };
-
-  // Event Handlers
-  ENABLE_TIMER_TOGGLER.click(() => {
-    toggleTimer();
-  });
-
-  MIN_SETTER.change(() => {
-    const TIME = Number.parseInt(MIN_SETTER.val(), 10);
-    changeTime('min', TIME);
-  });
-
-  SEC_SETTER.change(() => {
-    const TIME = Number.parseInt(SEC_SETTER.val(), 10);
-    changeTime('sec', TIME);
-  });
-
-  TIME_RESETTER.click(() => {
-    if (
-      (padTime(min) !== MIN_SETTER.val())
-      || (padTime(sec) !== SEC_SETTER.val())
-    ) {
-      resetTimer();
-    }
-  });
   // End of Timer related code
 
   // Functions
@@ -562,4 +538,29 @@ $(document).ready(() => {
     changeNote(QUADRUPLETSBTN, 'Quadruplets');
   });
   // Notes Per Beat end
+
+  // Timer start
+  ENABLE_TIMER_TOGGLER.click(() => {
+    toggleTimer();
+  });
+
+  MIN_SETTER.change(() => {
+    const TIME = Number.parseInt(MIN_SETTER.val(), 10);
+    changeTime('min', TIME);
+  });
+
+  SEC_SETTER.change(() => {
+    const TIME = Number.parseInt(SEC_SETTER.val(), 10);
+    changeTime('sec', TIME);
+  });
+
+  TIME_RESETTER.click(() => {
+    if (
+      (padTime(min) !== MIN_SETTER.val())
+      || (padTime(sec) !== SEC_SETTER.val())
+    ) {
+      resetTimer();
+    }
+  });
+  // Timer end
 });
