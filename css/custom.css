@@ -29,6 +29,7 @@ body {
 }
 
 #play-pause-btn {
+  margin: 10px 0 0 0;
   font-size: 30px;
   border-radius: 30px;
 }
