@@ -304,17 +304,19 @@ $(document).ready(() => {
   };
 
   const resetTimer = function resetTheTimer() {
-    // Error: Since $('#min-monitor') and $('#sec-monitor') are elements you
-    // create and remove on the fly, it's better to check first if they're
-    // present before using it.
-    const MIN_MONITOR = $('#min-monitor');
-    const SEC_MONITOR = $('#sec-monitor');
-
     min = Number.parseInt(MIN_SETTER.val(), 10);
     sec = Number.parseInt(SEC_SETTER.val(), 10);
 
-    MIN_MONITOR.text(`${MIN_SETTER.val()}m`);
-    SEC_MONITOR.text(`${SEC_SETTER.val()}s`);
+    // Error(Resolved): Since $('#min-monitor') and $('#sec-monitor') are
+    // elements you create and remove on the fly, it's better to check first if
+    // they're present before using it.
+    if ($('#min-monitor') && $('#sec-monitor')) {
+      const MIN_MONITOR = $('#min-monitor');
+      const SEC_MONITOR = $('#sec-monitor');
+
+      MIN_MONITOR.text(`${MIN_SETTER.val()}m`);
+      SEC_MONITOR.text(`${SEC_SETTER.val()}s`);
+    }
   };
 
   const togglePlayLogo = function togglePlayButtonLogo() {
@@ -341,22 +343,30 @@ $(document).ready(() => {
     resetTimer();
   };
 
-  const timeStep = function timerStep() {
-    // Error: Since $('#min-monitor') and $('#sec-monitor') are elements you
-    // create and remove on the fly, it's better to check first if they're
-    // present before using it.
-    const MIN_MONITOR = $('#min-monitor');
-    const SEC_MONITOR = $('#sec-monitor');
+  const updateTimerMonitor = function updateTheTimeMonitor(newMin, newSec) {
+    // Error(Resolved): Since $('#min-monitor') and $('#sec-monitor') are
+    // elements you create and remove on the fly, it's better to check first if
+    // they're present before using it.
+    if ($('#min-monitor') && $('#sec-monitor')) {
+      const MIN_MONITOR = $('#min-monitor');
+      const SEC_MONITOR = $('#sec-monitor');
 
+      if (newMin !== null) {
+        MIN_MONITOR.text(`${padTime(newMin)}m`);
+      }
+
+      SEC_MONITOR.text(`${padTime(newSec)}s`);
+    }
+  };
+
+  const timeStep = function timerStep() {
     if (sec > 1) {
       sec -= 1;
-      SEC_MONITOR.text(`${padTime(sec)}s`);
+      updateTimerMonitor(null, sec);
     } else if (min > 0) {
       min -= 1;
       sec = 59;
-
-      MIN_MONITOR.text(`${padTime(min)}m`);
-      SEC_MONITOR.text(`${padTime(sec)}s`);
+      updateTimerMonitor(min, sec);
     } else {
       stopTimer();
     }
