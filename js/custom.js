@@ -211,7 +211,6 @@ $(document).ready(() => {
     MIN_SETTER.attr('disabled', false);
     SEC_SETTER.attr('disabled', false);
     TIME_RESETTER.attr('disabled', false);
-    // Enhancement(Resolved): This line doesn't need to be inside this if block.
     ENABLE_TIMER_TOGGLER.attr('disabled', false);
 
     if ($('.remaining-time-wrapper')) {
@@ -240,9 +239,7 @@ $(document).ready(() => {
   const createRemaingTime = function createRemaingTimeComponent() {
     const WRAPPER = $('<div>');
     const LABEL = $('<b>Remaining Time: </b>');
-    // Enhancement(Resolved): Try to include the text on declaration.
     const MIN_MONITOR = $(`<span>${padTime(min)}m</span>`);
-    // Enhancement(Resolved): Try to include the text on declaration.
     const SEC_MONITOR = $(`<span>${padTime(sec)}m</span>`);
 
     WRAPPER.addClass('section remaining-time-wrapper disabled');
@@ -305,9 +302,6 @@ $(document).ready(() => {
     min = Number.parseInt(MIN_SETTER.val(), 10);
     sec = Number.parseInt(SEC_SETTER.val(), 10);
 
-    // Error(Resolved): Since $('#min-monitor') and $('#sec-monitor') are
-    // elements you create and remove on the fly, it's better to check first if
-    // they're present before using it.
     if ($('#min-monitor') && $('#sec-monitor')) {
       const MIN_MONITOR = $('#min-monitor');
       const SEC_MONITOR = $('#sec-monitor');
@@ -342,9 +336,6 @@ $(document).ready(() => {
   };
 
   const updateTimerMonitor = function updateTheTimeMonitor(newMin, newSec) {
-    // Error(Resolved): Since $('#min-monitor') and $('#sec-monitor') are
-    // elements you create and remove on the fly, it's better to check first if
-    // they're present before using it.
     if ($('#min-monitor') && $('#sec-monitor')) {
       const MIN_MONITOR = $('#min-monitor');
       const SEC_MONITOR = $('#sec-monitor');
@@ -381,8 +372,6 @@ $(document).ready(() => {
     }
   };
 
-  // Enhancement(Resolved): This function can be placed on the cluster of timer
-  // functions since it doesn't call the metronome functions above.
   const isTimeReachedMinimum = function isTimeReachedMinimum() {
     if (min <= MINIMUM_TIME[0]) {
       if (sec < MINIMUM_TIME[1]) {
@@ -551,14 +540,10 @@ $(document).ready(() => {
   });
 
   MIN_SETTER.change(() => {
-    // Enhancement(Resolved): Try to pass the value of this constant directly as the
-    // second value of your function call.
     changeTime('min', Number.parseInt(MIN_SETTER.val(), 10));
   });
 
   SEC_SETTER.change(() => {
-    // Enhancement(Resolved): Try to pass the value of this constant directly as the
-    // second value of your function call.
     changeTime('sec', Number.parseInt(SEC_SETTER.val(), 10));
   });
 
