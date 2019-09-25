@@ -25,7 +25,7 @@ $(document).ready(() => {
 
   // Constants
   // Notes Per Beat
-  const synthBlend = {
+  const SYNTH_BLEND = {
     envelope: {
       attack: 0.01,
       decay: 0.01,
@@ -33,8 +33,8 @@ $(document).ready(() => {
       release: 0.01,
     },
   };
-  const synth = new Tone.Synth(synthBlend).toMaster();
-  const synth2 = new Tone.Synth(synthBlend).toMaster();
+  const SYNTH = new Tone.Synth(SYNTH_BLEND).toMaster();
+  const SYNTH2 = new Tone.Synth(SYNTH_BLEND).toMaster();
   // Timer
   const MINIMUM_TIME = [0, 10];
   
@@ -58,7 +58,7 @@ $(document).ready(() => {
   // Metronome
   Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
   // Notes Per Beat
-  synth2.volume.value = -3;
+  SYNTH2.volume.value = -3;
 
   // Start of Timer related code
   // Funcitons
@@ -151,12 +151,11 @@ $(document).ready(() => {
 
   const timerPauseMetronome = function timerWillPauseTheMetronome() {
     const PLAYBUTTONLOGO = $('#play-pause-btn > .logo');
-    paused = true;
+    metronome_paused = true;
 
     // Function from Notes Per Beat, this function is responsible for actually
     // pausing the looping of the beat sounds.
     disposeLoops();
-    npbPlayedToggle();
 
     PLAYBUTTONLOGO.toggleClass('glyphicon-play');
     PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
@@ -260,7 +259,7 @@ $(document).ready(() => {
         chord = 'B6';
       }
 
-      synth.triggerAttackRelease(chord, '0:0:1');
+      SYNTH.triggerAttackRelease(chord, '0:0:1');
     }, '4n');
 
     mainLoop.start('+0');
@@ -275,7 +274,7 @@ $(document).ready(() => {
     setMain();
 
     subLoop = new Tone.Loop(() => {
-      synth2.triggerAttackRelease('G3', '0:0:1');
+      SYNTH2.triggerAttackRelease('G3', '0:0:1');
     }, '8n');
 
     subLoop.start('+0');
@@ -285,7 +284,7 @@ $(document).ready(() => {
     setMain();
 
     subLoop = new Tone.Loop(() => {
-      synth2.triggerAttackRelease('G3', '0:0:1');
+      SYNTH2.triggerAttackRelease('G3', '0:0:1');
     }, '8t');
 
     subLoop.start('+0');
@@ -297,9 +296,9 @@ $(document).ready(() => {
 
     subLoop = new Tone.Loop(() => {
       if (count === 1) {
-        synth2.triggerAttackRelease('G3', '0:0:1');
+        SYNTH2.triggerAttackRelease('G3', '0:0:1');
       } else if (count >= 3) {
-        synth2.triggerAttackRelease('G3', '0:0:1');
+        SYNTH2.triggerAttackRelease('G3', '0:0:1');
         count = 0;
       }
 
@@ -313,7 +312,7 @@ $(document).ready(() => {
     setMain();
 
     subLoop = new Tone.Loop(() => {
-      synth2.triggerAttackRelease('G3', '0:0:1');
+      SYNTH2.triggerAttackRelease('G3', '0:0:1');
     }, '16n');
 
     subLoop.start('+0');
