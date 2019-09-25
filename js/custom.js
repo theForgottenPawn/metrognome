@@ -17,6 +17,11 @@ $(document).ready(() => {
   const TRIPLETSBTN = $('#triplets-btn');
   const TRIPLETSMIDRESTBTN = $('#triplets-mid-rest-btn');
   const QUADRUPLETSBTN = $('#quadruplets-btn');
+  // Timer
+  const ENABLE_TIMER_TOGGLER = $('#enable-timer-toggler');
+  const MIN_SETTER = $('#min-select');
+  const SEC_SETTER = $('#sec-select');
+  const TIME_RESETTER = $('#time-resetter');
 
   // Constants
   // Notes Per Beat
@@ -30,6 +35,8 @@ $(document).ready(() => {
   };
   const synth = new Tone.Synth(synthBlend).toMaster();
   const synth2 = new Tone.Synth(synthBlend).toMaster();
+  // Timer
+  const MINIMUM_TIME = [0, 10];
   
   // Variables
   // Metronome
@@ -42,6 +49,10 @@ $(document).ready(() => {
   let subLoop = null;
   let npbPlayed = false;
   let note = 'Single';
+  // Variables
+  let min = Number.parseInt(MIN_SETTER.val(), 10);
+  let sec = Number.parseInt(SEC_SETTER.val(), 10);
+  let timerInterval = null;
   
   // Early tweak
   // Metronome
@@ -50,18 +61,6 @@ $(document).ready(() => {
   synth2.volume.value = -3;
 
   // Start of Timer related code
-  // Components
-  const ENABLE_TIMER_TOGGLER = $('#enable-timer-toggler');
-  const MIN_SETTER = $('#min-select');
-  const SEC_SETTER = $('#sec-select');
-  const TIME_RESETTER = $('#time-resetter');
-  // Constant Variable
-  const MINIMUM_TIME = [0, 10];
-  // Variables
-  let min = Number.parseInt(MIN_SETTER.val(), 10);
-  let sec = Number.parseInt(SEC_SETTER.val(), 10);
-  let timerInterval = null;
-
   // Funcitons
   const enableTimeEditing = function enableTheTimeEditing() {
     MIN_SETTER.attr('disabled', false);
