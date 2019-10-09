@@ -462,20 +462,19 @@ $(document).ready(() => {
     TAP_TEMPO_BTN.toggleClass('btn-danger');
   };
 
-  const getFirstTap = function getThefirstTap() {
+  const getFirstTap = function getThefirstTap(time) {
     const MIN_BPM = 20;
 
     toggleTapTempoBtn();
 
-    // Enhancement: Set a parameter to this function that accepts time then
+    // Enhancement(Resolved): Set a parameter to this function that accepts time then
     // use that as firstTap's value.
-    firstTap = $.now();
+    firstTap = time;
     taps = 1;
     BPMRANGESLIDER.val(MIN_BPM);
-    // Enhancement: 2 lines below does exactly the same as what the function
-    // setBpm() does, call that intead.
-    BPMINDICATOR.text(MIN_BPM.toString());
-    Tone.Transport.bpm.value = MIN_BPM;
+    // Enhancement(Resolved): 2 lines below does exactly the same as what the function
+    // setBpm() does, call that instead.
+    setBpm(MIN_BPM);
   };
 
   const getTapBasedTempo = function getTheTapBasedTempo(currentTap) {
@@ -510,8 +509,8 @@ $(document).ready(() => {
     clearIdleTimer();
 
     if (taps < 1) {
-      // Enhancement: give TAP_SNAPSHOT to getFirstTap() as a parameter.
-      getFirstTap();
+      // Enhancement(Resolved): give TAP_SNAPSHOT to getFirstTap() as a parameter.
+      getFirstTap(TAP_SNAPSHOT);
     } else {
       getTapBasedTempo(TAP_SNAPSHOT);
     }
