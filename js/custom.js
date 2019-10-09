@@ -22,6 +22,8 @@ $(document).ready(() => {
   const MIN_SETTER = $('#min-select');
   const SEC_SETTER = $('#sec-select');
   const TIME_RESETTER = $('#time-resetter');
+  // Tap Timer
+  const TAP_TEMPO_BTN = $('#tap-tempo-btn');
 
   // Constants
   // Notes Per Beat
@@ -54,6 +56,8 @@ $(document).ready(() => {
   let timerInterval = null;
 
   // Early tweak
+  // General Tweak
+  $('[data-toggle="tooltip"]').tooltip()
   // Metronome
   Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
   // Notes Per Beat
@@ -556,4 +560,10 @@ $(document).ready(() => {
     }
   });
   // Timer end
+
+  // Tap Metronome start
+  TAP_TEMPO_BTN.hover(() => {
+    setTimeout(() => { TAP_TEMPO_BTN.tooltip('hide'); }, 5000);
+  });
+  // Tap Metronome end
 });
