@@ -54,10 +54,14 @@ $(document).ready(() => {
   let min = Number.parseInt(MIN_SETTER.val(), 10);
   let sec = Number.parseInt(SEC_SETTER.val(), 10);
   let timerInterval = null;
+  // Tap Tempo
+  let firstTap = 0;
+  let taps = 0;
+  let idleTimer = null;
 
   // Early tweak
   // General Tweak
-  $('[data-toggle="tooltip"]').tooltip()
+  $('[data-toggle="tooltip"]').tooltip();
   // Metronome
   Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
   // Notes Per Beat
@@ -446,6 +450,70 @@ $(document).ready(() => {
     }
   };
 
+  const clearIdleTimer = function clearTheIdleTimer() {
+    if (idleTimer !== null) {
+      clearTimeout(idleTimer)
+      idleTimer = null;
+    }
+  };
+
+  const toggleTapTempoBtn = function toggleTheTapTempoBtn() {
+    TAP_TEMPO_BTN.toggleClass('btn-success');
+    TAP_TEMPO_BTN.toggleClass('btn-danger');
+  };
+
+  const getFirstTap = function getThefirstTap() {
+    let minBpm = 20;
+
+    toggleTapTempoBtn();
+    
+    firstTap = $.now();
+    taps = 1;
+    BPMRANGESLIDER.val(minBpm);
+    BPMINDICATOR.text(minBpm.toString());
+    Tone.Transport.bpm.value = minBpm;
+  };
+
+  const getTapBasedTempo = function getTheTapBasedTempo(currentTap) {
+    let averageBpm = (60000 * taps) / (currentTap - firstTap);
+    let minBpm = 20;
+    let maxBpm = 260;
+
+    if (averageBpm < minBpm) {
+      averageBpm = minBpm;
+    } else if (averageBpm > maxBpm) {
+      averageBpm = maxBpm;
+    } else {
+      averageBpm = Math.round(averageBpm);
+    }
+
+    BPMRANGESLIDER.val(averageBpm);
+    setBpm(averageBpm);
+
+    taps += 1;
+  };
+
+  const resetTapTempo = function resetTheTapTempo() {
+    toggleTapTempoBtn();
+    firstTap = 0;
+    taps = 0;
+    clearIdleTimer();
+  };
+
+  const tapTempoTapped = function tapTempoIsTapped() {
+    let tapSnapshot = $.now();
+
+    clearIdleTimer();
+
+    if (taps < 1) {
+      getFirstTap();
+    } else {
+      getTapBasedTempo(tapSnapshot);
+    }
+
+    idleTimer = setTimeout(() => { resetTapTempo(); }, 5000);
+  };
+
   // Events listeners
   // Metronome start
   PLAYPAUSEBTN.click(() => {
@@ -562,6 +630,10 @@ $(document).ready(() => {
   // Timer end
 
   // Tap Metronome start
+  TAP_TEMPO_BTN.mousedown(() => {
+    tapTempoTapped();
+  });
+
   TAP_TEMPO_BTN.hover(() => {
     setTimeout(() => { TAP_TEMPO_BTN.tooltip('hide'); }, 5000);
   });
