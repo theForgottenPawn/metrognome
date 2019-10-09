@@ -452,7 +452,7 @@ $(document).ready(() => {
 
   const clearIdleTimer = function clearTheIdleTimer() {
     if (idleTimer !== null) {
-      clearTimeout(idleTimer)
+      clearTimeout(idleTimer);
       idleTimer = null;
     }
   };
@@ -463,26 +463,26 @@ $(document).ready(() => {
   };
 
   const getFirstTap = function getThefirstTap() {
-    let minBpm = 20;
+    const MIN_BPM = 20;
 
     toggleTapTempoBtn();
-    
+
     firstTap = $.now();
     taps = 1;
-    BPMRANGESLIDER.val(minBpm);
-    BPMINDICATOR.text(minBpm.toString());
-    Tone.Transport.bpm.value = minBpm;
+    BPMRANGESLIDER.val(MIN_BPM);
+    BPMINDICATOR.text(MIN_BPM.toString());
+    Tone.Transport.bpm.value = MIN_BPM;
   };
 
   const getTapBasedTempo = function getTheTapBasedTempo(currentTap) {
     let averageBpm = (60000 * taps) / (currentTap - firstTap);
-    let minBpm = 20;
-    let maxBpm = 260;
+    const MIN_BPM = 20;
+    const MAX_BPM = 260;
 
-    if (averageBpm < minBpm) {
-      averageBpm = minBpm;
-    } else if (averageBpm > maxBpm) {
-      averageBpm = maxBpm;
+    if (averageBpm < MIN_BPM) {
+      averageBpm = MIN_BPM;
+    } else if (averageBpm > MAX_BPM) {
+      averageBpm = MAX_BPM;
     } else {
       averageBpm = Math.round(averageBpm);
     }
@@ -501,17 +501,17 @@ $(document).ready(() => {
   };
 
   const tapTempoTapped = function tapTempoIsTapped() {
-    let tapSnapshot = $.now();
+    const TAP_SNAPSHOT = $.now();
 
     clearIdleTimer();
 
     if (taps < 1) {
       getFirstTap();
     } else {
-      getTapBasedTempo(tapSnapshot);
+      getTapBasedTempo(TAP_SNAPSHOT);
     }
 
-    idleTimer = setTimeout(() => { resetTapTempo(); }, 5000);
+    idleTimer = setTimeout(() => { resetTapTempo(); }, 3500);
   };
 
   // Events listeners
@@ -632,6 +632,13 @@ $(document).ready(() => {
   // Tap Metronome start
   TAP_TEMPO_BTN.mousedown(() => {
     tapTempoTapped();
+  });
+
+  $(document).keydown((e) => {
+    if (e.keyCode === 32) {
+      tapTempoTapped();
+      e.preventDefault();
+    }
   });
 
   TAP_TEMPO_BTN.hover(() => {
