@@ -467,13 +467,9 @@ $(document).ready(() => {
 
     toggleTapTempoBtn();
 
-    // Enhancement(Resolved): Set a parameter to this function that accepts time then
-    // use that as firstTap's value.
     firstTap = time;
     taps = 1;
     BPMRANGESLIDER.val(MIN_BPM);
-    // Enhancement(Resolved): 2 lines below does exactly the same as what the function
-    // setBpm() does, call that instead.
     setBpm(MIN_BPM);
   };
 
@@ -509,7 +505,6 @@ $(document).ready(() => {
     clearIdleTimer();
 
     if (taps < 1) {
-      // Enhancement(Resolved): give TAP_SNAPSHOT to getFirstTap() as a parameter.
       getFirstTap(TAP_SNAPSHOT);
     } else {
       getTapBasedTempo(TAP_SNAPSHOT);
