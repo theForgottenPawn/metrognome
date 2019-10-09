@@ -5,6 +5,11 @@ body {
 }
 
 /* Shared stylings */
+.tooltip .tooltip-inner {
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
 .section {
   width: 80%;
   margin: 29px auto 0;
@@ -59,6 +64,13 @@ body {
 
 .beats-visual > .beat-played {
   content: url('../img/beats/beat_2.png');
+}
+
+.metronome .tap-tempo-btn {
+  display: block;
+  margin: 20px auto;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 /* Beats stylings */
