@@ -451,7 +451,7 @@ $(document).ready(() => {
   };
 
   // Modules
-  function Metronome() {
+  const metronome = (() => {
     let metronomePaused = true;
 
     function disposeLoops() {
@@ -499,10 +499,10 @@ $(document).ready(() => {
       Tone.Transport.start();
     }
 
-    const pauseNote = function pauseTheNote() {
+    function pauseNote() {
       Tone.Transport.stop();
       disposeLoops();
-    };
+    }
 
     function isPaused() {
       return metronomePaused;
@@ -525,9 +525,7 @@ $(document).ready(() => {
       pause: pauseMetronome,
       isPaused: isPaused
     };
-  }
-
-  const metronome = new Metronome();
+  })();
 
   // Events listeners
   // Metronome start
@@ -541,9 +539,11 @@ $(document).ready(() => {
         }
       } else {
         metronome.play();
+        console.log(metronome.isPaused());
       }
     } else {
       metronome.pause();
+      console.log(metronome.isPaused());
     }
   });
 
