@@ -205,11 +205,6 @@ $(document).ready(() => {
     }
   };
 
-  const playNote = function playTheNote() {
-    setNote();
-    Tone.Transport.start();
-  };
-
   const pauseNote = function pauseTheNote() {
     Tone.Transport.stop();
     disposeLoops();
@@ -393,12 +388,6 @@ $(document).ready(() => {
     return true;
   };
 
-  const playMetronome = function playTheMetronome() {
-    playNote();
-    startTimer();
-    metronomePaused = false;
-  };
-
   const pauseMetronome = function pauseTheMetronome() {
     pauseNote();
     pauseTimer();
@@ -513,6 +502,24 @@ $(document).ready(() => {
     idleTimer = setTimeout(() => { resetTapTempo(); }, 3500);
   };
 
+  // Modules
+  const metronome = (() => {
+    function playNote() {
+      setNote();
+      Tone.Transport.start();
+    }
+
+    function playMetronome() {
+      playNote();
+      startTimer();
+      metronomePaused = false;
+    }
+
+    return {
+      play: playMetronome
+    };
+  })();
+
   // Events listeners
   // Metronome start
   PLAYPAUSEBTN.click(() => {
@@ -521,10 +528,10 @@ $(document).ready(() => {
     if (metronomePaused) {
       if (ENABLE_TIMER_TOGGLER[0].checked) {
         if (isTimeReachedMinimum()) {
-          playMetronome();
+          metronome.play();
         }
       } else {
-        playMetronome();
+        metronome.playMetronome();
       }
     } else {
       pauseMetronome();
