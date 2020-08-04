@@ -454,23 +454,31 @@ $(document).ready(() => {
   const metronome = (() => {
     let metronomePaused = true;
 
+    function isPaused() {
+      return metronomePaused;
+    }
+
     function disposeLoops() {
-      if (mainLoop !== null) {
-        mainLoop.dispose();
-        mainLoop = null;
-      }
+      let result = null;
 
-      if (subLoop !== null) {
-        subLoop.dispose();
-        subLoop = null;
-      }
+      if (isPaused()) {
+        result = false;
+      } else {
+        if (mainLoop !== null) {
+          mainLoop.dispose();
+          mainLoop = null;
+        }
 
-      if (!metronomePaused) {
+        if (subLoop !== null) {
+          subLoop.dispose();
+          subLoop = null;
+        }
+
         Tone.Transport.stop();
-        return true;
+        result = true;
       }
 
-      return false;
+      return result;
     }
 
     function setNote () {
@@ -504,10 +512,6 @@ $(document).ready(() => {
       disposeLoops();
     }
 
-    function isPaused() {
-      return metronomePaused;
-    }
-
     function playMetronome() {
       playNote();
       startTimer();
@@ -539,11 +543,9 @@ $(document).ready(() => {
         }
       } else {
         metronome.play();
-        console.log(metronome.isPaused());
       }
     } else {
       metronome.pause();
-      console.log(metronome.isPaused());
     }
   });
 
