@@ -42,7 +42,6 @@ $(document).ready(() => {
 
   // Variables
   // Metronome
-  let metronomePaused = true;
   let bpmAdjust = null;
   // Beats
   let currentBeat = 0;
@@ -155,46 +154,6 @@ $(document).ready(() => {
     subLoop.start('+0');
   };
 
-  const disposeLoops = function disposeTheLoops() {
-    if (mainLoop !== null) {
-      mainLoop.dispose();
-      mainLoop = null;
-    }
-
-    if (subLoop !== null) {
-      subLoop.dispose();
-      subLoop = null;
-    }
-
-    if (!metronomePaused) {
-      Tone.Transport.stop();
-      return true;
-    }
-
-    return false;
-  };
-
-  const setNote = function setTheNote() {
-    const FORCE_STOPED = disposeLoops();
-    revertVisual();
-
-    if (note === 'Single') {
-      singlet();
-    } else if (note === 'Tuplets') {
-      tuplets();
-    } else if (note === 'Triplets') {
-      triplets();
-    } else if (note === 'Triplets Mid Rest') {
-      tripletsMid();
-    } else if (note === 'Quadruplets') {
-      quadruplets();
-    }
-
-    if (FORCE_STOPED) {
-      Tone.Transport.start();
-    }
-  };
-
   const changeNote = function changeTheNote(noteBtn, noteName) {
     if (!noteBtn.hasClass('focused')) {
       note = noteName;
@@ -203,11 +162,6 @@ $(document).ready(() => {
 
       setNote();
     }
-  };
-
-  const pauseNote = function pauseTheNote() {
-    Tone.Transport.stop();
-    disposeLoops();
   };
 
   const enableTimeEditing = function enableTheTimeEditing() {
@@ -388,12 +342,6 @@ $(document).ready(() => {
     return true;
   };
 
-  const pauseMetronome = function pauseTheMetronome() {
-    pauseNote();
-    pauseTimer();
-    metronomePaused = true;
-  };
-
   const setBpm = function setTheBPM(newBpm) {
     BPMINDICATOR.text(newBpm);
     Tone.Transport.bpm.value = newBpm;
@@ -503,10 +451,61 @@ $(document).ready(() => {
   };
 
   // Modules
-  const metronome = (() => {
+  function Metronome() {
+    let metronomePaused = true;
+
+    function disposeLoops() {
+      if (mainLoop !== null) {
+        mainLoop.dispose();
+        mainLoop = null;
+      }
+
+      if (subLoop !== null) {
+        subLoop.dispose();
+        subLoop = null;
+      }
+
+      if (!metronomePaused) {
+        Tone.Transport.stop();
+        return true;
+      }
+
+      return false;
+    }
+
+    function setNote () {
+      const FORCE_STOPED = disposeLoops();
+      revertVisual();
+
+      if (note === 'Single') {
+        singlet();
+      } else if (note === 'Tuplets') {
+        tuplets();
+      } else if (note === 'Triplets') {
+        triplets();
+      } else if (note === 'Triplets Mid Rest') {
+        tripletsMid();
+      } else if (note === 'Quadruplets') {
+        quadruplets();
+      }
+
+      if (FORCE_STOPED) {
+        Tone.Transport.start();
+      }
+    }
+
     function playNote() {
       setNote();
       Tone.Transport.start();
+    }
+
+    const pauseNote = function pauseTheNote() {
+      Tone.Transport.stop();
+      disposeLoops();
+    };
+
+    function isPaused() {
+      return metronomePaused;
     }
 
     function playMetronome() {
@@ -515,26 +514,36 @@ $(document).ready(() => {
       metronomePaused = false;
     }
 
+    function pauseMetronome() {
+      pauseNote();
+      pauseTimer();
+      metronomePaused = true;
+    }
+
     return {
-      play: playMetronome
+      play: playMetronome,
+      pause: pauseMetronome,
+      isPaused: isPaused
     };
-  })();
+  }
+
+  const metronome = new Metronome();
 
   // Events listeners
   // Metronome start
   PLAYPAUSEBTN.click(() => {
     togglePlayLogo();
 
-    if (metronomePaused) {
+    if (metronome.isPaused()) {
       if (ENABLE_TIMER_TOGGLER[0].checked) {
         if (isTimeReachedMinimum()) {
           metronome.play();
         }
       } else {
-        metronome.playMetronome();
+        metronome.play();
       }
     } else {
-      pauseMetronome();
+      metronome.pause();
     }
   });
 
