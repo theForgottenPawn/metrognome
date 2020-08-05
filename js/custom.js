@@ -342,51 +342,6 @@ $(document).ready(() => {
     return true;
   };
 
-  const setBpm = function setTheBPM(newBpm) {
-    BPMINDICATOR.text(newBpm);
-    Tone.Transport.bpm.value = newBpm;
-  };
-
-  const bpmPlusOne = function increaseBpmByOne() {
-    let newBpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
-
-    if (Number.parseInt(BPMRANGESLIDER.val(), 10) < 260) {
-      newBpm += 1;
-      BPMRANGESLIDER.val(newBpm);
-      setBpm(newBpm);
-    }
-  };
-
-  const bpmMinusOne = function decreaseBpmByOne() {
-    let newBpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
-
-    if (Number.parseInt(BPMRANGESLIDER.val(), 10) > 20) {
-      newBpm -= 1;
-      BPMRANGESLIDER.val(newBpm);
-      setBpm(newBpm);
-    }
-  };
-
-  const minorBpmAdjustLoop = function adjustBpmByOne(direction, willLoop) {
-    if (direction === 'increase') {
-      if (willLoop) {
-        bpmAdjust = setInterval(() => {
-          bpmPlusOne();
-        }, 200);
-      } else {
-        bpmPlusOne();
-      }
-    } else if (direction === 'decrease') {
-      if (willLoop) {
-        bpmAdjust = setInterval(() => {
-          bpmMinusOne();
-        }, 200);
-      } else {
-        bpmMinusOne();
-      }
-    }
-  };
-
   const clearIdleTimer = function clearTheIdleTimer() {
     if (idleTimer !== null) {
       clearTimeout(idleTimer);
@@ -524,10 +479,57 @@ $(document).ready(() => {
       metronomePaused = true;
     }
 
+    function setBpm(bpm) {
+      newBpm = Number.parseInt(bpm, 10);
+      BPMINDICATOR.text(newBpm);
+      Tone.Transport.bpm.value = newBpm;
+    }
+
+    function bpmPlusOne() {
+      let newBpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
+
+      if (Number.parseInt(BPMRANGESLIDER.val(), 10) < 260) {
+        newBpm += 1;
+        BPMRANGESLIDER.val(newBpm);
+        setBpm(newBpm);
+      }
+    }
+
+    function bpmMinusOne() {
+      let newBpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
+
+      if (Number.parseInt(BPMRANGESLIDER.val(), 10) > 20) {
+        newBpm -= 1;
+        BPMRANGESLIDER.val(newBpm);
+        setBpm(newBpm);
+      }
+    }
+
+    function minorBpmAdjustLoop(direction, willLoop) {
+      if (direction === 'increase') {
+        if (willLoop) {
+          bpmAdjust = setInterval(() => {
+            bpmPlusOne();
+          }, 200);
+        } else {
+          bpmPlusOne();
+        }
+      } else if (direction === 'decrease') {
+        if (willLoop) {
+          bpmAdjust = setInterval(() => {
+            bpmMinusOne();
+          }, 200);
+        } else {
+          bpmMinusOne();
+        }
+      }
+    }
+
     return {
       play: playMetronome,
       pause: pauseMetronome,
-      isPaused: isPaused
+      isPaused: isPaused,
+      setBpm: setBpm
     };
   })();
 
@@ -550,7 +552,7 @@ $(document).ready(() => {
   });
 
   BPMRANGESLIDER.on('input', () => {
-    setBpm(Number.parseInt(BPMRANGESLIDER.val(), 10));
+    metronome.setBpm(BPMRANGESLIDER.val());
   });
 
   // BPMINCREASEBTN events
