@@ -43,10 +43,6 @@ $(document).ready(() => {
   // Variables
   // Beats
   let currentBeat = 0;
-  // Notes Per Beat
-  let mainLoop = null;
-  let subLoop = null;
-  let note = 'Single';
   // Timer
   let min = Number.parseInt(MIN_SETTER.val(), 10);
   let sec = Number.parseInt(SEC_SETTER.val(), 10);
@@ -82,74 +78,6 @@ $(document).ready(() => {
     } else {
       CURRVISBEAT.addClass('beat-played');
     }
-  };
-
-  const setMain = function setMainLoop() {
-    mainLoop = new Tone.Loop(() => {
-      let chord = 'A5';
-      animateVisual();
-
-      if (EMPHASIZE1STBEAT[0].checked && (currentBeat === 1)) {
-        chord = 'B6';
-      }
-
-      SYNTH.triggerAttackRelease(chord, '0:0:1');
-    }, '4n');
-
-    mainLoop.start('+0');
-  };
-
-  const singlet = function singletNote() {
-    setMain();
-    subLoop = null;
-  };
-
-  const tuplets = function tupletsNote() {
-    setMain();
-
-    subLoop = new Tone.Loop(() => {
-      SYNTH2.triggerAttackRelease('G3', '0:0:1');
-    }, '8n');
-
-    subLoop.start('+0');
-  };
-
-  const triplets = function tripletsNote() {
-    setMain();
-
-    subLoop = new Tone.Loop(() => {
-      SYNTH2.triggerAttackRelease('G3', '0:0:1');
-    }, '8t');
-
-    subLoop.start('+0');
-  };
-
-  const tripletsMid = function tripletsMidRestNote() {
-    setMain();
-    let count = 1;
-
-    subLoop = new Tone.Loop(() => {
-      if (count === 1) {
-        SYNTH2.triggerAttackRelease('G3', '0:0:1');
-      } else if (count >= 3) {
-        SYNTH2.triggerAttackRelease('G3', '0:0:1');
-        count = 0;
-      }
-
-      count += 1;
-    }, '8t');
-
-    subLoop.start('+0');
-  };
-
-  const quadruplets = function quadrupletsNote() {
-    setMain();
-
-    subLoop = new Tone.Loop(() => {
-      SYNTH2.triggerAttackRelease('G3', '0:0:1');
-    }, '16n');
-
-    subLoop.start('+0');
   };
 
   const enableTimeEditing = function enableTheTimeEditing() {
@@ -473,6 +401,10 @@ $(document).ready(() => {
   })();
 
   const notesPerBeat = (() => {
+    let mainLoop = null;
+    let subLoop = null;
+    let note = 'Single';
+
     function disposeLoops() {
       let result = null;
 
@@ -494,6 +426,74 @@ $(document).ready(() => {
       }
 
       return result;
+    }
+
+    function setMain() {
+      mainLoop = new Tone.Loop(() => {
+        let chord = 'A5';
+        animateVisual();
+
+        if (EMPHASIZE1STBEAT[0].checked && (currentBeat === 1)) {
+          chord = 'B6';
+        }
+
+        SYNTH.triggerAttackRelease(chord, '0:0:1');
+      }, '4n');
+
+      mainLoop.start('+0');
+    }
+
+    function singlet() {
+      setMain();
+      subLoop = null;
+    }
+
+    function tuplets() {
+      setMain();
+
+      subLoop = new Tone.Loop(() => {
+        SYNTH2.triggerAttackRelease('G3', '0:0:1');
+      }, '8n');
+
+      subLoop.start('+0');
+    }
+
+    function triplets() {
+      setMain();
+
+      subLoop = new Tone.Loop(() => {
+        SYNTH2.triggerAttackRelease('G3', '0:0:1');
+      }, '8t');
+
+      subLoop.start('+0');
+    }
+
+    function tripletsMid() {
+      setMain();
+      let count = 1;
+
+      subLoop = new Tone.Loop(() => {
+        if (count === 1) {
+          SYNTH2.triggerAttackRelease('G3', '0:0:1');
+        } else if (count >= 3) {
+          SYNTH2.triggerAttackRelease('G3', '0:0:1');
+          count = 0;
+        }
+
+        count += 1;
+      }, '8t');
+
+      subLoop.start('+0');
+    }
+
+    function quadruplets() {
+      setMain();
+
+      subLoop = new Tone.Loop(() => {
+        SYNTH2.triggerAttackRelease('G3', '0:0:1');
+      }, '16n');
+
+      subLoop.start('+0');
     }
 
     function setNote () {
