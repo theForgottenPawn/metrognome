@@ -496,7 +496,7 @@ $(document).ready(() => {
     }
 
     function setNote () {
-      const FORCE_STOPED = disposeLoops();
+      let forceStopped = disposeLoops();
       revertVisual();
 
       if (note === 'Single') {
@@ -511,7 +511,7 @@ $(document).ready(() => {
         quadruplets();
       }
 
-      if (FORCE_STOPED) {
+      if (forceStopped) {
         Tone.Transport.start();
       }
     }
@@ -527,7 +527,7 @@ $(document).ready(() => {
     };
 
     function playTheNote() {
-      setNote();
+      mainLoop === null ? setNote() : null;
       Tone.Transport.start();
     }
 
@@ -539,7 +539,7 @@ $(document).ready(() => {
     return {
       playNote: playTheNote,
       pauseNote: pauseTheNote,
-      changeNote: changeTheNote
+      changeNote: changeTheNote,
     };
   })();
 
