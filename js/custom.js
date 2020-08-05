@@ -41,8 +41,6 @@ $(document).ready(() => {
   const MINIMUM_TIME = [0, 1];
 
   // Variables
-  // Metronome
-  let bpmAdjust = null;
   // Beats
   let currentBeat = 0;
   // Notes Per Beat
@@ -408,6 +406,7 @@ $(document).ready(() => {
   // Modules
   const metronome = (() => {
     let metronomePaused = true;
+    let bpmAdjust = null;
 
     function isPaused() {
       return metronomePaused;
@@ -479,33 +478,31 @@ $(document).ready(() => {
       metronomePaused = true;
     }
 
-    function setBpm(bpm) {
+    function bpmSetter(bpm) {
       newBpm = Number.parseInt(bpm, 10);
       BPMINDICATOR.text(newBpm);
       Tone.Transport.bpm.value = newBpm;
+
+      return newBpm;
     }
 
     function bpmPlusOne() {
-      let newBpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
+      let bpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
 
-      if (Number.parseInt(BPMRANGESLIDER.val(), 10) < 260) {
-        newBpm += 1;
-        BPMRANGESLIDER.val(newBpm);
-        setBpm(newBpm);
+      if (bpm < 260) {
+        BPMRANGESLIDER.val(bpmSetter(bpm + 1));
       }
     }
 
     function bpmMinusOne() {
-      let newBpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
+      let bpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
 
-      if (Number.parseInt(BPMRANGESLIDER.val(), 10) > 20) {
-        newBpm -= 1;
-        BPMRANGESLIDER.val(newBpm);
-        setBpm(newBpm);
+      if (bpm > 20) {
+        BPMRANGESLIDER.val(bpmSetter(bpm - 1));
       }
     }
 
-    function minorBpmAdjustLoop(direction, willLoop) {
+    function minorBpmAdjustLooper(direction, willLoop) {
       if (direction === 'increase') {
         if (willLoop) {
           bpmAdjust = setInterval(() => {
@@ -525,11 +522,17 @@ $(document).ready(() => {
       }
     }
 
+    function bpmAdjustStoper() {
+      clearInterval(bpmAdjust);
+    }
+
     return {
       play: playMetronome,
       pause: pauseMetronome,
       isPaused: isPaused,
-      setBpm: setBpm
+      setBpm: bpmSetter,
+      bpmAdjustLoop: minorBpmAdjustLooper,
+      bpmAdjustStop: bpmAdjustStoper
     };
   })();
 
@@ -557,36 +560,36 @@ $(document).ready(() => {
 
   // BPMINCREASEBTN events
   BPMINCREASEBTN.click(() => {
-    minorBpmAdjustLoop('increase', false);
+    metronome.bpmAdjustLoop('increase', false);
   });
 
   BPMINCREASEBTN.mousedown(() => {
-    minorBpmAdjustLoop('increase', true);
+    metronome.bpmAdjustLoop('increase', true);
   });
 
   BPMINCREASEBTN.mouseup(() => {
-    clearInterval(bpmAdjust);
+    metronome.bpmAdjustStop();
   });
 
   BPMINCREASEBTN.mouseleave(() => {
-    clearInterval(bpmAdjust);
+    metronome.bpmAdjustStop();
   });
 
   // BPMDECREASEBTN events
   BPMDECREASEBTN.click(() => {
-    minorBpmAdjustLoop('decrease', false);
+    metronome.bpmAdjustLoop('decrease', false);
   });
 
   BPMDECREASEBTN.mousedown(() => {
-    minorBpmAdjustLoop('decrease', true);
+    metronome.bpmAdjustLoop('decrease', true);
   });
 
   BPMDECREASEBTN.mouseup(() => {
-    clearInterval(bpmAdjust);
+    metronome.bpmAdjustStop();
   });
 
   BPMDECREASEBTN.mouseleave(() => {
-    clearInterval(bpmAdjust);
+    metronome.bpmAdjustStop();
   });
   // Metronome end
 
