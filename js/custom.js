@@ -26,17 +26,6 @@ $(document).ready(() => {
   const TAP_TEMPO_BTN = $('#tap-tempo-btn');
 
   // Constants
-  // Notes Per Beat
-  const SYNTH_BLEND = {
-    envelope: {
-      attack: 0.01,
-      decay: 0.01,
-      sustain: 0,
-      release: 0.01,
-    },
-  };
-  const SYNTH = new Tone.Synth(SYNTH_BLEND).toMaster();
-  const SYNTH2 = new Tone.Synth(SYNTH_BLEND).toMaster();
   // Timer
   const MINIMUM_TIME = [0, 1];
 
@@ -57,8 +46,6 @@ $(document).ready(() => {
   $('[data-toggle="tooltip"]').tooltip();
   // Metronome
   Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
-  // Notes Per Beat
-  SYNTH2.volume.value = -3;
 
   // Functions
   const revertVisual = function revertTheVisual() {
@@ -401,6 +388,18 @@ $(document).ready(() => {
   })();
 
   const notesPerBeat = (() => {
+    const SYNTH_BLEND = {
+      envelope: {
+        attack: 0.01,
+        decay: 0.01,
+        sustain: 0,
+        release: 0.01,
+      },
+    };
+    const SYNTH = new Tone.Synth(SYNTH_BLEND).toMaster();
+    const SYNTH2 = new Tone.Synth(SYNTH_BLEND).toMaster();
+    SYNTH2.volume.value = -3;
+
     let mainLoop = null;
     let subLoop = null;
     let note = 'Single';
