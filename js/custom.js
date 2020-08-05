@@ -152,16 +152,6 @@ $(document).ready(() => {
     subLoop.start('+0');
   };
 
-  const changeNote = function changeTheNote(noteBtn, noteName) {
-    if (!noteBtn.hasClass('focused')) {
-      note = noteName;
-      $('.note-btn').removeClass('focused');
-      noteBtn.addClass('focused');
-
-      setNote();
-    }
-  };
-
   const enableTimeEditing = function enableTheTimeEditing() {
     MIN_SETTER.attr('disabled', false);
     SEC_SETTER.attr('disabled', false);
@@ -412,68 +402,14 @@ $(document).ready(() => {
       return metronomePaused;
     }
 
-    function disposeLoops() {
-      let result = null;
-
-      if (isPaused()) {
-        result = false;
-      } else {
-        if (mainLoop !== null) {
-          mainLoop.dispose();
-          mainLoop = null;
-        }
-
-        if (subLoop !== null) {
-          subLoop.dispose();
-          subLoop = null;
-        }
-
-        Tone.Transport.stop();
-        result = true;
-      }
-
-      return result;
-    }
-
-    function setNote () {
-      const FORCE_STOPED = disposeLoops();
-      revertVisual();
-
-      if (note === 'Single') {
-        singlet();
-      } else if (note === 'Tuplets') {
-        tuplets();
-      } else if (note === 'Triplets') {
-        triplets();
-      } else if (note === 'Triplets Mid Rest') {
-        tripletsMid();
-      } else if (note === 'Quadruplets') {
-        quadruplets();
-      }
-
-      if (FORCE_STOPED) {
-        Tone.Transport.start();
-      }
-    }
-
-    function playNote() {
-      setNote();
-      Tone.Transport.start();
-    }
-
-    function pauseNote() {
-      Tone.Transport.stop();
-      disposeLoops();
-    }
-
     function playMetronome() {
-      playNote();
+      notesPerBeat.playNote();
       startTimer();
       metronomePaused = false;
     }
 
     function pauseMetronome() {
-      pauseNote();
+      notesPerBeat.pauseNote();
       pauseTimer();
       metronomePaused = true;
     }
@@ -533,6 +469,78 @@ $(document).ready(() => {
       setBpm: bpmSetter,
       bpmAdjustLoop: minorBpmAdjustLooper,
       bpmAdjustStop: bpmAdjustStoper
+    };
+  })();
+
+  const notesPerBeat = (() => {
+    function disposeLoops() {
+      let result = null;
+
+      if (metronome.isPaused()) {
+        result = false;
+      } else {
+        if (mainLoop !== null) {
+          mainLoop.dispose();
+          mainLoop = null;
+        }
+
+        if (subLoop !== null) {
+          subLoop.dispose();
+          subLoop = null;
+        }
+
+        Tone.Transport.stop();
+        result = true;
+      }
+
+      return result;
+    }
+
+    function setNote () {
+      const FORCE_STOPED = disposeLoops();
+      revertVisual();
+
+      if (note === 'Single') {
+        singlet();
+      } else if (note === 'Tuplets') {
+        tuplets();
+      } else if (note === 'Triplets') {
+        triplets();
+      } else if (note === 'Triplets Mid Rest') {
+        tripletsMid();
+      } else if (note === 'Quadruplets') {
+        quadruplets();
+      }
+
+      if (FORCE_STOPED) {
+        Tone.Transport.start();
+      }
+    }
+
+    function changeTheNote(noteBtn, noteName) {
+      if (!noteBtn.hasClass('focused')) {
+        note = noteName;
+        $('.note-btn').removeClass('focused');
+        noteBtn.addClass('focused');
+
+        setNote();
+      }
+    };
+
+    function playTheNote() {
+      setNote();
+      Tone.Transport.start();
+    }
+
+    function pauseTheNote() {
+      Tone.Transport.stop();
+      disposeLoops();
+    }
+
+    return {
+      playNote: playTheNote,
+      pauseNote: pauseTheNote,
+      changeNote: changeTheNote
     };
   })();
 
@@ -608,23 +616,23 @@ $(document).ready(() => {
 
   // Notes Per Beat start
   SINGLEBTN.click(() => {
-    changeNote(SINGLEBTN, 'Single');
+    notesPerBeat.changeNote(SINGLEBTN, 'Single');
   });
 
   TUPLETSBTN.click(() => {
-    changeNote(TUPLETSBTN, 'Tuplets');
+    notesPerBeat.changeNote(TUPLETSBTN, 'Tuplets');
   });
 
   TRIPLETSBTN.click(() => {
-    changeNote(TRIPLETSBTN, 'Triplets');
+    notesPerBeat.changeNote(TRIPLETSBTN, 'Triplets');
   });
 
   TRIPLETSMIDRESTBTN.click(() => {
-    changeNote(TRIPLETSMIDRESTBTN, 'Triplets Mid Rest');
+    notesPerBeat.changeNote(TRIPLETSMIDRESTBTN, 'Triplets Mid Rest');
   });
 
   QUADRUPLETSBTN.click(() => {
-    changeNote(QUADRUPLETSBTN, 'Quadruplets');
+    notesPerBeat.changeNote(QUADRUPLETSBTN, 'Quadruplets');
   });
   // Notes Per Beat end
 
