@@ -32,6 +32,7 @@ $(document).ready(() => {
   // Variables
   // Beats
   let currentBeat = 0;
+  let playFirstBeat = false;
   // Timer
   let min = Number.parseInt(MIN_SETTER.val(), 10);
   let sec = Number.parseInt(SEC_SETTER.val(), 10);
@@ -442,7 +443,7 @@ $(document).ready(() => {
         let chord = 'A5';
         animateVisual();
 
-        if (EMPHASIZE1STBEAT[0].checked && (currentBeat === 1)) {
+        if (playFirstBeat && (currentBeat === 1)) {
           chord = 'B6';
         }
 
@@ -615,6 +616,10 @@ $(document).ready(() => {
       const BEAT = `<img src=${SRC} class='beat'>`;
       BEATSVISUAL.append(BEAT);
     }
+  });
+
+  EMPHASIZE1STBEAT.change(() => {
+    playFirstBeat = EMPHASIZE1STBEAT[0].checked;
   });
   // Beats end
 
