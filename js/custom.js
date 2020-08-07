@@ -47,7 +47,6 @@ $(document).ready(() => {
 
   // Functions
   const resetBeatVisual = function resetTheBeatVisual() {
-    beat.revertCurrentBeat();
     BEATSVISUAL.find('.beat').remove();
 
     for (let x = 0; x < BEATCOUNT.val(); x += 1) {
@@ -57,7 +56,7 @@ $(document).ready(() => {
     }
   };
 
-  const animateVisual = function animateVisualBeat() {
+  const animateBeatVisual = function animateTheBeatVisual() {
     beat.plusOneCurrentBeat();
     let currentBeat = beat.getCurrentBeat();
     const CURRVISBEAT = BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
@@ -479,7 +478,7 @@ $(document).ready(() => {
     function setMain() {
       mainLoop = new Tone.Loop(() => {
         let chord = 'A5';
-        animateVisual();
+        animateBeatVisual();
 
         if (beat.shouldPlayFirstBeat() && (beat.getCurrentBeat() === 1)) {
           chord = 'B6';
@@ -646,6 +645,7 @@ $(document).ready(() => {
 
   // Beats start
   BEATCOUNT.change(() => {
+    beat.revertCurrentBeat();
     resetBeatVisual();
   });
 
