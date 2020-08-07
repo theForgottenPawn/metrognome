@@ -405,7 +405,7 @@ $(document).ready(() => {
     let note = 'Single';
 
     function disposeLoops() {
-      let result = null;
+      let result = true;
 
       if (metronome.isPaused()) {
         result = false;
@@ -421,7 +421,6 @@ $(document).ready(() => {
         }
 
         Tone.Transport.stop();
-        result = true;
       }
 
       return result;
