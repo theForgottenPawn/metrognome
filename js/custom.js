@@ -46,6 +46,10 @@ $(document).ready(() => {
   Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
 
   // Functions
+  const changeBpmIndicatorText = function changeTheBpmIndicatorText(value) {
+    BPMINDICATOR.text(value);
+  };
+
   const resetBeatVisual = function resetTheBeatVisual() {
     BEATSVISUAL.find('.beat').remove();
 
@@ -347,8 +351,8 @@ $(document).ready(() => {
 
     function bpmSetter(bpm) {
       newBpm = Number.parseInt(bpm, 10);
-      BPMINDICATOR.text(newBpm);
       Tone.Transport.bpm.value = newBpm;
+      changeBpmIndicatorText(newBpm);
 
       return newBpm;
     }
