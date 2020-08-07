@@ -30,9 +30,6 @@ $(document).ready(() => {
   const MINIMUM_TIME = [0, 1];
 
   // Variables
-  // Beats
-  let currentBeat = 0;
-  let playFirstBeat = false;
   // Timer
   let min = Number.parseInt(MIN_SETTER.val(), 10);
   let sec = Number.parseInt(SEC_SETTER.val(), 10);
@@ -50,11 +47,12 @@ $(document).ready(() => {
 
   // Functions
   const revertVisual = function revertTheVisual() {
-    currentBeat = 0;
+    beat.revertCurrentBeat();
   };
 
   const animateVisual = function animateVisualBeat() {
-    currentBeat += 1;
+    beat.plusOneCurrentBeat();
+    let currentBeat = beat.getCurrentBeat();
     const CURRVISBEAT = BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
 
     if (currentBeat === 1) {
@@ -399,6 +397,39 @@ $(document).ready(() => {
     };
   })();
 
+  const beat = (() => {
+    let currentBeat = 0;
+    let playFirstBeat = false;
+
+    function getTheCurrentBeat() {
+      return currentBeat;
+    }
+
+    function revertTheCurrentBeat() {
+      currentBeat = 0;
+    }
+
+    function plusOneToCurrentBeat() {
+      currentBeat += 1;
+    }
+
+    function shouldPlayTheFirstBeat() {
+      return playFirstBeat;
+    }
+
+    function setThePlayFirstBeat(newPlayFirstBeat) {
+      playFirstBeat = newPlayFirstBeat;
+    }
+
+    return {
+      getCurrentBeat: getTheCurrentBeat,
+      revertCurrentBeat: revertTheCurrentBeat,
+      plusOneCurrentBeat: plusOneToCurrentBeat,
+      shouldPlayFirstBeat: shouldPlayTheFirstBeat,
+      setPlayFirstBeat: setThePlayFirstBeat
+    };
+  })();
+
   const notesPerBeat = (() => {
     const SYNTH_BLEND = {
       envelope: {
@@ -443,7 +474,7 @@ $(document).ready(() => {
         let chord = 'A5';
         animateVisual();
 
-        if (playFirstBeat && (currentBeat === 1)) {
+        if (beat.shouldPlayFirstBeat() && (beat.getCurrentBeat() === 1)) {
           chord = 'B6';
         }
 
@@ -608,7 +639,7 @@ $(document).ready(() => {
 
   // Beats start
   BEATCOUNT.change(() => {
-    currentBeat = 0;
+    beat.revertCurrentBeat();
     BEATSVISUAL.find('.beat').remove();
 
     for (let x = 0; x < BEATCOUNT.val(); x += 1) {
@@ -619,7 +650,7 @@ $(document).ready(() => {
   });
 
   EMPHASIZE1STBEAT.change(() => {
-    playFirstBeat = EMPHASIZE1STBEAT[0].checked;
+    beat.setPlayFirstBeat(EMPHASIZE1STBEAT[0].checked);
   });
   // Beats end
 
