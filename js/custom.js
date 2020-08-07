@@ -362,7 +362,6 @@ $(document).ready(() => {
     function bpmSetter(newBpm) {
       bpm = Number.parseInt(newBpm, 10);
       Tone.Transport.bpm.value = bpm;
-      changeBpmIndicatorText(newBpm);
     }
 
     function bpmPlusOne() {
@@ -407,6 +406,7 @@ $(document).ready(() => {
       play: playMetronome,
       pause: pauseMetronome,
       isPaused: isPaused,
+      getBpm: bpmGetter,
       setBpm: bpmSetter,
       bpmAdjustLoop: minorBpmAdjustLooper,
       bpmAdjustStop: bpmAdjustStoper
@@ -616,6 +616,7 @@ $(document).ready(() => {
 
   BPMRANGESLIDER.on('input', () => {
     metronome.setBpm(BPMRANGESLIDER.val());
+    changeBpmIndicatorText(metronome.getBpm())
   });
 
   // BPMINCREASEBTN events
