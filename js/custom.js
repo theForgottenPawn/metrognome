@@ -50,6 +50,11 @@ $(document).ready(() => {
     BPMINDICATOR.text(value);
   };
 
+  const adjustBpmSlider = function adjustTheBpmSlider(newBpm) {
+    BPMRANGESLIDER.val(newBpm);
+    changeBpmIndicatorText(newBpm);
+  };
+
   const resetBeatVisual = function resetTheBeatVisual() {
     BEATSVISUAL.find('.beat').remove();
 
@@ -361,7 +366,7 @@ $(document).ready(() => {
       let bpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
 
       if (bpm < 260) {
-        BPMRANGESLIDER.val(bpmSetter(bpm + 1));
+        adjustBpmSlider(bpmSetter(bpm + 1));
       }
     }
 
@@ -369,7 +374,7 @@ $(document).ready(() => {
       let bpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
 
       if (bpm > 20) {
-        BPMRANGESLIDER.val(bpmSetter(bpm - 1));
+        adjustBpmSlider(bpmSetter(bpm - 1));
       }
     }
 
