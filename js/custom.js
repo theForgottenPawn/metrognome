@@ -46,8 +46,15 @@ $(document).ready(() => {
   Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
 
   // Functions
-  const revertVisual = function revertTheVisual() {
+  const resetBeatVisual = function resetTheBeatVisual() {
     beat.revertCurrentBeat();
+    BEATSVISUAL.find('.beat').remove();
+
+    for (let x = 0; x < BEATCOUNT.val(); x += 1) {
+      const SRC = 'img/beats/beat_1.png';
+      const BEAT = `<img src=${SRC} class='beat'>`;
+      BEATSVISUAL.append(BEAT);
+    }
   };
 
   const animateVisual = function animateVisualBeat() {
@@ -60,7 +67,7 @@ $(document).ready(() => {
       CURRVISBEAT.addClass('beat-played');
     } else if (currentBeat >= Number(BEATCOUNT.val(), 10)) {
       CURRVISBEAT.addClass('beat-played');
-      revertVisual();
+      beat.revertCurrentBeat();
     } else {
       CURRVISBEAT.addClass('beat-played');
     }
@@ -539,7 +546,7 @@ $(document).ready(() => {
 
     function setNote () {
       let forceStopped = disposeLoops();
-      revertVisual();
+      beat.revertCurrentBeat();
 
       if (note === 'Single') {
         singlet();
@@ -639,14 +646,7 @@ $(document).ready(() => {
 
   // Beats start
   BEATCOUNT.change(() => {
-    beat.revertCurrentBeat();
-    BEATSVISUAL.find('.beat').remove();
-
-    for (let x = 0; x < BEATCOUNT.val(); x += 1) {
-      const SRC = 'img/beats/beat_1.png';
-      const BEAT = `<img src=${SRC} class='beat'>`;
-      BEATSVISUAL.append(BEAT);
-    }
+    resetBeatVisual();
   });
 
   EMPHASIZE1STBEAT.change(() => {
