@@ -336,6 +336,7 @@ $(document).ready(() => {
   // Modules
   const metronome = (() => {
     let metronomePaused = true;
+    let bpm = Tone.Transport.bpm.value;
     let bpmAdjust = null;
 
     function isPaused() {
@@ -354,27 +355,27 @@ $(document).ready(() => {
       metronomePaused = true;
     }
 
-    function bpmSetter(bpm) {
-      newBpm = Number.parseInt(bpm, 10);
-      Tone.Transport.bpm.value = newBpm;
-      changeBpmIndicatorText(newBpm);
+    function bpmGetter() {
+      return bpm;
+    }
 
-      return newBpm;
+    function bpmSetter(newBpm) {
+      bpm = Number.parseInt(newBpm, 10);
+      Tone.Transport.bpm.value = bpm;
+      changeBpmIndicatorText(newBpm);
     }
 
     function bpmPlusOne() {
-      let bpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
-
       if (bpm < 260) {
-        adjustBpmSlider(bpmSetter(bpm + 1));
+        bpmSetter(bpm + 1);
+        adjustBpmSlider(bpm);
       }
     }
 
     function bpmMinusOne() {
-      let bpm = Number.parseInt(BPMRANGESLIDER.val(), 10);
-
       if (bpm > 20) {
-        adjustBpmSlider(bpmSetter(bpm - 1));
+        bpmSetter(bpm - 1);
+        adjustBpmSlider(bpm);
       }
     }
 
