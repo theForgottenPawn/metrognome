@@ -67,6 +67,17 @@ $(document).ready(() => {
     }
   };
 
+  const isNoteNew = function isTheNoteNew(noteBtn) {
+    if (noteBtn.hasClass('focused')) {
+      return false;
+    } else {
+      $('.note-btn').removeClass('focused');
+      noteBtn.addClass('focused');
+
+      return true;
+    }
+  };
+
   const enableTimeEditing = function enableTheTimeEditing() {
     MIN_SETTER.attr('disabled', false);
     SEC_SETTER.attr('disabled', false);
@@ -515,14 +526,9 @@ $(document).ready(() => {
       }
     }
 
-    function changeTheNote(noteBtn, noteName) {
-      if (!noteBtn.hasClass('focused')) {
-        note = noteName;
-        $('.note-btn').removeClass('focused');
-        noteBtn.addClass('focused');
-
-        setNote();
-      }
+    function changeTheNote(noteName) {
+      note = noteName
+      setNote();
     };
 
     function playTheNote() {
@@ -614,23 +620,33 @@ $(document).ready(() => {
 
   // Notes Per Beat start
   SINGLEBTN.click(() => {
-    notesPerBeat.changeNote(SINGLEBTN, 'Single');
+    if (isNoteNew(SINGLEBTN)) {
+      notesPerBeat.changeNote('Single');
+    };
   });
 
   TUPLETSBTN.click(() => {
-    notesPerBeat.changeNote(TUPLETSBTN, 'Tuplets');
+    if (isNoteNew(TUPLETSBTN)) {
+      notesPerBeat.changeNote('Tuplets');
+    }
   });
 
   TRIPLETSBTN.click(() => {
-    notesPerBeat.changeNote(TRIPLETSBTN, 'Triplets');
+    if (isNoteNew(TRIPLETSBTN)) {
+      notesPerBeat.changeNote('Triplets');
+    }
   });
 
   TRIPLETSMIDRESTBTN.click(() => {
-    notesPerBeat.changeNote(TRIPLETSMIDRESTBTN, 'Triplets Mid Rest');
+    if (isNoteNew(TRIPLETSMIDRESTBTN)) {
+      notesPerBeat.changeNote('Triplets Mid Rest');
+    }
   });
 
   QUADRUPLETSBTN.click(() => {
-    notesPerBeat.changeNote(QUADRUPLETSBTN, 'Quadruplets');
+    if (isNoteNew(QUADRUPLETSBTN)) {
+      notesPerBeat.changeNote('Quadruplets');
+    }
   });
   // Notes Per Beat end
 
