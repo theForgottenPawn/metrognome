@@ -205,17 +205,6 @@ $(document).ready(() => {
     }
   };
 
-  const startTimer = function startTheTimer() {
-    if (ENABLE_TIMER_TOGGLER[0].checked) {
-      disableTimeEditing();
-      ENABLE_TIMER_TOGGLER.attr('disabled', true);
-
-      timerInterval = setInterval(() => {
-        timeStep();
-      }, 1000);
-    }
-  };
-
   const clearIdleTimer = function clearTheIdleTimer() {
     if (idleTimer !== null) {
       clearTimeout(idleTimer);
@@ -291,7 +280,7 @@ $(document).ready(() => {
 
     function playMetronome() {
       notesPerBeat.playNote();
-      startTimer();
+      timer.start();
       metronomePaused = false;
     }
 
@@ -543,7 +532,7 @@ $(document).ready(() => {
   })();
 
   const timer = (() => {
-    function isTheTimeReachedMinimum() {
+        function isTheTimeReachedMinimum() {
       if (min <= MINIMUM_TIME[0]) {
         if (sec < MINIMUM_TIME[1]) {
           const ERROR_MODAL = $('#error-msg-modal');
@@ -596,11 +585,23 @@ $(document).ready(() => {
       }
     }
 
+    function startTheTimer() {
+      if (ENABLE_TIMER_TOGGLER[0].checked) {
+        disableTimeEditing();
+        ENABLE_TIMER_TOGGLER.attr('disabled', true);
+
+        timerInterval = setInterval(() => {
+          timeStep();
+        }, 1000);
+      }
+    }
+
     return {
       toggleTimer: toggleTheTimer,
       changeTime: changeTheTime,
       reset: resetTheTimer,
-      isReachedMinimumValidTime: isTheTimeReachedMinimum
+      isReachedMinimumValidTime: isTheTimeReachedMinimum,
+      start: startTheTimer
     };
   })();
 
