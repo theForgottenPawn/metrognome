@@ -216,19 +216,6 @@ $(document).ready(() => {
     }
   };
 
-  const isTimeReachedMinimum = function isTimeReachedMinimum() {
-    if (min <= MINIMUM_TIME[0]) {
-      if (sec < MINIMUM_TIME[1]) {
-        const ERROR_MODAL = $('#error-msg-modal');
-        ERROR_MODAL.modal('show');
-
-        return false;
-      }
-    }
-
-    return true;
-  };
-
   const clearIdleTimer = function clearTheIdleTimer() {
     if (idleTimer !== null) {
       clearTimeout(idleTimer);
@@ -556,6 +543,19 @@ $(document).ready(() => {
   })();
 
   const timer = (() => {
+    function isTheTimeReachedMinimum() {
+      if (min <= MINIMUM_TIME[0]) {
+        if (sec < MINIMUM_TIME[1]) {
+          const ERROR_MODAL = $('#error-msg-modal');
+          ERROR_MODAL.modal('show');
+
+          return false;
+        }
+      }
+
+      return true;
+    }
+
     function toggleTheTimer() {
       if (ENABLE_TIMER_TOGGLER[0].checked) {
         enableTimer();
@@ -599,7 +599,8 @@ $(document).ready(() => {
     return {
       toggleTimer: toggleTheTimer,
       changeTime: changeTheTime,
-      reset: resetTheTimer
+      reset: resetTheTimer,
+      isReachedMinimumValidTime: isTheTimeReachedMinimum
     };
   })();
 
@@ -610,7 +611,7 @@ $(document).ready(() => {
 
     if (metronome.isPaused()) {
       if (ENABLE_TIMER_TOGGLER[0].checked) {
-        if (isTimeReachedMinimum()) {
+        if (timer.isReachedMinimumValidTime()) {
           metronome.play();
         }
       } else {
