@@ -596,6 +596,10 @@ $(document).ready(() => {
     };
   })();
 
+  const timer = (() => {
+
+  })();
+
   // Events listeners
   // Metronome start
   PLAYPAUSEBTN.click(() => {
