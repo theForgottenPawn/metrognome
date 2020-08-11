@@ -192,19 +192,6 @@ $(document).ready(() => {
     }
   };
 
-  const timeStep = function timerStep() {
-    if (sec > 1) {
-      sec -= 1;
-      updateTimerMonitor(null, sec);
-    } else if (min > 0) {
-      min -= 1;
-      sec = 59;
-      updateTimerMonitor(min, sec);
-    } else {
-      stopTimer();
-    }
-  };
-
   const clearIdleTimer = function clearTheIdleTimer() {
     if (idleTimer !== null) {
       clearTimeout(idleTimer);
@@ -532,6 +519,19 @@ $(document).ready(() => {
   })();
 
   const timer = (() => {
+    function timeStep() {
+      if (sec > 1) {
+        sec -= 1;
+        updateTimerMonitor(null, sec);
+      } else if (min > 0) {
+        min -= 1;
+        sec = 59;
+        updateTimerMonitor(min, sec);
+      } else {
+        stopTimer();
+      }
+    }
+
     function isTheTimeReachedMinimum() {
       if (min <= MINIMUM_TIME[0]) {
         if (sec < MINIMUM_TIME[1]) {
