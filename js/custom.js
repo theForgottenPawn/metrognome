@@ -25,10 +25,6 @@ $(document).ready(() => {
   // Tap Timer
   const TAP_TEMPO_BTN = $('#tap-tempo-btn');
 
-  // Constants
-  // Timer
-  const MINIMUM_TIME = [0, 1];
-
   // Variables
   // Tap Tempo
   let firstTap = 0;
@@ -497,6 +493,7 @@ $(document).ready(() => {
   })();
 
   const timer = (() => {
+    const MINIMUM_TIME = [0, 1];
     let min = Number.parseInt(MIN_SETTER.val(), 10);
     let sec = Number.parseInt(SEC_SETTER.val(), 10);
     let timerInterval = null;
