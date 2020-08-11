@@ -30,10 +30,6 @@ $(document).ready(() => {
   const MINIMUM_TIME = [0, 1];
 
   // Variables
-  // Timer
-  let min = Number.parseInt(MIN_SETTER.val(), 10);
-  let sec = Number.parseInt(SEC_SETTER.val(), 10);
-  let timerInterval = null;
   // Tap Tempo
   let firstTap = 0;
   let taps = 0;
@@ -124,8 +120,8 @@ $(document).ready(() => {
   const createRemaingTime = function createRemaingTimeComponent() {
     const WRAPPER = $('<div>');
     const LABEL = $('<b>Remaining Time: </b>');
-    const MIN_MONITOR = $(`<span>${padTime(min)}m</span>`);
-    const SEC_MONITOR = $(`<span>${padTime(sec)}m</span>`);
+    const MIN_MONITOR = $(`<span>${padTime(timer.getMin())}m</span>`);
+    const SEC_MONITOR = $(`<span>${padTime(timer.getSec())}m</span>`);
 
     WRAPPER.addClass('section remaining-time-wrapper disabled');
     MIN_MONITOR.addClass('time-monitor');
@@ -501,6 +497,10 @@ $(document).ready(() => {
   })();
 
   const timer = (() => {
+    let min = Number.parseInt(MIN_SETTER.val(), 10);
+    let sec = Number.parseInt(SEC_SETTER.val(), 10);
+    let timerInterval = null;
+
     function timerPauseMetronome() {
       togglePlayLogo();
       metronome.pause();
@@ -596,13 +596,23 @@ $(document).ready(() => {
       }
     }
 
+    function getTheMin() {
+      return min;
+    }
+
+    function getTheSec() {
+      return sec;
+    }
+
     return {
       toggleTimer: toggleTheTimer,
       changeTime: changeTheTime,
       reset: resetTheTimer,
       isReachedMinimumValidTime: isTheTimeReachedMinimum,
       start: startTheTimer,
-      pause: pauseTheTimer
+      pause: pauseTheTimer,
+      getMin: getTheMin,
+      getSec: getTheSec
     };
   })();
 
@@ -722,8 +732,8 @@ $(document).ready(() => {
 
   TIME_RESETTER.click(() => {
     if (
-      (padTime(min) !== MIN_SETTER.val())
-      || (padTime(sec) !== SEC_SETTER.val())
+      (padTime(timer.getMin()) !== MIN_SETTER.val())
+      || (padTime(timer.getSec()) !== SEC_SETTER.val())
     ) {
       timer.reset();
     }
