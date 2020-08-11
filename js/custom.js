@@ -722,7 +722,7 @@ $(document).ready(() => {
       (padTime(min) !== MIN_SETTER.val())
       || (padTime(sec) !== SEC_SETTER.val())
     ) {
-      resetTimer();
+      timer.reset();
     }
   });
   // Timer end
