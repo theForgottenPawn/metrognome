@@ -493,7 +493,6 @@ $(document).ready(() => {
   })();
 
   const timer = (() => {
-    const MINIMUM_TIME = [0, 1];
     let min = Number.parseInt(MIN_SETTER.val(), 10);
     let sec = Number.parseInt(SEC_SETTER.val(), 10);
     let timerInterval = null;
@@ -523,13 +522,11 @@ $(document).ready(() => {
     }
 
     function isTheTimeReachedMinimum() {
-      if (min <= MINIMUM_TIME[0]) {
-        if (sec < MINIMUM_TIME[1]) {
-          const ERROR_MODAL = $('#error-msg-modal');
-          ERROR_MODAL.modal('show');
+      if ((min <= 0) && (sec < 1)) {
+        const ERROR_MODAL = $('#error-msg-modal');
+        ERROR_MODAL.modal('show');
 
-          return false;
-        }
+        return false;
       }
 
       return true;
