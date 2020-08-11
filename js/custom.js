@@ -161,19 +161,6 @@ $(document).ready(() => {
     PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
   };
 
-  const pauseTimer = function pauseTheTimer() {
-    if (ENABLE_TIMER_TOGGLER[0].checked) {
-      clearInterval(timerInterval);
-      enableTimeEditing();
-    }
-  };
-
-  const timerPauseMetronome = function timerWillPauseTheMetronome() {
-    togglePlayLogo();
-    metronome.pause();
-    pauseTimer();
-  };
-
   const updateTimerMonitor = function updateTheTimeMonitor(newMin, newSec) {
     if ($('#min-monitor') && $('#sec-monitor')) {
       const MIN_MONITOR = $('#min-monitor');
@@ -268,7 +255,7 @@ $(document).ready(() => {
 
     function pauseMetronome() {
       notesPerBeat.pauseNote();
-      pauseTimer();
+      timer.pause();
       metronomePaused = true;
     }
 
@@ -514,6 +501,12 @@ $(document).ready(() => {
   })();
 
   const timer = (() => {
+    function timerPauseMetronome() {
+      togglePlayLogo();
+      metronome.pause();
+      pauseTheTimer();
+    }
+
     function stopTimer() {
       timerPauseMetronome();
       resetTheTimer();
@@ -596,12 +589,20 @@ $(document).ready(() => {
       }
     }
 
+    function pauseTheTimer() {
+      if (ENABLE_TIMER_TOGGLER[0].checked) {
+        clearInterval(timerInterval);
+        enableTimeEditing();
+      }
+    }
+
     return {
       toggleTimer: toggleTheTimer,
       changeTime: changeTheTime,
       reset: resetTheTimer,
       isReachedMinimumValidTime: isTheTimeReachedMinimum,
-      start: startTheTimer
+      start: startTheTimer,
+      pause: pauseTheTimer
     };
   })();
 
