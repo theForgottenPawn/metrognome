@@ -210,9 +210,8 @@ $(document).ready(() => {
 
   const timerPauseMetronome = function timerWillPauseTheMetronome() {
     togglePlayLogo();
-    pauseNote();
+    metronome.pause();
     pauseTimer();
-    metronomePaused = true;
   };
 
   const stopTimer = function stopTheTimer() {
