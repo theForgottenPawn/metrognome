@@ -174,11 +174,6 @@ $(document).ready(() => {
     pauseTimer();
   };
 
-  const stopTimer = function stopTheTimer() {
-    timerPauseMetronome();
-    timer.reset();
-  };
-
   const updateTimerMonitor = function updateTheTimeMonitor(newMin, newSec) {
     if ($('#min-monitor') && $('#sec-monitor')) {
       const MIN_MONITOR = $('#min-monitor');
@@ -519,6 +514,11 @@ $(document).ready(() => {
   })();
 
   const timer = (() => {
+    function stopTimer() {
+      timerPauseMetronome();
+      resetTheTimer();
+    }
+
     function timeStep() {
       if (sec > 1) {
         sec -= 1;
