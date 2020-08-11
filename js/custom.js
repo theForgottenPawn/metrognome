@@ -156,14 +156,6 @@ $(document).ready(() => {
     destroyRemainingTime();
   };
 
-  const toggleTimer = function toggleTheTimer() {
-    if (ENABLE_TIMER_TOGGLER[0].checked) {
-      enableTimer();
-    } else {
-      disableTimer();
-    }
-  };
-
   const changeTime = function changeTheTime(timeType, newTime) {
     let monitor = null;
     let timeUnit = null;
@@ -596,7 +588,17 @@ $(document).ready(() => {
   })();
 
   const timer = (() => {
+    function toggleTheTimer() {
+      if (ENABLE_TIMER_TOGGLER[0].checked) {
+        enableTimer();
+      } else {
+        disableTimer();
+      }
+    }
 
+    return {
+      toggleTimer: toggleTheTimer
+    };
   })();
 
   // Events listeners
@@ -702,7 +704,7 @@ $(document).ready(() => {
 
   // Timer start
   ENABLE_TIMER_TOGGLER.click(() => {
-    toggleTimer();
+    timer.toggleTimer();
   });
 
   MIN_SETTER.change(() => {
