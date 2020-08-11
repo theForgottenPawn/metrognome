@@ -532,7 +532,7 @@ $(document).ready(() => {
   })();
 
   const timer = (() => {
-        function isTheTimeReachedMinimum() {
+    function isTheTimeReachedMinimum() {
       if (min <= MINIMUM_TIME[0]) {
         if (sec < MINIMUM_TIME[1]) {
           const ERROR_MODAL = $('#error-msg-modal');
