@@ -166,6 +166,11 @@ $(document).ready(() => {
     }
   };
 
+  const showTimerErrorModal = function showTheTimerErrorModal() {
+    const ERROR_MODAL = $('#error-msg-modal');
+    ERROR_MODAL.modal('show');
+  };
+
   const clearIdleTimer = function clearTheIdleTimer() {
     if (idleTimer !== null) {
       clearTimeout(idleTimer);
@@ -523,8 +528,7 @@ $(document).ready(() => {
 
     function isTheTimeReachedMinimum() {
       if ((min <= 0) && (sec < 1)) {
-        const ERROR_MODAL = $('#error-msg-modal');
-        ERROR_MODAL.modal('show');
+        showTimerErrorModal();
 
         return false;
       }
