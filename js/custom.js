@@ -156,19 +156,6 @@ $(document).ready(() => {
     destroyRemainingTime();
   };
 
-  const resetTimer = function resetTheTimer() {
-    min = Number.parseInt(MIN_SETTER.val(), 10);
-    sec = Number.parseInt(SEC_SETTER.val(), 10);
-
-    if ($('#min-monitor') && $('#sec-monitor')) {
-      const MIN_MONITOR = $('#min-monitor');
-      const SEC_MONITOR = $('#sec-monitor');
-
-      MIN_MONITOR.text(`${MIN_SETTER.val()}m`);
-      SEC_MONITOR.text(`${SEC_SETTER.val()}s`);
-    }
-  };
-
   const togglePlayLogo = function togglePlayButtonLogo() {
     PLAYBUTTONLOGO.toggleClass('glyphicon-play');
     PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
@@ -189,7 +176,7 @@ $(document).ready(() => {
 
   const stopTimer = function stopTheTimer() {
     timerPauseMetronome();
-    resetTimer();
+    timer.reset();
   };
 
   const updateTimerMonitor = function updateTheTimeMonitor(newMin, newSec) {
@@ -596,9 +583,23 @@ $(document).ready(() => {
       }
     }
 
+    function resetTheTimer() {
+      min = Number.parseInt(MIN_SETTER.val(), 10);
+      sec = Number.parseInt(SEC_SETTER.val(), 10);
+
+      if ($('#min-monitor') && $('#sec-monitor')) {
+        const MIN_MONITOR = $('#min-monitor');
+        const SEC_MONITOR = $('#sec-monitor');
+
+        MIN_MONITOR.text(`${MIN_SETTER.val()}m`);
+        SEC_MONITOR.text(`${SEC_SETTER.val()}s`);
+      }
+    }
+
     return {
       toggleTimer: toggleTheTimer,
-      changeTime: changeTheTime
+      changeTime: changeTheTime,
+      reset: resetTheTimer
     };
   })();
 
