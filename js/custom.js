@@ -156,25 +156,6 @@ $(document).ready(() => {
     destroyRemainingTime();
   };
 
-  const changeTime = function changeTheTime(timeType, newTime) {
-    let monitor = null;
-    let timeUnit = null;
-
-    if (timeType === 'min') {
-      min = newTime;
-      monitor = $('#min-monitor');
-      timeUnit = 'm';
-    } else if (timeType === 'sec') {
-      sec = newTime;
-      monitor = $('#sec-monitor');
-      timeUnit = 's';
-    }
-
-    if (monitor != null) {
-      monitor.text(`${padTime(newTime)}${timeUnit}`);
-    }
-  };
-
   const resetTimer = function resetTheTimer() {
     min = Number.parseInt(MIN_SETTER.val(), 10);
     sec = Number.parseInt(SEC_SETTER.val(), 10);
@@ -596,8 +577,28 @@ $(document).ready(() => {
       }
     }
 
+    function changeTheTime(timeType, newTime) {
+      let monitor = null;
+      let timeUnit = null;
+
+      if (timeType === 'min') {
+        min = newTime;
+        monitor = $('#min-monitor');
+        timeUnit = 'm';
+      } else if (timeType === 'sec') {
+        sec = newTime;
+        monitor = $('#sec-monitor');
+        timeUnit = 's';
+      }
+
+      if (monitor != null) {
+        monitor.text(`${padTime(newTime)}${timeUnit}`);
+      }
+    }
+
     return {
-      toggleTimer: toggleTheTimer
+      toggleTimer: toggleTheTimer,
+      changeTime: changeTheTime
     };
   })();
 
@@ -708,11 +709,11 @@ $(document).ready(() => {
   });
 
   MIN_SETTER.change(() => {
-    changeTime('min', Number.parseInt(MIN_SETTER.val(), 10));
+    timer.changeTime('min', Number.parseInt(MIN_SETTER.val(), 10));
   });
 
   SEC_SETTER.change(() => {
-    changeTime('sec', Number.parseInt(SEC_SETTER.val(), 10));
+    timer.changeTime('sec', Number.parseInt(SEC_SETTER.val(), 10));
   });
 
   TIME_RESETTER.click(() => {
