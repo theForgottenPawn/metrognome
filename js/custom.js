@@ -578,15 +578,12 @@ $(document).ready(() => {
     function startTheTimer() {
       if (timerEnabled) {
         disableTimeEditing();
-
-        timerInterval = setInterval(() => {
-          timeStep();
-        }, 1000);
+        timerInterval = setInterval(() => { timeStep(); }, 1000);
       }
     }
 
     function pauseTheTimer() {
-      if (ENABLE_TIMER_TOGGLER[0].checked) {
+      if (timerEnabled) {
         clearInterval(timerInterval);
         enableTimeEditing();
       }
