@@ -96,6 +96,7 @@ $(document).ready(() => {
   };
 
   const disableTimeEditing = function disableTheTimeEditing() {
+    ENABLE_TIMER_TOGGLER.attr('disabled', true);
     MIN_SETTER.attr('disabled', true);
     SEC_SETTER.attr('disabled', true);
     TIME_RESETTER.attr('disabled', true);
@@ -575,9 +576,8 @@ $(document).ready(() => {
     }
 
     function startTheTimer() {
-      if (ENABLE_TIMER_TOGGLER[0].checked) {
+      if (timerEnabled) {
         disableTimeEditing();
-        ENABLE_TIMER_TOGGLER.attr('disabled', true);
 
         timerInterval = setInterval(() => {
           timeStep();
