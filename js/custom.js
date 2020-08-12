@@ -501,6 +501,7 @@ $(document).ready(() => {
     let min = Number.parseInt(MIN_SETTER.val(), 10);
     let sec = Number.parseInt(SEC_SETTER.val(), 10);
     let timerInterval = null;
+    let timerEnabled = false;
 
     function timerPauseMetronome() {
       togglePlayLogo();
@@ -536,12 +537,9 @@ $(document).ready(() => {
       return true;
     }
 
-    function toggleTheTimer() {
-      if (ENABLE_TIMER_TOGGLER[0].checked) {
-        enableTimer();
-      } else {
-        disableTimer();
-      }
+    function toggleTheTimer(state) {
+      timerEnabled = state;
+      timerEnabled ? enableTimer() : disableTimer();
     }
 
     function changeTheTime(timeType, newTime) {
@@ -717,7 +715,7 @@ $(document).ready(() => {
 
   // Timer start
   ENABLE_TIMER_TOGGLER.click(() => {
-    timer.toggleTimer();
+    timer.toggleTimer(ENABLE_TIMER_TOGGLER[0].checked);
   });
 
   MIN_SETTER.change(() => {
