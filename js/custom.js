@@ -315,6 +315,10 @@ $(document).ready(() => {
     };
   })();
 
+  const tapTempo = (() => {
+
+  })();
+
   const beat = (() => {
     let currentBeat = 0;
     let playFirstBeat = false;
