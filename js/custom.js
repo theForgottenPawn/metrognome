@@ -25,12 +25,6 @@ $(document).ready(() => {
   // Tap Timer
   const TAP_TEMPO_BTN = $('#tap-tempo-btn');
 
-  // Variables
-  // Tap Tempo
-  let firstTap = 0;
-  let taps = 0;
-  let idleTimer = null;
-
   // Early tweak
   // General Tweak
   $('[data-toggle="tooltip"]').tooltip();
@@ -172,53 +166,9 @@ $(document).ready(() => {
     ERROR_MODAL.modal('show');
   };
 
-  const clearIdleTimer = function clearTheIdleTimer() {
-    if (idleTimer !== null) {
-      clearTimeout(idleTimer);
-      idleTimer = null;
-    }
-  };
-
   const toggleTapTempoBtn = function toggleTheTapTempoBtn() {
     TAP_TEMPO_BTN.toggleClass('btn-success');
     TAP_TEMPO_BTN.toggleClass('btn-danger');
-  };
-
-  const getFirstTap = function getThefirstTap(time) {
-    const MIN_BPM = 20;
-
-    toggleTapTempoBtn();
-
-    firstTap = time;
-    taps = 1;
-    BPMRANGESLIDER.val(MIN_BPM);
-    setBpm(MIN_BPM);
-  };
-
-  const getTapBasedTempo = function getTheTapBasedTempo(currentTap) {
-    let averageBpm = (60000 * taps) / (currentTap - firstTap);
-    const MIN_BPM = 20;
-    const MAX_BPM = 260;
-
-    if (averageBpm < MIN_BPM) {
-      averageBpm = MIN_BPM;
-    } else if (averageBpm > MAX_BPM) {
-      averageBpm = MAX_BPM;
-    } else {
-      averageBpm = Math.round(averageBpm);
-    }
-
-    BPMRANGESLIDER.val(averageBpm);
-    setBpm(averageBpm);
-
-    taps += 1;
-  };
-
-  const resetTapTempo = function resetTheTapTempo() {
-    toggleTapTempoBtn();
-    firstTap = 0;
-    taps = 0;
-    clearIdleTimer();
   };
 
   // Modules
@@ -302,9 +252,56 @@ $(document).ready(() => {
   })();
 
   const tapTempo = (() => {
+    let firstTap = 0;
+    let taps = 0;
+    let idleTimer = null;
+
+    function clearIdleTimer() {
+      if (idleTimer !== null) {
+        clearTimeout(idleTimer);
+        idleTimer = null;
+      }
+    }
+
+    function getFirstTap(time) {
+      const MIN_BPM = 20;
+
+      toggleTapTempoBtn();
+
+      firstTap = time;
+      taps = 1;
+      BPMRANGESLIDER.val(MIN_BPM);
+      metronome.setBpm(MIN_BPM);
+    }
+
+    function getTapBasedTempo(currentTap) {
+      let averageBpm = (60000 * taps) / (currentTap - firstTap);
+      const MIN_BPM = 20;
+      const MAX_BPM = 260;
+
+      if (averageBpm < MIN_BPM) {
+        averageBpm = MIN_BPM;
+      } else if (averageBpm > MAX_BPM) {
+        averageBpm = MAX_BPM;
+      } else {
+        averageBpm = Math.round(averageBpm);
+      }
+
+      BPMRANGESLIDER.val(averageBpm);
+      metronome.setBpm(averageBpm);
+
+      taps += 1;
+    }
+
+    function resetTapTempo() {
+      toggleTapTempoBtn();
+      firstTap = 0;
+      taps = 0;
+      clearIdleTimer();
+    }
+
     function tapTempoTapped () {
       const TAP_SNAPSHOT = $.now();
-
       clearIdleTimer();
 
       if (taps < 1) {
@@ -313,8 +310,9 @@ $(document).ready(() => {
         getTapBasedTempo(TAP_SNAPSHOT);
       }
 
+      changeBpmIndicatorText(metronome.getBpm())
       idleTimer = setTimeout(() => { resetTapTempo(); }, 3500);
-    };
+    }
 
     return {
       tap: tapTempoTapped
