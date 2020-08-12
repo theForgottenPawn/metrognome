@@ -221,20 +221,6 @@ $(document).ready(() => {
     clearIdleTimer();
   };
 
-  const tapTempoTapped = function tapTempoIsTapped() {
-    const TAP_SNAPSHOT = $.now();
-
-    clearIdleTimer();
-
-    if (taps < 1) {
-      getFirstTap(TAP_SNAPSHOT);
-    } else {
-      getTapBasedTempo(TAP_SNAPSHOT);
-    }
-
-    idleTimer = setTimeout(() => { resetTapTempo(); }, 3500);
-  };
-
   // Modules
   const metronome = (() => {
     let metronomePaused = true;
@@ -316,7 +302,23 @@ $(document).ready(() => {
   })();
 
   const tapTempo = (() => {
+    function tapTempoTapped () {
+      const TAP_SNAPSHOT = $.now();
 
+      clearIdleTimer();
+
+      if (taps < 1) {
+        getFirstTap(TAP_SNAPSHOT);
+      } else {
+        getTapBasedTempo(TAP_SNAPSHOT);
+      }
+
+      idleTimer = setTimeout(() => { resetTapTempo(); }, 3500);
+    };
+
+    return {
+      tap: tapTempoTapped
+    };
   })();
 
   const beat = (() => {
@@ -739,12 +741,12 @@ $(document).ready(() => {
 
   // Tap Metronome start
   TAP_TEMPO_BTN.mousedown(() => {
-    tapTempoTapped();
+    tapTempo.tap();
   });
 
   $(document).keydown((e) => {
     if (e.keyCode === 32) {
-      tapTempoTapped();
+      tapTempo.tap();
       e.preventDefault();
     }
   });
