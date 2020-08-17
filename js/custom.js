@@ -90,7 +90,6 @@ $(document).ready(() => {
   };
 
   const disableTimeEditing = function disableTheTimeEditing() {
-    ENABLE_TIMER_TOGGLER.attr('disabled', true);
     MIN_SETTER.attr('disabled', true);
     SEC_SETTER.attr('disabled', true);
     TIME_RESETTER.attr('disabled', true);
@@ -153,11 +152,8 @@ $(document).ready(() => {
       const MIN_MONITOR = $('#min-monitor');
       const SEC_MONITOR = $('#sec-monitor');
 
-      if (newMin !== null) {
-        MIN_MONITOR.text(`${padTime(newMin)}m`);
-      }
-
-      SEC_MONITOR.text(`${padTime(newSec)}s`);
+      newMin !== null ? MIN_MONITOR.text(`${padTime(newMin)}m`) : null;
+      newSec !== null ? SEC_MONITOR.text(`${padTime(newSec)}s`) : null;
     }
   };
 
@@ -503,8 +499,10 @@ $(document).ready(() => {
   })();
 
   const timer = (() => {
-    let min = Number.parseInt(MIN_SETTER.val(), 10);
-    let sec = Number.parseInt(SEC_SETTER.val(), 10);
+    let defaultMin = 0;
+    let defaultSec = 0;
+    let min = 0;
+    let sec = 0;
     let timerInterval = null;
     let timerEnabled = false;
 
@@ -533,13 +531,10 @@ $(document).ready(() => {
     }
 
     function isTheTimeReachedMinimum() {
-      if ((min <= 0) && (sec < 1)) {
-        showTimerErrorModal();
+      let result = false;
+      (min <= 0) && (sec < 1) ? showTimerErrorModal() : result = true;
 
-        return false;
-      }
-
-      return true;
+      return result;
     }
 
     function toggleTheTimer(state) {
@@ -547,36 +542,10 @@ $(document).ready(() => {
       timerEnabled ? enableTimer() : disableTimer();
     }
 
-    function changeTheTime(timeType, newTime) {
-      let monitor = null;
-      let timeUnit = null;
-
-      if (timeType === 'min') {
-        min = newTime;
-        monitor = $('#min-monitor');
-        timeUnit = 'm';
-      } else if (timeType === 'sec') {
-        sec = newTime;
-        monitor = $('#sec-monitor');
-        timeUnit = 's';
-      }
-
-      if (monitor != null) {
-        monitor.text(`${padTime(newTime)}${timeUnit}`);
-      }
-    }
-
     function resetTheTimer() {
-      min = Number.parseInt(MIN_SETTER.val(), 10);
-      sec = Number.parseInt(SEC_SETTER.val(), 10);
-
-      if ($('#min-monitor') && $('#sec-monitor')) {
-        const MIN_MONITOR = $('#min-monitor');
-        const SEC_MONITOR = $('#sec-monitor');
-
-        MIN_MONITOR.text(`${MIN_SETTER.val()}m`);
-        SEC_MONITOR.text(`${SEC_SETTER.val()}s`);
-      }
+      min = defaultMin;
+      sec = defaultSec;
+      updateTimerMonitor(min, sec);
     }
 
     function startTheTimer() {
@@ -597,19 +566,37 @@ $(document).ready(() => {
       return min;
     }
 
+    function setTheMin(newMin) {
+      defaultMin = newMin;
+      min = defaultMin;
+      updateTimerMonitor(min, null);
+    }
+
     function getTheSec() {
       return sec;
     }
 
+    function setTheSec(newSec) {
+      defaultSec = newSec;
+      sec = defaultSec;
+      updateTimerMonitor(null, sec);
+    }
+
+    function getTimerEnabled() {
+      return timerEnabled;
+    }
+
     return {
       toggleTimer: toggleTheTimer,
-      changeTime: changeTheTime,
-      reset: resetTheTimer,
       isReachedMinimumValidTime: isTheTimeReachedMinimum,
       start: startTheTimer,
       pause: pauseTheTimer,
+      reset: resetTheTimer,
       getMin: getTheMin,
-      getSec: getTheSec
+      setMin: setTheMin,
+      getSec: getTheSec,
+      setSec: setTheSec,
+      isEnabled: getTimerEnabled
     };
   })();
 
@@ -717,14 +704,18 @@ $(document).ready(() => {
   // Timer start
   ENABLE_TIMER_TOGGLER.click(() => {
     timer.toggleTimer(ENABLE_TIMER_TOGGLER[0].checked);
+    if (timer.isEnabled) {
+      timer.setMin(Number.parseInt(MIN_SETTER.val(), 10));
+      timer.setSec(Number.parseInt(SEC_SETTER.val(), 10));
+    }
   });
 
   MIN_SETTER.change(() => {
-    timer.changeTime('min', Number.parseInt(MIN_SETTER.val(), 10));
+    timer.setMin(Number.parseInt(MIN_SETTER.val(), 10));
   });
 
   SEC_SETTER.change(() => {
-    timer.changeTime('sec', Number.parseInt(SEC_SETTER.val(), 10));
+    timer.setSec(Number.parseInt(SEC_SETTER.val(), 10));
   });
 
   TIME_RESETTER.click(() => {
