@@ -270,7 +270,7 @@ $(document).ready(() => {
 
       firstTap = time;
       taps = 1;
-      BPMRANGESLIDER.val(MIN_BPM);
+      adjustBpmSlider(MIN_BPM);
       metronome.setBpm(MIN_BPM);
     }
 
@@ -287,7 +287,7 @@ $(document).ready(() => {
         averageBpm = Math.round(averageBpm);
       }
 
-      BPMRANGESLIDER.val(averageBpm);
+      adjustBpmSlider(averageBpm);
       metronome.setBpm(averageBpm);
 
       taps += 1;
