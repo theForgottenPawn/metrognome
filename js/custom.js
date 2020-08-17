@@ -28,8 +28,6 @@ $(document).ready(() => {
   // Early tweak
   // General Tweak
   $('[data-toggle="tooltip"]').tooltip();
-  // Metronome
-  Tone.Transport.bpm.value = Number.parseInt(BPMRANGESLIDER.val(), 10);
 
   // Functions
   const changeBpmIndicatorText = function changeTheBpmIndicatorText(value) {
@@ -170,7 +168,7 @@ $(document).ready(() => {
   // Modules
   const metronome = (() => {
     let metronomePaused = true;
-    let bpm = Tone.Transport.bpm.value;
+    let bpm = null;
     let bpmAdjust = null;
 
     function isPaused() {
@@ -599,6 +597,8 @@ $(document).ready(() => {
       isEnabled: getTimerEnabled
     };
   })();
+
+  metronome.setBpm(BPMRANGESLIDER.val());
 
   // Events listeners
   // Metronome start
