@@ -704,7 +704,7 @@ $(document).ready(() => {
   // Timer start
   ENABLE_TIMER_TOGGLER.click(() => {
     timer.toggleTimer(ENABLE_TIMER_TOGGLER[0].checked);
-    if (timer.isEnabled) {
+    if (timer.isEnabled && ((timer.getMin() < 1) && (timer.getSec() < 1))) {
       timer.setMin(Number.parseInt(MIN_SETTER.val(), 10));
       timer.setSec(Number.parseInt(SEC_SETTER.val(), 10));
     }
@@ -712,6 +712,7 @@ $(document).ready(() => {
 
   MIN_SETTER.change(() => {
     timer.setMin(Number.parseInt(MIN_SETTER.val(), 10));
+    timer.setSec(Number.parseInt(SEC_SETTER.val(), 10));
   });
 
   SEC_SETTER.change(() => {
@@ -720,8 +721,8 @@ $(document).ready(() => {
 
   TIME_RESETTER.click(() => {
     if (
-      (padTime(timer.getMin()) !== MIN_SETTER.val())
-      || (padTime(timer.getSec()) !== SEC_SETTER.val())
+      (padTime(timer.getMin()) !== MIN_SETTER.val()) ||
+      (padTime(timer.getSec()) !== SEC_SETTER.val())
     ) {
       timer.reset();
     }
