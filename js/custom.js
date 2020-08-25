@@ -105,11 +105,11 @@ $(document).ready(() => {
     return time.toString();
   };
 
-  const createRemaingTime = function createRemaingTimeComponent() {
+  const createRemaingTime = function createRemaingTimeComponent(min, sec) {
     const WRAPPER = $('<div>');
     const LABEL = $('<b>Remaining Time: </b>');
-    const MIN_MONITOR = $(`<span>${padTime(timer.getMin())}m</span>`);
-    const SEC_MONITOR = $(`<span>${padTime(timer.getSec())}m</span>`);
+    const MIN_MONITOR = $(`<span>${padTime(min)}m</span>`);
+    const SEC_MONITOR = $(`<span>${padTime(sec)}s</span>`);
 
     WRAPPER.addClass('section remaining-time-wrapper disabled');
     MIN_MONITOR.addClass('time-monitor');
@@ -128,11 +128,6 @@ $(document).ready(() => {
     if ($('.remaining-time-wrapper')) {
       $('.remaining-time-wrapper').remove();
     }
-  };
-
-  const enableTimer = function enableTheTimer() {
-    enableTimeEditing();
-    createRemaingTime();
   };
 
   const disableTimer = function disableTheTimer() {
@@ -537,7 +532,13 @@ $(document).ready(() => {
 
     function toggleTheTimer(state) {
       timerEnabled = state;
-      timerEnabled ? enableTimer() : disableTimer();
+
+      if (timerEnabled) {
+        enableTimeEditing();
+        createRemaingTime(min, sec);
+      } else {
+        disableTimer();
+      }
     }
 
     function resetTheTimer() {
