@@ -59,7 +59,7 @@ $(document).ready(() => {
 
   // only notesPerBeat module uses this function
   const notesPerBeatVisuals = (() => {
-    // Import the beat module
+    // Import the components and beat module
     function animateTheBeatVisual() {
       beat.plusOneCurrentBeat();
       let currentBeat = beat.getCurrentBeat();
@@ -151,10 +151,17 @@ $(document).ready(() => {
   // end
 
   // Only tapTempo module uses this function
-  const toggleTapTempoBtn = function toggleTheTapTempoBtn() {
-    components.TAP_TEMPO_BTN.toggleClass('btn-success');
-    components.TAP_TEMPO_BTN.toggleClass('btn-danger');
-  };
+  const tapTempoVisuals = (() => {
+    // import the components module
+    function toggleTheTapTempoBtn() {
+      components.TAP_TEMPO_BTN.toggleClass('btn-success');
+      components.TAP_TEMPO_BTN.toggleClass('btn-danger');
+    }
+
+    return {
+      toggleTapTempoBtn: toggleTheTapTempoBtn
+    };
+  })();
   // end
 
   // Modules
@@ -283,7 +290,7 @@ $(document).ready(() => {
     function getFirstTap(time) {
       const MIN_BPM = 20;
 
-      toggleTapTempoBtn();
+      tapTempoVisuals.toggleTapTempoBtn();
 
       firstTap = time;
       taps = 1;
@@ -311,7 +318,7 @@ $(document).ready(() => {
     }
 
     function resetTapTempo() {
-      toggleTapTempoBtn();
+      tapTempoVisuals.toggleTapTempoBtn();
       firstTap = 0;
       taps = 0;
       clearIdleTimer();
@@ -690,7 +697,7 @@ $(document).ready(() => {
   // Beats start
   components.BEATCOUNT.change(() => {
     beat.revertCurrentBeat();
-    resetBeatVisual();
+    resetBeatVisuals();
   });
 
   components.EMPHASIZE1STBEAT.change(() => {
