@@ -35,7 +35,7 @@ $(document).ready(() => {
 
   // Functions
   // Only the main file uses these functions
-  const resetBeatVisual = function resetTheBeatVisual() {
+  const resetBeatVisuals = function resetTheBeatVisual() {
     components.BEATSVISUAL.find('.beat').remove();
 
     for (let x = 0; x < components.BEATCOUNT.val(); x += 1) {
@@ -58,21 +58,28 @@ $(document).ready(() => {
   // end
 
   // only notesPerBeat module uses this function
-  const animateBeatVisual = function animateTheBeatVisual() {
-    beat.plusOneCurrentBeat();
-    let currentBeat = beat.getCurrentBeat();
-    const CURRVISBEAT = components.BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
+  const notesPerBeatVisuals = (() => {
+    // Import the beat module
+    function animateTheBeatVisual() {
+      beat.plusOneCurrentBeat();
+      let currentBeat = beat.getCurrentBeat();
+      const CURRVISBEAT = components.BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
 
-    if (currentBeat === 1) {
-      components.BEATSVISUAL.find('.beat').removeClass('beat-played');
-      CURRVISBEAT.addClass('beat-played');
-    } else if (currentBeat >= Number(components.BEATCOUNT.val(), 10)) {
-      CURRVISBEAT.addClass('beat-played');
-      beat.revertCurrentBeat();
-    } else {
-      CURRVISBEAT.addClass('beat-played');
+      if (currentBeat === 1) {
+        components.BEATSVISUAL.find('.beat').removeClass('beat-played');
+        CURRVISBEAT.addClass('beat-played');
+      } else if (currentBeat >= Number(components.BEATCOUNT.val(), 10)) {
+        CURRVISBEAT.addClass('beat-played');
+        beat.revertCurrentBeat();
+      } else {
+        CURRVISBEAT.addClass('beat-played');
+      }
     }
-  };
+
+    return {
+      animateBeatVisual: animateTheBeatVisual
+    };
+  })();
   // end
 
   // only timer module uses these functions
@@ -404,7 +411,7 @@ $(document).ready(() => {
     function setMain() {
       mainLoop = new Tone.Loop(() => {
         let chord = 'A5';
-        animateBeatVisual();
+        notesPerBeatVisuals.animateBeatVisual();
 
         if (beat.shouldPlayFirstBeat() && (beat.getCurrentBeat() === 1)) {
           chord = 'B6';
