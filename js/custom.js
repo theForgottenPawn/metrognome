@@ -1,33 +1,33 @@
 $(document).ready(() => {
   // Components
   const components = (() => {
-
+    return {
+      // Metronome
+      BPMRANGESLIDER: $('#bpm-range-slider'),
+      BPMINDICATOR: $('#bpm-indicator'),
+      PLAYPAUSEBTN: $('#play-pause-btn'),
+      BPMINCREASEBTN: $('#bpm-increase-btn'),
+      BPMDECREASEBTN: $('#bpm-decrease-btn'),
+      PLAYBUTTONLOGO: $('#play-pause-btn > .logo'),
+      // Beats
+      BEATSVISUAL: $('.beats-visual'),
+      EMPHASIZE1STBEAT: $('#emphasize-1st-beat'),
+      BEATCOUNT: $('#beat-count'),
+      // Notes Per Beat
+      SINGLEBTN: $('#single-btn'),
+      TUPLETSBTN: $('#tuplets-btn'),
+      TRIPLETSBTN: $('#triplets-btn'),
+      TRIPLETSMIDRESTBTN: $('#triplets-mid-rest-btn'),
+      QUADRUPLETSBTN: $('#quadruplets-btn'),
+      // Timer
+      ENABLE_TIMER_TOGGLER, $('#enable-timer-toggler'),
+      MIN_SETTER, $('#min-select'),
+      SEC_SETTER, $('#sec-select'),
+      TIME_RESETTER, $('#time-resetter'),
+      // Tap Timer
+      TAP_TEMPO_BTN: $('#tap-tempo-btn')
+    };
   })();
-
-  // Metronome
-  const BPMRANGESLIDER = $('#bpm-range-slider');
-  const BPMINDICATOR = $('#bpm-indicator');
-  const PLAYPAUSEBTN = $('#play-pause-btn');
-  const BPMINCREASEBTN = $('#bpm-increase-btn');
-  const BPMDECREASEBTN = $('#bpm-decrease-btn');
-  const PLAYBUTTONLOGO = $('#play-pause-btn > .logo');
-  // Beats
-  const BEATSVISUAL = $('.beats-visual');
-  const EMPHASIZE1STBEAT = $('#emphasize-1st-beat');
-  const BEATCOUNT = $('#beat-count');
-  // Notes Per Beat
-  const SINGLEBTN = $('#single-btn');
-  const TUPLETSBTN = $('#tuplets-btn');
-  const TRIPLETSBTN = $('#triplets-btn');
-  const TRIPLETSMIDRESTBTN = $('#triplets-mid-rest-btn');
-  const QUADRUPLETSBTN = $('#quadruplets-btn');
-  // Timer
-  const ENABLE_TIMER_TOGGLER = $('#enable-timer-toggler');
-  const MIN_SETTER = $('#min-select');
-  const SEC_SETTER = $('#sec-select');
-  const TIME_RESETTER = $('#time-resetter');
-  // Tap Timer
-  const TAP_TEMPO_BTN = $('#tap-tempo-btn');
 
   // Early tweak
   // General Tweak
