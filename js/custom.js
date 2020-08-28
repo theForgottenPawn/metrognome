@@ -34,15 +34,6 @@ $(document).ready(() => {
   $('[data-toggle="tooltip"]').tooltip();
 
   // Functions
-  const changeBpmIndicatorText = function changeTheBpmIndicatorText(value) {
-    components.BPMINDICATOR.text(value);
-  };
-
-  const adjustBpmSlider = function adjustTheBpmSlider(newBpm) {
-    components.BPMRANGESLIDER.val(newBpm);
-    changeBpmIndicatorText(newBpm);
-  };
-
   const resetBeatVisual = function resetTheBeatVisual() {
     components.BEATSVISUAL.find('.beat').remove();
 
@@ -139,11 +130,6 @@ $(document).ready(() => {
     destroyRemainingTime();
   };
 
-  const togglePlayLogo = function togglePlayButtonLogo() {
-    components.PLAYBUTTONLOGO.toggleClass('glyphicon-play');
-    components.PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
-  };
-
   const updateTimerMonitor = function updateTheTimeMonitor(newMin, newSec) {
     if ($('#min-monitor') && $('#sec-monitor')) {
       const MIN_MONITOR = $('#min-monitor');
@@ -166,7 +152,25 @@ $(document).ready(() => {
 
   // Modules
   const sharedVisuals = (() => {
+    function changeTheBpmIndicatorText(value) {
+      components.BPMINDICATOR.text(value);
+    }
 
+    function adjustTheBpmSlider(newBpm) {
+      components.BPMRANGESLIDER.val(newBpm);
+      changeTheBpmIndicatorText(newBpm);
+    };
+
+    function togglePlayButtonLogo() {
+      components.PLAYBUTTONLOGO.toggleClass('glyphicon-play');
+      components.PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
+    };
+
+    return {
+      changeBpmIndicatorText: changeTheBpmIndicatorText,
+      adjustBpmSlider: adjustTheBpmSlider,
+      togglePlayLogo: togglePlayButtonLogo
+    };
   })();
 
   const metronome = (() => {
@@ -202,14 +206,14 @@ $(document).ready(() => {
     function bpmPlusOne() {
       if (bpm < 260) {
         bpmSetter(bpm + 1);
-        adjustBpmSlider(bpm);
+        sharedVisuals.adjustBpmSlider(bpm);
       }
     }
 
     function bpmMinusOne() {
       if (bpm > 20) {
         bpmSetter(bpm - 1);
-        adjustBpmSlider(bpm);
+        sharedVisuals.adjustBpmSlider(bpm);
       }
     }
 
@@ -267,7 +271,7 @@ $(document).ready(() => {
 
       firstTap = time;
       taps = 1;
-      adjustBpmSlider(MIN_BPM);
+      sharedVisuals.adjustBpmSlider(MIN_BPM);
       metronome.setBpm(MIN_BPM);
     }
 
@@ -284,7 +288,7 @@ $(document).ready(() => {
         averageBpm = Math.round(averageBpm);
       }
 
-      adjustBpmSlider(averageBpm);
+      sharedVisuals.adjustBpmSlider(averageBpm);
       metronome.setBpm(averageBpm);
 
       taps += 1;
@@ -307,7 +311,7 @@ $(document).ready(() => {
         getTapBasedTempo(TAP_SNAPSHOT);
       }
 
-      changeBpmIndicatorText(metronome.getBpm())
+      sharedVisuals.changeBpmIndicatorText(metronome.getBpm())
       idleTimer = setTimeout(() => { resetTapTempo(); }, 3500);
     }
 
@@ -508,7 +512,7 @@ $(document).ready(() => {
     let timerEnabled = false;
 
     function timerPauseMetronome() {
-      togglePlayLogo();
+      sharedVisuals.togglePlayLogo();
       metronome.pause();
       pauseTheTimer();
     }
@@ -612,7 +616,7 @@ $(document).ready(() => {
   // Events listeners
   // Metronome start
   components.PLAYPAUSEBTN.click(() => {
-    togglePlayLogo();
+    sharedVisuals.togglePlayLogo();
 
     if (metronome.isPaused()) {
       if (components.ENABLE_TIMER_TOGGLER[0].checked) {
@@ -629,7 +633,7 @@ $(document).ready(() => {
 
   components.BPMRANGESLIDER.on('input', () => {
     metronome.setBpm(components.BPMRANGESLIDER.val());
-    changeBpmIndicatorText(metronome.getBpm())
+    sharedVisuals.changeBpmIndicatorText(metronome.getBpm())
   });
 
   // BPMINCREASEBTN events
