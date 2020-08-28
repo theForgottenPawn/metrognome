@@ -34,6 +34,7 @@ $(document).ready(() => {
   $('[data-toggle="tooltip"]').tooltip();
 
   // Functions
+  // Only the main file uses these functions
   const resetBeatVisual = function resetTheBeatVisual() {
     components.BEATSVISUAL.find('.beat').remove();
 
@@ -43,6 +44,18 @@ $(document).ready(() => {
       components.BEATSVISUAL.append(BEAT);
     }
   };
+
+  const isNoteNew = function isTheNoteNew(noteBtn) {
+    if (noteBtn.hasClass('focused')) {
+      return false;
+    } else {
+      $('.note-btn').removeClass('focused');
+      noteBtn.addClass('focused');
+
+      return true;
+    }
+  };
+  // end
 
   const animateBeatVisual = function animateTheBeatVisual() {
     beat.plusOneCurrentBeat();
@@ -57,17 +70,6 @@ $(document).ready(() => {
       beat.revertCurrentBeat();
     } else {
       CURRVISBEAT.addClass('beat-played');
-    }
-  };
-
-  const isNoteNew = function isTheNoteNew(noteBtn) {
-    if (noteBtn.hasClass('focused')) {
-      return false;
-    } else {
-      $('.note-btn').removeClass('focused');
-      noteBtn.addClass('focused');
-
-      return true;
     }
   };
 
@@ -92,19 +94,11 @@ $(document).ready(() => {
     }
   };
 
-  const padTime = function padTheTime(time) {
-    if (time < 10) {
-      return `0${time}`;
-    }
-
-    return time.toString();
-  };
-
-  const createRemaingTime = function createRemaingTimeComponent(min, sec) {
+  const createRemainingTime = function createRemainingTimeComponent(min, sec) {
     const WRAPPER = $('<div>');
     const LABEL = $('<b>Remaining Time: </b>');
-    const MIN_MONITOR = $(`<span>${padTime(min)}m</span>`);
-    const SEC_MONITOR = $(`<span>${padTime(sec)}s</span>`);
+    const MIN_MONITOR = $(`<span>${sharedVisuals.padTime(min)}m</span>`);
+    const SEC_MONITOR = $(`<span>${sharedVisuals.padTime(sec)}s</span>`);
 
     WRAPPER.addClass('section remaining-time-wrapper disabled');
     MIN_MONITOR.addClass('time-monitor');
@@ -135,8 +129,8 @@ $(document).ready(() => {
       const MIN_MONITOR = $('#min-monitor');
       const SEC_MONITOR = $('#sec-monitor');
 
-      newMin !== null ? MIN_MONITOR.text(`${padTime(newMin)}m`) : null;
-      newSec !== null ? SEC_MONITOR.text(`${padTime(newSec)}s`) : null;
+      newMin !== null ? MIN_MONITOR.text(`${sharedVisuals.padTime(newMin)}m`) : null;
+      newSec !== null ? SEC_MONITOR.text(`${sharedVisuals.padTime(newSec)}s`) : null;
     }
   };
 
@@ -166,10 +160,19 @@ $(document).ready(() => {
       components.PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
     };
 
+    function padTheTime(time) {
+      if (time < 10) {
+        return `0${time}`;
+      }
+
+      return time.toString();
+    }
+
     return {
       changeBpmIndicatorText: changeTheBpmIndicatorText,
       adjustBpmSlider: adjustTheBpmSlider,
-      togglePlayLogo: togglePlayButtonLogo
+      togglePlayLogo: togglePlayButtonLogo,
+      padTime: padTheTime
     };
   })();
 
@@ -547,7 +550,7 @@ $(document).ready(() => {
 
       if (timerEnabled) {
         enableTimeEditing();
-        createRemaingTime(min, sec);
+        createRemainingTime(min, sec);
       } else {
         disableTimer();
       }
@@ -734,8 +737,8 @@ $(document).ready(() => {
 
   components.TIME_RESETTER.click(() => {
     if (
-      (padTime(timer.getMin()) !== components.MIN_SETTER.val()) ||
-      (padTime(timer.getSec()) !== components.SEC_SETTER.val())
+      (sharedVisuals.padTime(timer.getMin()) !== components.MIN_SETTER.val()) ||
+      (sharedVisuals.padTime(timer.getSec()) !== components.SEC_SETTER.val())
     ) {
       timer.reset();
     }
