@@ -57,6 +57,7 @@ $(document).ready(() => {
   };
   // end
 
+  // only notesPerBeat module uses this function
   const animateBeatVisual = function animateTheBeatVisual() {
     beat.plusOneCurrentBeat();
     let currentBeat = beat.getCurrentBeat();
@@ -72,7 +73,9 @@ $(document).ready(() => {
       CURRVISBEAT.addClass('beat-played');
     }
   };
+  // end
 
+  // only timer module uses these functions
   const enableTimeEditing = function enableTheTimeEditing() {
     components.MIN_SETTER.attr('disabled', false);
     components.SEC_SETTER.attr('disabled', false);
@@ -138,11 +141,14 @@ $(document).ready(() => {
     const ERROR_MODAL = $('#error-msg-modal');
     ERROR_MODAL.modal('show');
   };
+  // end
 
+  // Only tapTempo module uses this function
   const toggleTapTempoBtn = function toggleTheTapTempoBtn() {
     components.TAP_TEMPO_BTN.toggleClass('btn-success');
     components.TAP_TEMPO_BTN.toggleClass('btn-danger');
   };
+  // end
 
   // Modules
   const sharedVisuals = (() => {
