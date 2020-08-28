@@ -20,10 +20,10 @@ $(document).ready(() => {
       TRIPLETSMIDRESTBTN: $('#triplets-mid-rest-btn'),
       QUADRUPLETSBTN: $('#quadruplets-btn'),
       // Timer
-      ENABLE_TIMER_TOGGLER, $('#enable-timer-toggler'),
-      MIN_SETTER, $('#min-select'),
-      SEC_SETTER, $('#sec-select'),
-      TIME_RESETTER, $('#time-resetter'),
+      ENABLE_TIMER_TOGGLER: $('#enable-timer-toggler'),
+      MIN_SETTER: $('#min-select'),
+      SEC_SETTER: $('#sec-select'),
+      TIME_RESETTER: $('#time-resetter'),
       // Tap Timer
       TAP_TEMPO_BTN: $('#tap-tempo-btn')
     };
@@ -35,33 +35,33 @@ $(document).ready(() => {
 
   // Functions
   const changeBpmIndicatorText = function changeTheBpmIndicatorText(value) {
-    BPMINDICATOR.text(value);
+    components.BPMINDICATOR.text(value);
   };
 
   const adjustBpmSlider = function adjustTheBpmSlider(newBpm) {
-    BPMRANGESLIDER.val(newBpm);
+    components.BPMRANGESLIDER.val(newBpm);
     changeBpmIndicatorText(newBpm);
   };
 
   const resetBeatVisual = function resetTheBeatVisual() {
-    BEATSVISUAL.find('.beat').remove();
+    components.BEATSVISUAL.find('.beat').remove();
 
-    for (let x = 0; x < BEATCOUNT.val(); x += 1) {
+    for (let x = 0; x < components.BEATCOUNT.val(); x += 1) {
       const SRC = 'img/beats/beat_1.png';
       const BEAT = `<img src=${SRC} class='beat'>`;
-      BEATSVISUAL.append(BEAT);
+      components.BEATSVISUAL.append(BEAT);
     }
   };
 
   const animateBeatVisual = function animateTheBeatVisual() {
     beat.plusOneCurrentBeat();
     let currentBeat = beat.getCurrentBeat();
-    const CURRVISBEAT = BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
+    const CURRVISBEAT = components.BEATSVISUAL.find(`.beat:nth-child(${currentBeat})`);
 
     if (currentBeat === 1) {
-      BEATSVISUAL.find('.beat').removeClass('beat-played');
+      components.BEATSVISUAL.find('.beat').removeClass('beat-played');
       CURRVISBEAT.addClass('beat-played');
-    } else if (currentBeat >= Number(BEATCOUNT.val(), 10)) {
+    } else if (currentBeat >= Number(components.BEATCOUNT.val(), 10)) {
       CURRVISBEAT.addClass('beat-played');
       beat.revertCurrentBeat();
     } else {
@@ -81,10 +81,10 @@ $(document).ready(() => {
   };
 
   const enableTimeEditing = function enableTheTimeEditing() {
-    MIN_SETTER.attr('disabled', false);
-    SEC_SETTER.attr('disabled', false);
-    TIME_RESETTER.attr('disabled', false);
-    ENABLE_TIMER_TOGGLER.attr('disabled', false);
+    components.MIN_SETTER.attr('disabled', false);
+    components.SEC_SETTER.attr('disabled', false);
+    components.TIME_RESETTER.attr('disabled', false);
+    components.ENABLE_TIMER_TOGGLER.attr('disabled', false);
 
     if ($('.remaining-time-wrapper')) {
       $('.remaining-time-wrapper').addClass('disabled');
@@ -92,9 +92,9 @@ $(document).ready(() => {
   };
 
   const disableTimeEditing = function disableTheTimeEditing() {
-    MIN_SETTER.attr('disabled', true);
-    SEC_SETTER.attr('disabled', true);
-    TIME_RESETTER.attr('disabled', true);
+    components.MIN_SETTER.attr('disabled', true);
+    components.SEC_SETTER.attr('disabled', true);
+    components.TIME_RESETTER.attr('disabled', true);
 
     if ($('.remaining-time-wrapper')) {
       $('.remaining-time-wrapper').removeClass('disabled');
@@ -140,8 +140,8 @@ $(document).ready(() => {
   };
 
   const togglePlayLogo = function togglePlayButtonLogo() {
-    PLAYBUTTONLOGO.toggleClass('glyphicon-play');
-    PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
+    components.PLAYBUTTONLOGO.toggleClass('glyphicon-play');
+    components.PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
   };
 
   const updateTimerMonitor = function updateTheTimeMonitor(newMin, newSec) {
@@ -160,8 +160,8 @@ $(document).ready(() => {
   };
 
   const toggleTapTempoBtn = function toggleTheTapTempoBtn() {
-    TAP_TEMPO_BTN.toggleClass('btn-success');
-    TAP_TEMPO_BTN.toggleClass('btn-danger');
+    components.TAP_TEMPO_BTN.toggleClass('btn-success');
+    components.TAP_TEMPO_BTN.toggleClass('btn-danger');
   };
 
   // Modules
@@ -607,15 +607,15 @@ $(document).ready(() => {
     };
   })();
 
-  metronome.setBpm(BPMRANGESLIDER.val());
+  metronome.setBpm(components.BPMRANGESLIDER.val());
 
   // Events listeners
   // Metronome start
-  PLAYPAUSEBTN.click(() => {
+  components.PLAYPAUSEBTN.click(() => {
     togglePlayLogo();
 
     if (metronome.isPaused()) {
-      if (ENABLE_TIMER_TOGGLER[0].checked) {
+      if (components.ENABLE_TIMER_TOGGLER[0].checked) {
         if (timer.isReachedMinimumValidTime()) {
           metronome.play();
         }
@@ -627,111 +627,111 @@ $(document).ready(() => {
     }
   });
 
-  BPMRANGESLIDER.on('input', () => {
-    metronome.setBpm(BPMRANGESLIDER.val());
+  components.BPMRANGESLIDER.on('input', () => {
+    metronome.setBpm(components.BPMRANGESLIDER.val());
     changeBpmIndicatorText(metronome.getBpm())
   });
 
   // BPMINCREASEBTN events
-  BPMINCREASEBTN.click(() => {
+  components.BPMINCREASEBTN.click(() => {
     metronome.bpmAdjustLoop('increase', false);
   });
 
-  BPMINCREASEBTN.mousedown(() => {
+  components.BPMINCREASEBTN.mousedown(() => {
     metronome.bpmAdjustLoop('increase', true);
   });
 
-  BPMINCREASEBTN.mouseup(() => {
+  components.BPMINCREASEBTN.mouseup(() => {
     metronome.bpmAdjustStop();
   });
 
-  BPMINCREASEBTN.mouseleave(() => {
+  components.BPMINCREASEBTN.mouseleave(() => {
     metronome.bpmAdjustStop();
   });
 
   // BPMDECREASEBTN events
-  BPMDECREASEBTN.click(() => {
+  components.BPMDECREASEBTN.click(() => {
     metronome.bpmAdjustLoop('decrease', false);
   });
 
-  BPMDECREASEBTN.mousedown(() => {
+  components.BPMDECREASEBTN.mousedown(() => {
     metronome.bpmAdjustLoop('decrease', true);
   });
 
-  BPMDECREASEBTN.mouseup(() => {
+  components.BPMDECREASEBTN.mouseup(() => {
     metronome.bpmAdjustStop();
   });
 
-  BPMDECREASEBTN.mouseleave(() => {
+  components.BPMDECREASEBTN.mouseleave(() => {
     metronome.bpmAdjustStop();
   });
   // Metronome end
 
   // Beats start
-  BEATCOUNT.change(() => {
+  components.BEATCOUNT.change(() => {
     beat.revertCurrentBeat();
     resetBeatVisual();
   });
 
-  EMPHASIZE1STBEAT.change(() => {
-    beat.setPlayFirstBeat(EMPHASIZE1STBEAT[0].checked);
+  components.EMPHASIZE1STBEAT.change(() => {
+    beat.setPlayFirstBeat(components.EMPHASIZE1STBEAT[0].checked);
   });
   // Beats end
 
   // Notes Per Beat start
-  SINGLEBTN.click(() => {
-    if (isNoteNew(SINGLEBTN)) {
+  components.SINGLEBTN.click(() => {
+    if (isNoteNew(components.SINGLEBTN)) {
       notesPerBeat.changeNote('Single');
     };
   });
 
-  TUPLETSBTN.click(() => {
-    if (isNoteNew(TUPLETSBTN)) {
+  components.TUPLETSBTN.click(() => {
+    if (isNoteNew(components.TUPLETSBTN)) {
       notesPerBeat.changeNote('Tuplets');
     }
   });
 
-  TRIPLETSBTN.click(() => {
-    if (isNoteNew(TRIPLETSBTN)) {
+  components.TRIPLETSBTN.click(() => {
+    if (isNoteNew(components.TRIPLETSBTN)) {
       notesPerBeat.changeNote('Triplets');
     }
   });
 
-  TRIPLETSMIDRESTBTN.click(() => {
-    if (isNoteNew(TRIPLETSMIDRESTBTN)) {
+  components.TRIPLETSMIDRESTBTN.click(() => {
+    if (isNoteNew(components.TRIPLETSMIDRESTBTN)) {
       notesPerBeat.changeNote('Triplets Mid Rest');
     }
   });
 
-  QUADRUPLETSBTN.click(() => {
-    if (isNoteNew(QUADRUPLETSBTN)) {
+  components.QUADRUPLETSBTN.click(() => {
+    if (isNoteNew(components.QUADRUPLETSBTN)) {
       notesPerBeat.changeNote('Quadruplets');
     }
   });
   // Notes Per Beat end
 
   // Timer start
-  ENABLE_TIMER_TOGGLER.click(() => {
-    timer.toggleTimer(ENABLE_TIMER_TOGGLER[0].checked);
+  components.ENABLE_TIMER_TOGGLER.click(() => {
+    timer.toggleTimer(components.ENABLE_TIMER_TOGGLER[0].checked);
     if (timer.isEnabled && ((timer.getMin() < 1) && (timer.getSec() < 1))) {
-      timer.setMin(Number.parseInt(MIN_SETTER.val(), 10));
-      timer.setSec(Number.parseInt(SEC_SETTER.val(), 10));
+      timer.setMin(Number.parseInt(components.MIN_SETTER.val(), 10));
+      timer.setSec(Number.parseInt(components.SEC_SETTER.val(), 10));
     }
   });
 
-  MIN_SETTER.change(() => {
-    timer.setMin(Number.parseInt(MIN_SETTER.val(), 10));
-    timer.setSec(Number.parseInt(SEC_SETTER.val(), 10));
+  components.MIN_SETTER.change(() => {
+    timer.setMin(Number.parseInt(components.MIN_SETTER.val(), 10));
+    timer.setSec(Number.parseInt(components.SEC_SETTER.val(), 10));
   });
 
-  SEC_SETTER.change(() => {
-    timer.setSec(Number.parseInt(SEC_SETTER.val(), 10));
+  components.SEC_SETTER.change(() => {
+    timer.setSec(Number.parseInt(components.SEC_SETTER.val(), 10));
   });
 
-  TIME_RESETTER.click(() => {
+  components.TIME_RESETTER.click(() => {
     if (
-      (padTime(timer.getMin()) !== MIN_SETTER.val()) ||
-      (padTime(timer.getSec()) !== SEC_SETTER.val())
+      (padTime(timer.getMin()) !== components.MIN_SETTER.val()) ||
+      (padTime(timer.getSec()) !== components.SEC_SETTER.val())
     ) {
       timer.reset();
     }
@@ -739,7 +739,7 @@ $(document).ready(() => {
   // Timer end
 
   // Tap Metronome start
-  TAP_TEMPO_BTN.mousedown(() => {
+  components.TAP_TEMPO_BTN.mousedown(() => {
     tapTempo.tap();
   });
 
@@ -750,8 +750,8 @@ $(document).ready(() => {
     }
   });
 
-  TAP_TEMPO_BTN.hover(() => {
-    setTimeout(() => { TAP_TEMPO_BTN.tooltip('hide'); }, 5000);
+  components.TAP_TEMPO_BTN.hover(() => {
+    setTimeout(() => { components.TAP_TEMPO_BTN.tooltip('hide'); }, 5000);
   });
   // Tap Metronome end
 });
