@@ -161,6 +161,10 @@ $(document).ready(() => {
   };
 
   // Modules
+  const sharedVisuals = (() => {
+
+  });
+
   const metronome = (() => {
     let metronomePaused = true;
     let bpm = null;
