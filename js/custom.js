@@ -712,7 +712,7 @@ $(document).ready(() => {
   components.SINGLEBTN.click(() => {
     if (isNoteNew(components.SINGLEBTN)) {
       notesPerBeat.changeNote('Single');
-    };
+    }
   });
 
   components.TUPLETSBTN.click(() => {
