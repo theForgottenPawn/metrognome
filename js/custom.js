@@ -1,5 +1,9 @@
 $(document).ready(() => {
   // Components
+  const components = (() => {
+
+  })();
+
   // Metronome
   const BPMRANGESLIDER = $('#bpm-range-slider');
   const BPMINDICATOR = $('#bpm-indicator');
@@ -163,7 +167,7 @@ $(document).ready(() => {
   // Modules
   const sharedVisuals = (() => {
 
-  });
+  })();
 
   const metronome = (() => {
     let metronomePaused = true;
