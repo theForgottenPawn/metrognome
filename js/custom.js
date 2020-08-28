@@ -57,7 +57,6 @@ $(document).ready(() => {
   };
   // end
 
-  // only notesPerBeat module uses this function
   const notesPerBeatVisuals = (() => {
     // Import the components and beat module
     function animateTheBeatVisual() {
@@ -80,77 +79,82 @@ $(document).ready(() => {
       animateBeatVisual: animateTheBeatVisual
     };
   })();
-  // end
 
-  // only timer module uses these functions
-  const enableTimeEditing = function enableTheTimeEditing() {
-    components.MIN_SETTER.attr('disabled', false);
-    components.SEC_SETTER.attr('disabled', false);
-    components.TIME_RESETTER.attr('disabled', false);
-    components.ENABLE_TIMER_TOGGLER.attr('disabled', false);
+  const timerVisuals = (() => {
+    // import the components and sharedVisuals module
+    function enableTheTimeEditing() {
+      components.MIN_SETTER.attr('disabled', false);
+      components.SEC_SETTER.attr('disabled', false);
+      components.TIME_RESETTER.attr('disabled', false);
+      components.ENABLE_TIMER_TOGGLER.attr('disabled', false);
 
-    if ($('.remaining-time-wrapper')) {
-      $('.remaining-time-wrapper').addClass('disabled');
+      if ($('.remaining-time-wrapper')) {
+        $('.remaining-time-wrapper').addClass('disabled');
+      }
     }
-  };
 
-  const disableTimeEditing = function disableTheTimeEditing() {
-    components.MIN_SETTER.attr('disabled', true);
-    components.SEC_SETTER.attr('disabled', true);
-    components.TIME_RESETTER.attr('disabled', true);
+    function disableTheTimeEditing() {
+      components.MIN_SETTER.attr('disabled', true);
+      components.SEC_SETTER.attr('disabled', true);
+      components.TIME_RESETTER.attr('disabled', true);
 
-    if ($('.remaining-time-wrapper')) {
-      $('.remaining-time-wrapper').removeClass('disabled');
+      if ($('.remaining-time-wrapper')) {
+        $('.remaining-time-wrapper').removeClass('disabled');
+      }
     }
-  };
 
-  const createRemainingTime = function createRemainingTimeComponent(min, sec) {
-    const WRAPPER = $('<div>');
-    const LABEL = $('<b>Remaining Time: </b>');
-    const MIN_MONITOR = $(`<span>${sharedVisuals.padTime(min)}m</span>`);
-    const SEC_MONITOR = $(`<span>${sharedVisuals.padTime(sec)}s</span>`);
+    function createRemainingTimeComponent(min, sec) {
+      const WRAPPER = $('<div>');
+      const LABEL = $('<b>Remaining Time: </b>');
+      const MIN_MONITOR = $(`<span>${sharedVisuals.padTime(min)}m</span>`);
+      const SEC_MONITOR = $(`<span>${sharedVisuals.padTime(sec)}s</span>`);
 
-    WRAPPER.addClass('section remaining-time-wrapper disabled');
-    MIN_MONITOR.addClass('time-monitor');
-    MIN_MONITOR.attr('id', 'min-monitor');
-    SEC_MONITOR.addClass('time-monitor');
-    SEC_MONITOR.attr('id', 'sec-monitor');
+      WRAPPER.addClass('section remaining-time-wrapper disabled');
+      MIN_MONITOR.addClass('time-monitor');
+      MIN_MONITOR.attr('id', 'min-monitor');
+      SEC_MONITOR.addClass('time-monitor');
+      SEC_MONITOR.attr('id', 'sec-monitor');
 
-    WRAPPER.append(LABEL);
-    WRAPPER.append(MIN_MONITOR);
-    WRAPPER.append(SEC_MONITOR);
+      WRAPPER.append(LABEL);
+      WRAPPER.append(MIN_MONITOR);
+      WRAPPER.append(SEC_MONITOR);
 
-    $('body').prepend(WRAPPER);
-  };
-
-  const destroyRemainingTime = function destroyRemainingTimeComponent() {
-    if ($('.remaining-time-wrapper')) {
-      $('.remaining-time-wrapper').remove();
+      $('body').prepend(WRAPPER);
     }
-  };
 
-  const disableTimer = function disableTheTimer() {
-    disableTimeEditing();
-    destroyRemainingTime();
-  };
+    function disableTheTimer() {
+      disableTheTimeEditing();
 
-  const updateTimerMonitor = function updateTheTimeMonitor(newMin, newSec) {
-    if ($('#min-monitor') && $('#sec-monitor')) {
-      const MIN_MONITOR = $('#min-monitor');
-      const SEC_MONITOR = $('#sec-monitor');
-
-      newMin !== null ? MIN_MONITOR.text(`${sharedVisuals.padTime(newMin)}m`) : null;
-      newSec !== null ? SEC_MONITOR.text(`${sharedVisuals.padTime(newSec)}s`) : null;
+      if ($('.remaining-time-wrapper')) {
+        $('.remaining-time-wrapper').remove();
+      }
     }
-  };
 
-  const showTimerErrorModal = function showTheTimerErrorModal() {
-    const ERROR_MODAL = $('#error-msg-modal');
-    ERROR_MODAL.modal('show');
-  };
-  // end
+    function updateTheTimeMonitor(newMin, newSec) {
+      if ($('#min-monitor') && $('#sec-monitor')) {
+        const MIN_MONITOR = $('#min-monitor');
+        const SEC_MONITOR = $('#sec-monitor');
 
-  // Only tapTempo module uses this function
+        newMin !== null ? MIN_MONITOR.text(`${sharedVisuals.padTime(newMin)}m`) : null;
+        newSec !== null ? SEC_MONITOR.text(`${sharedVisuals.padTime(newSec)}s`) : null;
+      }
+    }
+
+    function showTheTimerErrorModal() {
+      const ERROR_MODAL = $('#error-msg-modal');
+      ERROR_MODAL.modal('show');
+    }
+
+    return {
+      enableTimeEditing: enableTheTimeEditing,
+      disableTimeEditing: disableTheTimeEditing,
+      createRemainingTime: createRemainingTimeComponent,
+      disableTimer: disableTheTimer,
+      updateTimerMonitor: updateTheTimeMonitor,
+      showTimerErrorModal: showTheTimerErrorModal
+    };
+  })();
+
   const tapTempoVisuals = (() => {
     // import the components module
     function toggleTheTapTempoBtn() {
@@ -162,7 +166,6 @@ $(document).ready(() => {
       toggleTapTempoBtn: toggleTheTapTempoBtn
     };
   })();
-  // end
 
   // Modules
   const sharedVisuals = (() => {
@@ -548,11 +551,11 @@ $(document).ready(() => {
     function timeStep() {
       if (sec > 1) {
         sec -= 1;
-        updateTimerMonitor(null, sec);
+        timerVisuals.updateTimerMonitor(null, sec);
       } else if (min > 0) {
         min -= 1;
         sec = 59;
-        updateTimerMonitor(min, sec);
+        timerVisuals.updateTimerMonitor(min, sec);
       } else {
         stopTimer();
       }
@@ -560,7 +563,7 @@ $(document).ready(() => {
 
     function isTheTimeReachedMinimum() {
       let result = false;
-      (min <= 0) && (sec < 1) ? showTimerErrorModal() : result = true;
+      (min <= 0) && (sec < 1) ? timerVisuals.showTimerErrorModal() : result = true;
 
       return result;
     }
@@ -569,22 +572,22 @@ $(document).ready(() => {
       timerEnabled = state;
 
       if (timerEnabled) {
-        enableTimeEditing();
-        createRemainingTime(min, sec);
+        timerVisuals.enableTimeEditing();
+        timerVisuals.createRemainingTime(min, sec);
       } else {
-        disableTimer();
+        timerVisuals.disableTimer();
       }
     }
 
     function resetTheTimer() {
       min = defaultMin;
       sec = defaultSec;
-      updateTimerMonitor(min, sec);
+      timerVisuals.updateTimerMonitor(min, sec);
     }
 
     function startTheTimer() {
       if (timerEnabled) {
-        disableTimeEditing();
+        timerVisuals.disableTimeEditing();
         timerInterval = setInterval(() => { timeStep(); }, 1000);
       }
     }
@@ -592,7 +595,7 @@ $(document).ready(() => {
     function pauseTheTimer() {
       if (timerEnabled) {
         clearInterval(timerInterval);
-        enableTimeEditing();
+        timerVisuals.enableTimeEditing();
       }
     }
 
@@ -603,7 +606,7 @@ $(document).ready(() => {
     function setTheMin(newMin) {
       defaultMin = newMin;
       min = defaultMin;
-      updateTimerMonitor(min, null);
+      timerVisuals.updateTimerMonitor(min, null);
     }
 
     function getTheSec() {
@@ -613,7 +616,7 @@ $(document).ready(() => {
     function setTheSec(newSec) {
       defaultSec = newSec;
       sec = defaultSec;
-      updateTimerMonitor(null, sec);
+      timerVisuals.updateTimerMonitor(null, sec);
     }
 
     function getTimerEnabled() {
