@@ -1,4 +1,5 @@
 import * as components from './modules/components.js';
+import { sharedVisuals } from './modules/shared_visuals.js';
 
 $(document).ready(() => {
   // Early tweak
@@ -139,37 +140,6 @@ $(document).ready(() => {
   })();
 
   // Modules
-  const sharedVisuals = (() => {
-    function changeTheBpmIndicatorText(value) {
-      components.BPMINDICATOR.text(value);
-    }
-
-    function adjustTheBpmSlider(newBpm) {
-      components.BPMRANGESLIDER.val(newBpm);
-      changeTheBpmIndicatorText(newBpm);
-    };
-
-    function togglePlayButtonLogo() {
-      components.PLAYBUTTONLOGO.toggleClass('glyphicon-play');
-      components.PLAYBUTTONLOGO.toggleClass('glyphicon-pause');
-    };
-
-    function padTheTime(time) {
-      if (time < 10) {
-        return `0${time}`;
-      }
-
-      return time.toString();
-    }
-
-    return {
-      changeBpmIndicatorText: changeTheBpmIndicatorText,
-      adjustBpmSlider: adjustTheBpmSlider,
-      togglePlayLogo: togglePlayButtonLogo,
-      padTime: padTheTime
-    };
-  })();
-
   const metronome = (() => {
     let metronomePaused = true;
     let bpm = null;
