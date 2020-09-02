@@ -39,7 +39,7 @@ $(document).ready(() => {
     components.BEATSVISUAL.find('.beat').remove();
 
     for (let x = 0; x < components.BEATCOUNT.val(); x += 1) {
-      const SRC = 'img/beats/beat_1.png';
+      const SRC = '../assets/img/beats/beat_1.png';
       const BEAT = `<img src=${SRC} class='beat'>`;
       components.BEATSVISUAL.append(BEAT);
     }
