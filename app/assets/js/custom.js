@@ -1,5 +1,6 @@
 import * as components from './modules/components.js';
-import { sharedVisuals } from './modules/shared_visuals.js';
+import { sharedVisuals } from './modules/visuals_shared.js';
+import { beat } from './modules/module_beat.js';
 
 $(document).ready(() => {
   // Early tweak
@@ -284,39 +285,6 @@ $(document).ready(() => {
 
     return {
       tap: tapTempoTapped
-    };
-  })();
-
-  const beat = (() => {
-    let currentBeat = 0;
-    let playFirstBeat = false;
-
-    function getTheCurrentBeat() {
-      return currentBeat;
-    }
-
-    function revertTheCurrentBeat() {
-      currentBeat = 0;
-    }
-
-    function plusOneToCurrentBeat() {
-      currentBeat += 1;
-    }
-
-    function shouldPlayTheFirstBeat() {
-      return playFirstBeat;
-    }
-
-    function setThePlayFirstBeat(newPlayFirstBeat) {
-      playFirstBeat = newPlayFirstBeat;
-    }
-
-    return {
-      getCurrentBeat: getTheCurrentBeat,
-      revertCurrentBeat: revertTheCurrentBeat,
-      plusOneCurrentBeat: plusOneToCurrentBeat,
-      shouldPlayFirstBeat: shouldPlayTheFirstBeat,
-      setPlayFirstBeat: setThePlayFirstBeat
     };
   })();
 
