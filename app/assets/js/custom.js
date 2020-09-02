@@ -1,36 +1,7 @@
-$(document).ready(() => {
-  // Components
-  const components = (() => {
-    return {
-      // Metronome
-      BPMRANGESLIDER: $('#bpm-range-slider'),
-      BPMINDICATOR: $('#bpm-indicator'),
-      PLAYPAUSEBTN: $('#play-pause-btn'),
-      BPMINCREASEBTN: $('#bpm-increase-btn'),
-      BPMDECREASEBTN: $('#bpm-decrease-btn'),
-      PLAYBUTTONLOGO: $('#play-pause-btn > .logo'),
-      // Beats
-      BEATSVISUAL: $('.beats-visual'),
-      EMPHASIZE1STBEAT: $('#emphasize-1st-beat'),
-      BEATCOUNT: $('#beat-count'),
-      // Notes Per Beat
-      SINGLEBTN: $('#single-btn'),
-      TUPLETSBTN: $('#tuplets-btn'),
-      TRIPLETSBTN: $('#triplets-btn'),
-      TRIPLETSMIDRESTBTN: $('#triplets-mid-rest-btn'),
-      QUADRUPLETSBTN: $('#quadruplets-btn'),
-      // Timer
-      ENABLE_TIMER_TOGGLER: $('#enable-timer-toggler'),
-      MIN_SETTER: $('#min-select'),
-      SEC_SETTER: $('#sec-select'),
-      TIME_RESETTER: $('#time-resetter'),
-      // Tap Timer
-      TAP_TEMPO_BTN: $('#tap-tempo-btn')
-    };
-  })();
+import * as components from './modules/components.js';
 
+$(document).ready(() => {
   // Early tweak
-  // General Tweak
   $('[data-toggle="tooltip"]').tooltip();
 
   // Functions
