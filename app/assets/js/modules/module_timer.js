@@ -1,3 +1,4 @@
+import { sharedVisuals } from './visuals_shared.js';
 import { timerVisuals } from './visuals_timer.js';
 import { metronome } from './module_metronome.js';
 
