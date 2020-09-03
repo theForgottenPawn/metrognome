@@ -1,14 +1,17 @@
 import * as components from './modules/components.js';
 import { sharedVisuals } from './modules/visuals_shared.js';
 import { metronome } from './modules/module_metronome.js';
+import { tapTempo } from './modules/module_tap_tempo.js';
 import { beat } from './modules/module_beat.js';
+import { notesPerBeat } from './modules/module_notes_per_beat.js';
+import { timer } from './modules/module_timer.js';
 
 $(document).ready(() => {
   // Early tweak
   $('[data-toggle="tooltip"]').tooltip();
+  metronome.setBpm(components.BPMRANGESLIDER.val());
 
-  // Functions
-  // Only the main file uses these functions
+  // functions
   const resetBeatVisuals = function resetTheBeatVisual() {
     components.BEATSVISUAL.find('.beat').remove();
 
@@ -29,90 +32,6 @@ $(document).ready(() => {
       return true;
     }
   };
-  // end
-
-  const tapTempoVisuals = (() => {
-    // import the components module
-    function toggleTheTapTempoBtn() {
-      components.TAP_TEMPO_BTN.toggleClass('btn-success');
-      components.TAP_TEMPO_BTN.toggleClass('btn-danger');
-    }
-
-    return {
-      toggleTapTempoBtn: toggleTheTapTempoBtn
-    };
-  })();
-
-  // Modules
-  const tapTempo = (() => {
-    let firstTap = 0;
-    let taps = 0;
-    let idleTimer = null;
-
-    function clearIdleTimer() {
-      if (idleTimer !== null) {
-        clearTimeout(idleTimer);
-        idleTimer = null;
-      }
-    }
-
-    function getFirstTap(time) {
-      const MIN_BPM = 20;
-
-      tapTempoVisuals.toggleTapTempoBtn();
-
-      firstTap = time;
-      taps = 1;
-      sharedVisuals.adjustBpmSlider(MIN_BPM);
-      metronome.setBpm(MIN_BPM);
-    }
-
-    function getTapBasedTempo(currentTap) {
-      let averageBpm = (60000 * taps) / (currentTap - firstTap);
-      const MIN_BPM = 20;
-      const MAX_BPM = 260;
-
-      if (averageBpm < MIN_BPM) {
-        averageBpm = MIN_BPM;
-      } else if (averageBpm > MAX_BPM) {
-        averageBpm = MAX_BPM;
-      } else {
-        averageBpm = Math.round(averageBpm);
-      }
-
-      sharedVisuals.adjustBpmSlider(averageBpm);
-      metronome.setBpm(averageBpm);
-
-      taps += 1;
-    }
-
-    function resetTapTempo() {
-      tapTempoVisuals.toggleTapTempoBtn();
-      firstTap = 0;
-      taps = 0;
-      clearIdleTimer();
-    }
-
-    function tapTempoTapped () {
-      const TAP_SNAPSHOT = $.now();
-      clearIdleTimer();
-
-      if (taps < 1) {
-        getFirstTap(TAP_SNAPSHOT);
-      } else {
-        getTapBasedTempo(TAP_SNAPSHOT);
-      }
-
-      sharedVisuals.changeBpmIndicatorText(metronome.getBpm())
-      idleTimer = setTimeout(() => { resetTapTempo(); }, 3500);
-    }
-
-    return {
-      tap: tapTempoTapped
-    };
-  })();
-
-  metronome.setBpm(components.BPMRANGESLIDER.val());
 
   // Events listeners
   // Metronome start
